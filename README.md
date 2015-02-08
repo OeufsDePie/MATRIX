@@ -21,11 +21,11 @@ that will later be used for real­time camera localization purpose.
 We are a group of students from [ENSEEIHT](http://www.enseeiht.fr/fr/index.html) (N7)
 engineering school, specialized in Computer Science and Applied Mathematics :
 
-* Matthias Benkort
-* Nicolas Gaborit
-* Arthur Manoha
-* Matthieu Pizenberg
-* Louis Viot
+* Matthias Benkort : matthias.benkort@etu.enseeiht.fr
+* Nicolas Gaborit : nicolas.gaborit@etu.enseeiht.fr
+* Arthur Manoha : arthur.manoha@etu.enseeiht.fr
+* Matthieu Pizenberg : matthieu.pizenberg@etu.enseeiht.fr
+* Louis Viot : louis.viot@etu.enseeiht.fr
 
 ## Related projects and useful ressources
 

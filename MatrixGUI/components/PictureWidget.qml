@@ -4,7 +4,10 @@ import QtQuick.Controls 1.3
 
 Item {
 	id: pictureWidget
-  property alias pictureModel: listView.model
+	property alias pictureModel: listView.model
+	
+	/* Raised each time the list is modified */
+	signal picturesUpdated
 
 	width: 300
 	height: 700
@@ -107,6 +110,7 @@ Item {
 						/* Make sure that the computed index doesn't go out of bounds [0; model.count - 1]  */
 						newIndex = Math.max(0, newIndex >= pictureModel.count ? pictureModel.count - 1 : newIndex)
 						pictureModel.move(index, newIndex, 1)
+						pictureUpdated()
 					} else {
 					  /* Only a click, so select the element in the viewer */
 						listView.currentIndex = index
@@ -128,6 +132,5 @@ Item {
 			color: "#1db7ff"
 			y: listView.currentItem.y
 		}
-
 	}
 }

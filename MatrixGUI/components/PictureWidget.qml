@@ -29,7 +29,8 @@ Item {
 		width: pictureWidget.width + 2
 		height: pictureWidget.height - viewerWrapper.height - 25
 		anchors.top: viewerWrapper.bottom
-
+	
+		/* ScrollView will easily handle the data overflow */
 		ScrollView {
 			anchors.fill: parent
 			anchors.right: parent.right
@@ -43,6 +44,7 @@ Item {
 				currentIndex: 0
 				boundsBehavior: Flickable.StopAtBounds
 				interactive: true
+				/* Temporary footer, just to see the behavior of the scroll */
 				footer: Rectangle{
 					width: 300
 					height: 5
@@ -71,15 +73,20 @@ Item {
 				text: name
 				color: "#000000"
 			}
-			/* Handle mouseClick in order to update the pictureViewer */
+			/* Handle mouseClick in order to update the pictureViewer. Also
+				in charge of reordering element via drag'n'drop	*/
 			MouseArea {
 				id: dragArea
 				anchors.fill: parent
+				/* Properties use to handle the drag and drop */
 				property int positionStarted
 				property int positionEnded
 				property int indexMoved: Math.floor((positionEnded - positionStarted)/pictureWrapper.height)
+				
 				onPressed: {
 					positionStarted = pictureWrapper.y
+					/* Sounds glitchy, but we also initialize the positionEnded to handle simpleClick for which,
+						onPositionChanged never get called */
 					positionEnded = positionStarted
 					dragArea.drag.target = pictureWrapper
 				}
@@ -87,18 +94,24 @@ Item {
 					pictureWrapper.opacity = 0.5
 					positionEnded = pictureWrapper.y
 				}
+				/* On release, click or move element, depending of the executed action */
 				onReleased: {
 					pictureWrapper.opacity = 1
 					dragArea.drag.target = null
 					pictureWrapper.y = positionStarted
-					var newIndex = index + indexMoved
-					newIndex = Math.max(0, newIndex >= pictureModel.count ? pictureModel.count - 1 : newIndex)
 					console.log(positionStarted + "-> " + positionEnded + " = #" +indexMoved)
+					/* indexMoved == 0 means that the item wasn't drag, so it's considered as a click */
 					if (indexMoved != 0) {
+						/* Element has been dragged, let's move it */
+						var newIndex = index + indexMoved
+						/* Make sure that the computed index doesn't go out of bounds [0; model.count - 1]  */
+						newIndex = Math.max(0, newIndex >= pictureModel.count ? pictureModel.count - 1 : newIndex)
 						pictureModel.move(index, newIndex, 1)
 					} else {
+					  /* Only a click, so select the element in the viewer */
 						listView.currentIndex = index
 						viewer.source = image
+						
 						console.log("Clicked on : " + index)
 					}
 				}

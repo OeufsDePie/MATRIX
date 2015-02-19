@@ -8,6 +8,8 @@ from PyQt5.QtQuick import *
 app = QGuiApplication(sys.argv)
 
 # Recuperation de la vue qml
+# This may be changed in the future. Using ApplicationWindow in QML is incompatible with QQuickView. 
+# Better Using the QQMLApplicationEngine from PyQt5.QtQml
 view = QQuickView()
 view.setSource(QUrl('testSignal.qml'))
 view.setResizeMode(QQuickView.SizeRootObjectToView)

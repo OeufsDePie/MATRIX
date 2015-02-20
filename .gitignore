@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ################## Our ignore paths and files ####################
 
 *.swp
@@ -13,16 +14,6 @@
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
-
-
-### Vim ###
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
-*.un~
-Session.vim
-.netrwhist
-*~
-
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
@@ -222,3 +213,4 @@ docs/_build/
 
 # PyBuilder
 target/
+

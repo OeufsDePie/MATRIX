@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.XmlListModel 2.0
 import QtQuick.Controls 1.3 
+import QtQuick.Controls.Styles 1.3
 
 Rectangle {
 	id: pictureWidget
@@ -41,23 +42,26 @@ Rectangle {
 		/* ScrollView will easily handle the data overflow */
     ScrollView {
       id: scrollView 
-
+  
       anchors.fill: parent
- 
+      /* Little hack because it seems that  ****** people like putting default padding */
       Component.onCompleted: {
-        console.log(parent.height)
+        __style.padding.top = 0
+        __style.padding.bottom = 0
+        __style.padding.left = 0
+        __style.padding.right = 0
       }
-      
       ListView {
         id: listView
 
 				property int draggedItemIndex: -1
 
-        anchors.fill: parent
 				boundsBehavior: Flickable.StopAtBounds
 				currentIndex: 0
+        clip: true
         delegate: pictureDelegate
-				highlight: highlightDelegate
+        focus: true
+        highlight: highlightDelegate
 				highlightMoveDuration: 0
 			}
 		}

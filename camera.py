@@ -1,7 +1,8 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 
 class ICamera(QObject):
-    
+    """ This PyQt component interfaces with pygphoto module.
+    """
     # This signal indicate if a camera is connected, if so it provide
     # with the port it is connected to
     cameraConnectionSignal = pyqtSignal(bool,str)

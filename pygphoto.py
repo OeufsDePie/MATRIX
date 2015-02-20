@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import subprocess
 
 class Pygphoto(object):
     """Allows simple operations on a USB connected camera.  
@@ -7,6 +8,9 @@ class Pygphoto(object):
     the photos present in the camera and eventually download the
     photos individually.
     """
+
+    # Command lines string value
+    GPHOTO = "gphoto2"
 
     def __init__(self):
         pass
@@ -17,6 +21,8 @@ class Pygphoto(object):
 
         """
         print "list_files"
+        command[GPHOTO,""]
+        call(command)
         
     def download_file(file_number, to_path):
         """Download the given file from the camera to the given path.

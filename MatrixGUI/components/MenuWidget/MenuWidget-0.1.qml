@@ -12,5 +12,6 @@ MenuBar {
 	Menu {
 		title: "Project"
 		MenuItem { text: "Quit" }
-	} 
+	}
+	
  } 

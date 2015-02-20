@@ -110,7 +110,7 @@ Item {
 						/* Make sure that the computed index doesn't go out of bounds [0; model.count - 1]  */
 						newIndex = Math.max(0, newIndex >= pictureModel.count ? pictureModel.count - 1 : newIndex)
 						pictureModel.move(index, newIndex, 1)
-						pictureUpdated()
+						picturesUpdated()
 					} else {
 					  /* Only a click, so select the element in the viewer */
 						listView.currentIndex = index

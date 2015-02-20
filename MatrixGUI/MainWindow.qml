@@ -7,6 +7,9 @@ ApplicationWindow {
 	id: root
 	width: 800  //Screen.desktopAvailableWidth
 	height: 600 //Screen.desktopAvailableHeight
+	
+	property alias pictures: pictureWidget.pictureModel
+
 
 	/* All signals and slot are aliased here. Thus, they are easier to catch in PyQt, and are gather 
 	for reading purpose */

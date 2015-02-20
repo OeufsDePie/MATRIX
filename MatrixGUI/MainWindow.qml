@@ -7,6 +7,7 @@ import MenuWidget 0.1
 
 ApplicationWindow {
   id: root
+  color: "#161616"
   width: 800  //Screen.desktopAvailableWidth
   height: 600 //Screen.desktopAvailableHeight
 
@@ -18,7 +19,8 @@ ApplicationWindow {
    */
 
   /* PICTURE WIDGET SIGNALS/SLOTS */
-  signal sig_picturesUpdated
+  signal sig_pictureMoved
+  signal sig_pictureDiscarded
 
   /* RECONSTRUCTION WIDGET SIGNALS/SLOTS */
   signal sig_launchReconstruction
@@ -30,10 +32,11 @@ ApplicationWindow {
   /* May need a wrapper, we'll see later */
   PictureWidget {
     id: pictureWidget
-    anchors.left: parent.left
-    height: root.height
+    anchors.top: parent.top 
+    anchors.bottom: parent.bottom
     pictureModel: pictureModel
-    onPicturesUpdated: sig_picturesUpdated()
+    onPictureDiscarded: sig_pictureDiscarded()
+    onPictureMoved: sig_pictureMoved()
   }
 
   /* Wrapper for the reconstruction widget */
@@ -49,24 +52,17 @@ ApplicationWindow {
   /* Temporary model for test, ideally, it should be supplied via context by the PyQt script */
   ListModel {
     id: pictureModel
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
-    ListElement {name: "little_kitten"; image: "/home/mbenkort/Documents/ProjeyLong/MatrixGUI/pictures/image-chaton-549-1920-1200.php.jpeg"}
-    ListElement {name: "Alexis Ren"; image: "/home/mbenkort/Download/tumblr_mape1203Z01qjldjvo1_500.png"}
-    ListElement {name: "Fantome Pacman"; image: "/home/mbenkort/Download/Pacman 3.png"}
+    ListElement{name: "100_7100.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7100.JPG"}
+    ListElement{name: "100_7101.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7101.JPG"}
+    ListElement{name: "100_7102.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7102.JPG"}
+    ListElement{name: "100_7103.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7103.JPG"}
+    ListElement{name: "100_7104.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7104.JPG"}
+    ListElement{name: "100_7105.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7105.JPG"}
+    ListElement{name: "100_7106.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7106.JPG"}
+    ListElement{name: "100_7107.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7107.JPG"}
+    ListElement{name: "100_7108.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7108.JPG"}
+    ListElement{name: "100_7109.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7109.JPG"}
+    ListElement{name: "100_7110.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7110.JPG"}
   }
 
 }

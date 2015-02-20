@@ -2,20 +2,25 @@ import QtQuick 2.0
 import QtQuick.XmlListModel 2.0
 import QtQuick.Controls 1.3 
 
-Item {
+Rectangle {
 	id: pictureWidget
 	property alias pictureModel: listView.model
 	
-	/* Raised each time the list is modified */
-	signal picturesUpdated
+  /* Raised each time a picture is re-ordered */
+  signal pictureMoved(int indexFrom, int indexTo)
+  /* Raised when a picture is deleted/discarded */
+  signal pictureDiscarded(int index)
 
 	width: 300
-	height: 700
+  color: "blue"
 
+  Component.onCompleted: {
+    console.log(height)
+  }
 	/* First element is only a little picture viewer, as a box that contains an image  */
 	Rectangle {
 		id: viewerWrapper
-		width: pictureWidget.width
+		width: pictureWidget.width 
 		height: width
 		Image {
 			id: viewer
@@ -28,31 +33,32 @@ Item {
 	}
 
 	/* Then is the complete list of pictures, only names are displayed */
-	Item {
-		width: pictureWidget.width + 2
-		height: pictureWidget.height - viewerWrapper.height - 25
-		anchors.top: viewerWrapper.bottom
-	
+  Item {
+    anchors.top: viewerWrapper.bottom
+		height: pictureWidget.height - viewerWrapper.height 
+		width: pictureWidget.width 
+
 		/* ScrollView will easily handle the data overflow */
-		ScrollView {
-			anchors.fill: parent
-			anchors.right: parent.right
-			anchors.top: parent.top
-			ListView {
-				id: listView
+    ScrollView {
+      id: scrollView 
+
+      anchors.fill: parent
+ 
+      Component.onCompleted: {
+        console.log(parent.height)
+      }
+      
+      ListView {
+        id: listView
+
 				property int draggedItemIndex: -1
-				delegate: pictureDelegate
+
+        anchors.fill: parent
+				boundsBehavior: Flickable.StopAtBounds
+				currentIndex: 0
+        delegate: pictureDelegate
 				highlight: highlightDelegate
 				highlightMoveDuration: 0
-				currentIndex: 0
-				boundsBehavior: Flickable.StopAtBounds
-				interactive: true
-				/* Temporary footer, just to see the behavior of the scroll */
-				footer: Rectangle{
-					width: 300
-					height: 5
-					color: "#dddddd"
-				}
 			}
 		}
 	}
@@ -65,7 +71,8 @@ Item {
 			property variant picture: pictureModel
 			
 			height: pictureName.height
-			width: pictureWidget.width
+      width: pictureWidget.width
+      /* Initialize the viewer with the first loaded element of the model */
 			Component.onCompleted: {
 				if(index == listView.currentIndex)
 					viewer.source = image
@@ -78,13 +85,17 @@ Item {
 			}
 			/* Handle mouseClick in order to update the pictureViewer. Also
 				in charge of reordering element via drag'n'drop	*/
+
 			MouseArea {
 				id: dragArea
-				anchors.fill: parent
+
 				/* Properties use to handle the drag and drop */
 				property int positionStarted
 				property int positionEnded
 				property int indexMoved: Math.floor((positionEnded - positionStarted)/pictureWrapper.height)
+
+				anchors.fill: parent
+				drag.axis: Drag.YAxis
 				
 				onPressed: {
 					positionStarted = pictureWrapper.y
@@ -102,7 +113,6 @@ Item {
 					pictureWrapper.opacity = 1
 					dragArea.drag.target = null
 					pictureWrapper.y = positionStarted
-					console.log(positionStarted + "-> " + positionEnded + " = #" +indexMoved)
 					/* indexMoved == 0 means that the item wasn't drag, so it's considered as a click */
 					if (indexMoved != 0) {
 						/* Element has been dragged, let's move it */
@@ -110,18 +120,15 @@ Item {
 						/* Make sure that the computed index doesn't go out of bounds [0; model.count - 1]  */
 						newIndex = Math.max(0, newIndex >= pictureModel.count ? pictureModel.count - 1 : newIndex)
 						pictureModel.move(index, newIndex, 1)
-						picturesUpdated()
+            /* Send the corresponding signal */
+            pictureMoved(index, newIndex)
 					} else {
 					  /* Only a click, so select the element in the viewer */
 						listView.currentIndex = index
 						viewer.source = image
-						
-						console.log("Clicked on : " + index)
 					}
 				}
-				drag.axis: Drag.YAxis
 			}
-
 		}
 	}
 

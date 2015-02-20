@@ -1,6 +1,7 @@
 ################## Our ignore paths and files ####################
 
 *.swp
+*.orig
 
 
 ################## Created by https://www.gitignore.io ####################

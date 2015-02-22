@@ -46,24 +46,27 @@ class Pygphoto(object):
 
 
     @staticmethod
-    def download_file(index, path):
+    def download_file(index, output_dir):
         """Download the file numbered index and copy it to the given path.
         
-        Returns 0 if succeeded. Returns 1 if the path already
-        exists. Else returns the error code returned by gphoto.
+        Returns 0 if succeeded. Returns 1 if the path is not an
+        existing directory. Else returns the error code returned by
+        gphoto.
 
         """
-        print "\ndownload_file " + str(index) + " to " + str(path) + "\n"
-        # Check that file does not exist already
-        if(os.path.exists(path)):
-            # TODO LOG
-            return 1 # The file already exists...
+        print "\ndownload_file " + str(index) + " to " + str(output_dir) + "\n"
+        # Check that the output dir is a directory
+        if(not os.path.isdir(output_dir)):
+            return 1
             
-        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
+        # This will save the file under "output_dir/filename.suffix"
+        output_filepath = os.path.normpath(os.path.join(output_dir, "./%f.%C"))
+
+        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", output_filepath]
         return subprocess.call(command)
 
         
 if __name__ == "__main__":
     print Pygphoto.list_files()
-    print Pygphoto.download_file(2, os.path.abspath("test/test2.jpg"))
-    print Pygphoto.download_file(3, "test/test3.jpg")
+    print Pygphoto.download_file(2, os.path.abspath("test/"))
+    print Pygphoto.download_file(3, "test")

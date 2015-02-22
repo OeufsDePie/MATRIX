@@ -28,23 +28,15 @@ class Pygphoto(object):
 
 
     @staticmethod
-    def get_file(index, path):
+    def download_file(index, path):
         """Download the file numbered index and copy it to the given path.
         
         """
-        print "\nget_file " + str(index) + " to " + str(path) + "\n"
+        print "\ndownload_file " + str(index) + " to " + str(path) + "\n"
         command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
         subprocess.call(command)
 
         
-    def download_file(file_number, to_path):
-        """Download the given file from the camera to the given path.
-
-        """
-        print "download_file " + str(file_number) + str(path)
-
-    
-
 if __name__ == "__main__":
     Pygphoto.list_files()
     Pygphoto.get_file(2, os.path.abspath("test/test2.jpg"))

@@ -55,10 +55,11 @@ class Pygphoto(object):
 
         """
         print "\ndownload_file " + str(index) + " to " + str(output_dir) + "\n"
-        # Check that the output dir is a directory
+        # Check that the output dir is a valid directory
         if(not os.path.isdir(output_dir)):
             return 1
             
+        # TODO check that the created file does not already exist...
         # This will save the file under "output_dir/filename.suffix"
         output_filepath = os.path.normpath(os.path.join(output_dir, "./%f.%C"))
 

@@ -18,27 +18,44 @@ class Pygphoto(object):
     
     @staticmethod
     def list_files():
-        """Return the list of (filenumber, filename) couple for all the
-        pictures present on the first camera found.
+        """Returns the list of (filenumber, filenames) for all the files
+        present on the first camera found.
+
+        Raises a CalledProcessError when gphoto2 raised an error.  The
+        filenumber correspond to the index of the corresponding file
+        in the file list printed by gphoto. This filenumber is needed
+        when downloading a file from the camera.
 
         """
         print "\nlist_files\n"
+        retval = [] # Result list of filenames
+
+        # Grab the output of the list file command
         command = [Pygphoto.GPHOTO,"--list-files"]
-        subprocess.call(command)
+        output = subprocess.check_output(command) 
+
+        # Parse the output for '#' lines
+        for line in iter(output.splitlines()):
+            if line[0] == "#":
+                # Split every one or more whitespaces
+                words = line.split()
+                filenumber = int(words[0][1:]) # remove '#'
+                filename = words[1]
+                retval.append((filenumber, filename))
+        return retval
 
 
     @staticmethod
     def download_file(index, path):
         """Download the file numbered index and copy it to the given path.
-        
+        Returns 0 if succeeded. Else returns the error code returned by gphoto.
         """
         print "\ndownload_file " + str(index) + " to " + str(path) + "\n"
         command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
-        subprocess.call(command)
+        return subprocess.call(command)
 
         
 if __name__ == "__main__":
-    Pygphoto.list_files()
-    Pygphoto.get_file(2, os.path.abspath("test/test2.jpg"))
-    Pygphoto.get_file(3, "test/test3.png")
-
+    print Pygphoto.list_files()
+    print Pygphoto.download_file(2, os.path.abspath("test/test2.jpg"))
+    print Pygphoto.download_file(3, "test/test3.jpg")

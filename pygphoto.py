@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import subprocess
+import os
 
 class Pygphoto(object):
     """Allows simple operations on a USB connected camera.  
@@ -15,17 +16,37 @@ class Pygphoto(object):
     def __init__(self):
         pass
     
+    @staticmethod
     def list_files():
         """Return the list of (filenumber, filename) couple for all the
         pictures present on the first camera found.
 
         """
         print "list_files"
-        command[GPHOTO,""]
-        call(command)
+        command = [Pygphoto.GPHOTO,"--list-files"]
+        subprocess.call(command)
+
+
+    @staticmethod
+    def get_file(index, path):
+        """Download the file numbered index and copy it to the given path.
+        
+        """
+        print "## get file " + str(index) + " to " + str(path)
+        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
+        subprocess.call(command)
+
         
     def download_file(file_number, to_path):
         """Download the given file from the camera to the given path.
 
         """
         print "download_file " + str(file_number) + str(path)
+
+    
+
+if __name__ == "__main__":
+    Pygphoto.list_files()
+    Pygphoto.get_file(2, os.path.abspath("test/test2.jpg"))
+    Pygphoto.get_file(3, "test/test3.png")
+

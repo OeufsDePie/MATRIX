@@ -22,7 +22,7 @@ class Pygphoto(object):
         pictures present on the first camera found.
 
         """
-        print "list_files"
+        print "\nlist_files\n"
         command = [Pygphoto.GPHOTO,"--list-files"]
         subprocess.call(command)
 
@@ -32,7 +32,7 @@ class Pygphoto(object):
         """Download the file numbered index and copy it to the given path.
         
         """
-        print "## get file " + str(index) + " to " + str(path)
+        print "\nget_file " + str(index) + " to " + str(path) + "\n"
         command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
         subprocess.call(command)
 

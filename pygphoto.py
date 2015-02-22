@@ -48,9 +48,17 @@ class Pygphoto(object):
     @staticmethod
     def download_file(index, path):
         """Download the file numbered index and copy it to the given path.
-        Returns 0 if succeeded. Else returns the error code returned by gphoto.
+        
+        Returns 0 if succeeded. Returns 1 if the path already
+        exists. Else returns the error code returned by gphoto.
+
         """
         print "\ndownload_file " + str(index) + " to " + str(path) + "\n"
+        # Check that file does not exist already
+        if(os.path.exists(path)):
+            # TODO LOG
+            return 1 # The file already exists...
+            
         command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", path]
         return subprocess.call(command)
 

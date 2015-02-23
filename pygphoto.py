@@ -143,6 +143,23 @@ class Pygphoto(object):
                 
         return 0
         
+    def download_all(self, output_dir):
+        '''Download all the files present on the camera
+
+        Careful : overwrites
+        Faster than 'download_files()'
+        '''
+        # Check that the output dir is a valid directory
+        if(not os.path.isdir(output_dir)):
+            return 1
+        # The destination is 'output_dir/filename.suffix
+        destination_path = os.path.normpath(os.path.join(output_dir, '%f.%C'))
+
+        command = [Pygphoto.GPHOTO, '--get-all-files', '--filename', destination_path]
+        command.append('--force-overwrite')
+        return subprocess.call(command)
+
+        
 if __name__ == '__main__':
     # TESTINGS
     pygph = Pygphoto()
@@ -159,4 +176,6 @@ if __name__ == '__main__':
     print pygph.download_file(filename, os.path.abspath('test/'), overwrite=True)
     print '~~~~~~~~ download_files False'
     print pygph.download_files(filelist, os.path.abspath('test/'), overwrite=False)
+    print '~~~~~~~~ download_all'
+    print pygph.download_all(os.path.abspath('test/'))
     # print pygph.download_file(3, 'test')

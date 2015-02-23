@@ -13,24 +13,26 @@ class Pygphoto(object):
     # Command lines string value
     GPHOTO = "gphoto2"
 
-    # _files is an internal dictionnary that associate all the files present on the camera, along with their
-
     def __init__(self):
+        # _files is an internal dictionnary that associate all the
+        # files present on the camera, along with their
         self._files = []
 
 
-    def _update_file_list(self, file_list):
-        """Update the internal
+    def _update_file_list(self, filenames_list):
+        """Update the internal dictionnary of filenames
+
         """
+        # Number each files, starting with 1
+        self._files = dict(zip(filenames_list, range(1,len(filenames_list) + 1)));
     
-    def get_filename_list(self):
+    def query_file_list(self):
         """Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
         Raises a CalledProcessError when gphoto2 raised an error.
 
         """
-        print "\nlist_files\n"
         retval = [] # Result list of filenames
 
         # Grab the output of the list file command
@@ -44,9 +46,13 @@ class Pygphoto(object):
                 words = line.split()
                 filename = words[1]
                 retval.append(filename)
+
+        # Take the opportunity to update the internal file list
+        # and return
+        self._update_file_list(retval)
         return retval
 
-    def _get_filename(self, index):
+    def _query_filename(self, index):
         """Return the filename of the file indexed 'index' when listing all
         the files present on the camera
 
@@ -63,7 +69,7 @@ class Pygphoto(object):
         return filename.strip("'")
         
 
-    def download_file(self, filename, output_dir):
+    def download_file(self, filename, output_dir, overwrite=True):
         """Download the file name 'filename' and copy it to the given path.
         
         Returns 0 if succeeded. Returns 1 if the path is not an
@@ -71,31 +77,88 @@ class Pygphoto(object):
         gphoto.
 
         """
-        print "\ndownload_file " + str(index) + " to " + str(output_dir) + "\n"
         # Check that the output dir is a valid directory
         if(not os.path.isdir(output_dir)):
             return 1
-            
-        # TODO check that the created file does not already exist...
-        # This will save the file under "output_dir/filename.suffix"
-        output_filepath = os.path.normpath(os.path.join(output_dir, "./%f.%C"))
 
-        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", output_filepath]
+        # Get the gphoto index of the file and check it is up to date
+        index = self._files[filename]
+        if (not self._query_filename(index) == filename):
+            # Update the files dictionnary
+            self.query_file_list()
+            index = self._files[filename]
+
+        # The destination is "output_dir/filename
+        destination_path = os.path.normpath(os.path.join(output_dir, filename))
+
+        # Check that the file does not already exist
+        if(os.path.exists(destination_path)):
+            if(overwrite):
+                # First remove the file
+                os.remove(destination_path)
+            else:
+                # Do nothing
+                return 0
+
+        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", destination_path]
         return subprocess.call(command)
 
     
-    def download_files(self, filename_list, output_dir):
+    def download_all_files(self, filename_list, output_dir, overwrite=True):
         """Download the whole list of files to the ouput directory
+
+        Return 0 if all the files were downloaded, 1 if
+        there was a problem for one of the files or if the output_dir
+        is not a valid directory
 
         This is equivalent to calling download_file on every file in
         the 'filename_list', but should be faster for a large number
         of files.
 
         """
+        # Check that the output dir is a valid directory
+        if(not os.path.isdir(output_dir)):
+            return 1
+
+        # Update the files dictionnary
+        self.query_file_list()
+
+        # Download each file
+        for filename in filename_list:
+            index = self._files[filename]
+            # The destination is "output_dir/filename
+            destination_path = os.path.normpath(os.path.join(output_dir, filename))
+            command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", destination_path]
+            # Check that the file does not already exist
+            if(os.path.exists(destination_path)):
+                if(overwrite):
+                    # First remove the file
+                    os.remove(destination_path)
+                else:
+                    # Do nothing
+                    continue
+            return_code = subprocess.call(command)
+            if(return_code != 0):
+                return return_code
+                
+        return 0
+        
+        
 
 if __name__ == "__main__":
+    # TESTINGS
     pygph = Pygphoto()
-    print pygph._get_filename(1)
-    # print pygph.get_filename_list()
-    # print pygph.download_file(2, os.path.abspath("test/"))
+    print "~~~~~~~~ _query_filename"
+    filename = pygph._query_filename(1)
+    print filename
+    print "~~~~~~~~ _query_file_list"
+    filelist = pygph.query_file_list()
+    print "~~~~~~~~ download_file False"
+    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=False)
+    print "~~~~~~~~ download_file False"
+    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=False)
+    print "~~~~~~~~ download_file True"
+    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=True)
+    print "~~~~~~~~ download_all_files False"
+    print pygph.download_all_files(filelist, os.path.abspath("test/"), overwrite=False)
     # print pygph.download_file(3, "test")

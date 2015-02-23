@@ -3,15 +3,15 @@ import subprocess
 import os
 
 class Pygphoto(object):
-    """Allows simple operations on a USB connected camera.  
+    '''Allows simple operations on a USB connected camera.  
 
     This class allows to connect to a USB camera. List the names of
     the photos present in the camera and eventually download the
     photos individually.
-    """
+    '''
 
     # Command lines string value
-    GPHOTO = "gphoto2"
+    GPHOTO = 'gphoto2'
 
     def __init__(self):
         # _files is an internal dictionnary that associate all the
@@ -20,28 +20,28 @@ class Pygphoto(object):
 
 
     def _update_file_list(self, filenames_list):
-        """Update the internal dictionnary of filenames
+        '''Update the internal dictionnary of filenames
 
-        """
+        '''
         # Number each files, starting with 1
         self._files = dict(zip(filenames_list, range(1,len(filenames_list) + 1)));
     
     def query_file_list(self):
-        """Generate the list of filenames for all the files present on the
+        '''Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
         Raises a CalledProcessError when gphoto2 raised an error.
 
-        """
+        '''
         retval = [] # Result list of filenames
 
         # Grab the output of the list file command
-        command = [Pygphoto.GPHOTO,"--list-files"]
+        command = [Pygphoto.GPHOTO,'--list-files']
         output = subprocess.check_output(command) 
 
         # Parse the output for '#' lines
         for line in iter(output.splitlines()):
-            if line[0] == "#":
+            if line[0] == '#':
                 # Split every one or more whitespaces
                 words = line.split()
                 filename = words[1]
@@ -53,14 +53,14 @@ class Pygphoto(object):
         return retval
 
     def _query_filename(self, index):
-        """Return the filename of the file indexed 'index' when listing all
+        '''Return the filename of the file indexed 'index' when listing all
         the files present on the camera
 
         Raises a CalledProcessError when gphoto2 raised an error.
 
-        """
+        '''
         # Show info on the file indexed 'index'
-        command = [Pygphoto.GPHOTO, "--show-info", str(index)]
+        command = [Pygphoto.GPHOTO, '--show-info', str(index)]
         output = subprocess.check_output(command)
 
         # The filename is the fourth word
@@ -70,13 +70,13 @@ class Pygphoto(object):
         
 
     def download_file(self, filename, output_dir, overwrite=True):
-        """Download the file name 'filename' and copy it to the given path.
+        '''Download the file name 'filename' and copy it to the given path.
         
         Returns 0 if succeeded. Returns 1 if the path is not an
         existing directory. Else returns the error code returned by
         gphoto.
 
-        """
+        '''
         # Check that the output dir is a valid directory
         if(not os.path.isdir(output_dir)):
             return 1
@@ -88,7 +88,7 @@ class Pygphoto(object):
             self.query_file_list()
             index = self._files[filename]
 
-        # The destination is "output_dir/filename
+        # The destination is 'output_dir/filename
         destination_path = os.path.normpath(os.path.join(output_dir, filename))
 
         # Check that the file does not already exist
@@ -100,12 +100,12 @@ class Pygphoto(object):
                 # Do nothing
                 return 0
 
-        command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", destination_path]
+        command = [Pygphoto.GPHOTO, '--get-file', str(index), '--filename', destination_path]
         return subprocess.call(command)
 
     
-    def download_all_files(self, filename_list, output_dir, overwrite=True):
-        """Download the whole list of files to the ouput directory
+    def download_files(self, filename_list, output_dir, overwrite=True):
+        '''Download the whole list of files to the ouput directory
 
         Return 0 if all the files were downloaded, 1 if
         there was a problem for one of the files or if the output_dir
@@ -115,7 +115,7 @@ class Pygphoto(object):
         the 'filename_list', but should be faster for a large number
         of files.
 
-        """
+        '''
         # Check that the output dir is a valid directory
         if(not os.path.isdir(output_dir)):
             return 1
@@ -126,9 +126,9 @@ class Pygphoto(object):
         # Download each file
         for filename in filename_list:
             index = self._files[filename]
-            # The destination is "output_dir/filename
+            # The destination is 'output_dir/filename
             destination_path = os.path.normpath(os.path.join(output_dir, filename))
-            command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", destination_path]
+            command = [Pygphoto.GPHOTO, '--get-file', str(index), '--filename', destination_path]
             # Check that the file does not already exist
             if(os.path.exists(destination_path)):
                 if(overwrite):
@@ -143,22 +143,20 @@ class Pygphoto(object):
                 
         return 0
         
-        
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # TESTINGS
     pygph = Pygphoto()
-    print "~~~~~~~~ _query_filename"
+    print '~~~~~~~~ _query_filename'
     filename = pygph._query_filename(1)
     print filename
-    print "~~~~~~~~ _query_file_list"
+    print '~~~~~~~~ _query_file_list'
     filelist = pygph.query_file_list()
-    print "~~~~~~~~ download_file False"
-    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=False)
-    print "~~~~~~~~ download_file False"
-    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=False)
-    print "~~~~~~~~ download_file True"
-    print pygph.download_file(filename, os.path.abspath("test/"), overwrite=True)
-    print "~~~~~~~~ download_all_files False"
-    print pygph.download_all_files(filelist, os.path.abspath("test/"), overwrite=False)
-    # print pygph.download_file(3, "test")
+    print '~~~~~~~~ download_file False'
+    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=False)
+    print '~~~~~~~~ download_file False'
+    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=False)
+    print '~~~~~~~~ download_file True'
+    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=True)
+    print '~~~~~~~~ download_files False'
+    print pygph.download_files(filelist, os.path.abspath('test/'), overwrite=False)
+    # print pygph.download_file(3, 'test')

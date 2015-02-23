@@ -13,18 +13,21 @@ class Pygphoto(object):
     # Command lines string value
     GPHOTO = "gphoto2"
 
-    def __init__(self):
-        pass
-    
-    @staticmethod
-    def list_files():
-        """Returns the list of (filenumber, filenames) for all the files
-        present on the first camera found.
+    # _files is an internal dictionnary that associate all the files present on the camera, along with their
 
-        Raises a CalledProcessError when gphoto2 raised an error.  The
-        filenumber correspond to the index of the corresponding file
-        in the file list printed by gphoto. This filenumber is needed
-        when downloading a file from the camera.
+    def __init__(self):
+        self._files = []
+
+
+    def _update_file_list(self, file_list):
+        """Update the internal
+        """
+    
+    def get_filename_list(self):
+        """Generate the list of filenames for all the files present on the
+        first camera found by requesting directly the camera.
+
+        Raises a CalledProcessError when gphoto2 raised an error.
 
         """
         print "\nlist_files\n"
@@ -39,15 +42,29 @@ class Pygphoto(object):
             if line[0] == "#":
                 # Split every one or more whitespaces
                 words = line.split()
-                filenumber = int(words[0][1:]) # remove '#'
                 filename = words[1]
-                retval.append((filenumber, filename))
+                retval.append(filename)
         return retval
 
+    def _get_filename(self, index):
+        """Return the filename of the file indexed 'index' when listing all
+        the files present on the camera
 
-    @staticmethod
-    def download_file(index, output_dir):
-        """Download the file numbered index and copy it to the given path.
+        Raises a CalledProcessError when gphoto2 raised an error.
+
+        """
+        # Show info on the file indexed 'index'
+        command = [Pygphoto.GPHOTO, "--show-info", str(index)]
+        output = subprocess.check_output(command)
+
+        # The filename is the fourth word
+        filename = output.split()[3]
+        # We remove the trailing simple quotes ("'") 
+        return filename.strip("'")
+        
+
+    def download_file(self, filename, output_dir):
+        """Download the file name 'filename' and copy it to the given path.
         
         Returns 0 if succeeded. Returns 1 if the path is not an
         existing directory. Else returns the error code returned by
@@ -66,8 +83,19 @@ class Pygphoto(object):
         command = [Pygphoto.GPHOTO, "--get-file", str(index), "--filename", output_filepath]
         return subprocess.call(command)
 
-        
+    
+    def download_files(self, filename_list, output_dir):
+        """Download the whole list of files to the ouput directory
+
+        This is equivalent to calling download_file on every file in
+        the 'filename_list', but should be faster for a large number
+        of files.
+
+        """
+
 if __name__ == "__main__":
-    print Pygphoto.list_files()
-    print Pygphoto.download_file(2, os.path.abspath("test/"))
-    print Pygphoto.download_file(3, "test")
+    pygph = Pygphoto()
+    print pygph._get_filename(1)
+    # print pygph.get_filename_list()
+    # print pygph.download_file(2, os.path.abspath("test/"))
+    # print pygph.download_file(3, "test")

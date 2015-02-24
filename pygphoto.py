@@ -3,11 +3,13 @@ import subprocess
 import os
 
 class Pygphoto(object):
-    '''Allows simple operations on a USB connected camera.  
+    '''Allows simple operations on a USB connected camera by interfacing
+    the gphoto2 command line tool.
 
     This class allows to connect to a USB camera. List the names of
     the photos present in the camera and eventually download the
     photos individually.
+
     '''
 
     # Command lines string value
@@ -16,7 +18,7 @@ class Pygphoto(object):
     def __init__(self):
         # _files is an internal dictionnary that associate all the
         # files present on the camera, along with their
-        self._files = []
+        self._files = {}
 
 
     def _update_file_list(self, filenames_list):
@@ -26,7 +28,23 @@ class Pygphoto(object):
         # Number each files, starting with 1
         self._files = dict(zip(filenames_list, range(1,len(filenames_list) + 1)));
     
-    def query_file_list(self):
+    def _query_filename(self, index):
+        '''Return the filename of the file indexed 'index' when listing all
+        the files present on the camera
+
+        Raises a CalledProcessError when gphoto2 raised an error.
+
+        '''
+        # Show info on the file indexed 'index'
+        command = [Pygphoto.GPHOTO, '--show-info', str(index)]
+        output = subprocess.check_output(command)
+
+        # The filename is the fourth word
+        filename = output.split()[3]
+        # We remove the trailing simple quotes ("'") 
+        return filename.strip("'")
+
+     def query_file_list(self):
         '''Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
@@ -51,23 +69,6 @@ class Pygphoto(object):
         # and return
         self._update_file_list(retval)
         return retval
-
-    def _query_filename(self, index):
-        '''Return the filename of the file indexed 'index' when listing all
-        the files present on the camera
-
-        Raises a CalledProcessError when gphoto2 raised an error.
-
-        '''
-        # Show info on the file indexed 'index'
-        command = [Pygphoto.GPHOTO, '--show-info', str(index)]
-        output = subprocess.check_output(command)
-
-        # The filename is the fourth word
-        filename = output.split()[3]
-        # We remove the trailing simple quotes ("'") 
-        return filename.strip("'")
-        
 
     def download_file(self, filename, output_dir, overwrite=True):
         '''Download the file name 'filename' and copy it to the given path.
@@ -163,6 +164,7 @@ class Pygphoto(object):
 if __name__ == '__main__':
     # TESTINGS
     pygph = Pygphoto()
+    
     print '~~~~~~~~ _query_filename'
     filename = pygph._query_filename(1)
     print filename

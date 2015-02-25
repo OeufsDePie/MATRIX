@@ -33,7 +33,8 @@ class Workspace:
     Attributes:
         name (str): The name of the workspace.
         path (str): The path of the workspace.
-        scenes (list(Scene)): The list of the scene names it contains.
+        scenes (dict(Scene)): The dictionnary of the scenes it contains.
+            Keys are the scene paths.
     """
 
     def __init__(self, name="", path=""):
@@ -48,7 +49,16 @@ class Workspace:
         """
         self.name = name
         self.path = path
-        self.scenes = []
+        self.scenes = dict()
+
+    def new_scene(self, scene):
+        """ Add a new scene to the workspace.
+
+        Args:
+            scene (Scene): The new scene
+        """
+        self.scenes[scene.path] = scene
+
 
 class Scene:
     """ A scene containing all its images.
@@ -78,6 +88,7 @@ class Scene:
         self.workspace = workspace
         self.name = name
         self.path = path
+        workspace.new_scene(self)
 
 class Utils:
     """ Useful functions.

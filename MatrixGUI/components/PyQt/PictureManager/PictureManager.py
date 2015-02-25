@@ -1,7 +1,7 @@
-from PyQt5.Qtcore import QAbstractListModel, Qt, QModelIndex, pyqtSlot, QObject
+from PyQt5.QtCore import QAbstractListModel, Qt, QModelIndex, pyqtSlot, QObject, pyqtProperty
 from enum import Enum
 import xml.etree.ElementTree as ET
-
+import os
 class PictureState(Enum):
   '''
     An Enumeration to handle all different state in which a picture may be
@@ -17,7 +17,7 @@ class Picture(object):
     structure and is used to manipulate photos as dataModel along the use of the application
   '''
 
-  def __init__(self, path, date, state = PictureState.NEW):
+  def __init__(self, path, date = None, state = PictureState.NEW):
     '''
       Initialize a picture. 
       
@@ -39,7 +39,7 @@ class PictureModel(QAbstractListModel):
   STATE_ROLE = Qt.UserRole + 4
   _roles = {PATH_ROLE: 'path', NAME_ROLE: 'name', DATE_ROLE: 'date', STATE_ROLE: 'state'}
 
-  def __init__(self, listPictures = [], parent = None)
+  def __init__(self, listPictures = [], parent = None):
     ''' 
       Initialize a picture model
       
@@ -49,7 +49,7 @@ class PictureModel(QAbstractListModel):
     super(PictureModel, self).__init__(parent)
     self._data = listPictures # Store as an attribute the pictures for future purpose
 
-  def data(self, index, role = PictureModel.NAME_ROLE):
+  def data(self, index, role = NAME_ROLE):
     '''
       Retrieve a piece of information from an item (a picture) of the model
 
@@ -76,7 +76,7 @@ class PictureModel(QAbstractListModel):
     '''
     return self._roles
 
-  def add(self, picture, index = None):
+  def add(self, picture, index = QModelIndex()):
     '''
       Add a picture to the model
 
@@ -89,7 +89,7 @@ class PictureModel(QAbstractListModel):
       return False
     # Append at the end
     if index == None:
-      self.beginInsertRows(QModelIndex(), len(self._data), len(self._data)):
+      self.beginInsertRows(QModelIndex(), len(self._data), len(self._data))
       self._data.append(picture)
       self.endInsertRows()
     # Insert in the list
@@ -97,7 +97,7 @@ class PictureModel(QAbstractListModel):
       row = index.row()
       if row > len(self._data):
         return False
-      else
+      else:
         self.beginInsertRows(QModelIndex(), row, row)
         self._data.insert(row, picture)
         self.endInsertRows()
@@ -125,19 +125,23 @@ class PictureModel(QAbstractListModel):
     return True
 
   @pyqtSlot(QModelIndex, QModelIndex)
-  def move(self, initRow, finalRow) 
+  @pyqtSlot(int,int)
+  def move(self, initRow, finalRow):
     '''
       Move a row from an index to another.
       
       initRow -- The starting index
       finalRow -- The final index
     '''
+    print(initRow)
+    print(finalRow)
+    print('move')
     # Ensure index
-    if not initRow.isValid() or not finalRow.isValid()
+    if not(initRow.isValid()) or not(finalRow.isValid()):
       return False
 
-    outOfBounds = lambda index, sup: index < 0 || index >= sup
-    if outOfBounds(initRow.row(), self.rowCount()) || outOfBounds(finalRow(), self.rowCount()):
+    outOfBounds = lambda index, sup: index < 0 or index >= sup
+    if outOfBounds(initRow.row(), self.rowCount()) or outOfBounds(finalRow(), self.rowCount()):
       return False
 
     # Move picture
@@ -186,10 +190,9 @@ class PictureModel(QAbstractListModel):
     
       xmlPath -- The path to the XML model file
     '''
-    root = ET.parse(xmlPath).getroot()
+    root = ET.parse(xmlPath).getroot()     
     listPictures = []
-    for child in root
+    for child in root:
       #name = child.attrib['name']
       path = child.text
       self.add(Picture(path))
-      xmlPath -- The path to the xml file

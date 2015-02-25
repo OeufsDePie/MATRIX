@@ -7,7 +7,7 @@ class WorkspaceManager(object):
     communicating any change through signal
   '''
 
-  def setProjectPath(self, projectPath)
+  def setProjectPath(self, projectPath):
     '''
       Define the root path of the project
     
@@ -20,4 +20,4 @@ class WorkspaceManager(object):
       Retrieve the model file that sums up every piece of information about 
       pictures on the project.
     '''
-    return os.path.join(self.workspacePath, "pictures.xml")
+    return os.path.join(self.projectPath, "pictures.xml")

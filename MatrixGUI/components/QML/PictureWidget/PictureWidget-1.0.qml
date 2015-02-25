@@ -188,10 +188,9 @@ Rectangle {
               
               /* Send the corresponding signal */
               pictureMoved(index, newIndex)
-
               /* Now, newIndex holds the index new index of the moved item */
               listView.model.move(index, newIndex, 1)
-              pictures.move(index, newIndex, 1)
+/*              pictures.move(index, newIndex, 1)*/
 
 
             } else {

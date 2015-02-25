@@ -20,10 +20,10 @@ MenuBar {
   }
   Menu {
     title: "Scene"
-    MenuItem { text: "New scene" }
-    MenuItem { text: "Change scene" }
-    MenuItem { text: "Save scene" }
-    MenuItem { text: "Delete scene" }
+    MenuItem { text: "New scene"; shortcut: "Ctrl+N" }
+    MenuItem { text: "Change scene"}
+    MenuItem { text: "Save scene"; shortcut: "Ctrl+S" }
+    MenuItem { text: "Delete scene"; shortcut: "Ctrl+D" }
   }
 
 } 

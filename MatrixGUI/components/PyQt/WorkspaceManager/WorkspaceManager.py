@@ -56,7 +56,11 @@ class Workspace:
 
         Args:
             scene (Scene): The new scene
+
+        Raises:
+            AssertionError: If a scene with the same path already exists.
         """
+        assert (scene.path not in self.scenes), "A scene with that path already exists"
         self.scenes[scene.path] = scene
 
     def delete_scene(self, scene_path):

@@ -95,7 +95,11 @@ class Scene:
         """
         self.workspace = workspace
         self.name = name
+        if not name:
+            self.name = "scene_" + str(len(workspace.scenes))
         self.path = path
+        if not path:
+            self.path = Utils.valid_name(self.name)
         workspace.new_scene(self)
 
     def delete(self):

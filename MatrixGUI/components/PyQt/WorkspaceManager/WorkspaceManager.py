@@ -59,6 +59,14 @@ class Workspace:
         """
         self.scenes[scene.path] = scene
 
+    def delete_scene(self, scene_path):
+        """ Delete the scene identified by its local path.
+
+        Args:
+            scene_path (str): The path (relatively to the workspace) of the scene to delete.
+        """
+        del self.scenes[scene_path]
+
 
 class Scene:
     """ A scene containing all its images.
@@ -89,6 +97,12 @@ class Scene:
         self.name = name
         self.path = path
         workspace.new_scene(self)
+
+    def delete(self):
+        """ Delete the scene and remove its access from the workspace.
+        """
+        self.workspace.delete_scene(self.path)
+
 
 class Utils:
     """ Useful functions.

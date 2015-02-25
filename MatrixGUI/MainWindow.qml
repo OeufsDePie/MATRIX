@@ -38,7 +38,7 @@ ApplicationWindow {
     anchors.bottom: parent.bottom
     onPictureDiscarded: sig_pictureDiscarded()
     onPictureMoved: sig_pictureMoved()
-/*    pictures: pictureModel*/
+    pictures: pictureModel
   }
 
   /* Wrapper for the reconstruction widget */

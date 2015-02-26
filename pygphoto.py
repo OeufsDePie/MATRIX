@@ -37,7 +37,7 @@ class Pygphoto(object):
         '''
         # Show info on the file indexed 'index'
         command = [Pygphoto.GPHOTO, '--show-info', str(index)]
-        output = subprocess.check_output(command)
+        output = subprocess.check_output(command).decode("utf-8")
 
         # The filename is the fourth word
         filename = output.split()[3]
@@ -55,7 +55,7 @@ class Pygphoto(object):
 
         # Grab the output of the list file command
         command = [Pygphoto.GPHOTO,'--list-files']
-        output = subprocess.check_output(command) 
+        output = subprocess.check_output(command).decode("utf-8")
 
         # Parse the output for '#' lines
         for line in iter(output.splitlines()):
@@ -189,21 +189,21 @@ if __name__ == '__main__':
     # TESTINGS
     pygph = Pygphoto()
     
-    print '~~~~~~~~ _query_filename'
+    print('~~~~~~~~ _query_filename')
     filename = pygph._query_filename(1)
-    print filename
-    print '~~~~~~~~ _query_file_list'
+    print(filename)
+    print('~~~~~~~~ _query_file_list')
     filelist = pygph.query_file_list()
-    print '~~~~~~~~ download_file False'
-    print pygph.download_file(filename, 'test', overwrite=False)
-    print '~~~~~~~~ download_file False'
-    print pygph.download_file(filename, 'test', overwrite=False)
-    print '~~~~~~~~ download_file True'
-    print pygph.download_file(filename, 'test', overwrite=True)
-    print '~~~~~~~~ download_all_thumbnails'
-    print pygph.download_all_thumbnails('thumbnails')
-    print '~~~~~~~~ download_files False'
-    print pygph.download_files(filelist, 'test', overwrite=False)
-    print '~~~~~~~~ download_all'
-    print pygph.download_all('test')
-    # print pygph.download_file(3, 'test')
+    print('~~~~~~~~ download_file False')
+    print(pygph.download_file(filename, 'test', overwrite=False))
+    print('~~~~~~~~ download_file False')
+    print(pygph.download_file(filename, 'test', overwrite=False))
+    print('~~~~~~~~ download_file True')
+    print(pygph.download_file(filename, 'test', overwrite=True))
+    print('~~~~~~~~ download_all_thumbnails')
+    print(pygph.download_all_thumbnails('thumbnails'))
+    print('~~~~~~~~ download_files False')
+    print(pygph.download_files(filelist, 'test', overwrite=False))
+    print('~~~~~~~~ download_all')
+    print(pygph.download_all('test'))
+    # print(pygph.download_file(3, 'test'))

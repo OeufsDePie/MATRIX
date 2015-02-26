@@ -45,6 +45,7 @@ class Workspace:
     Attributes:
         name (str): The name of the workspace.
         path (str): The path of the workspace.
+        subdirs (dict(str,str)): The useful subdirectories (path,name)
         scenes (dict(str,Scene)): The dictionnary of the scenes it contains.
             Keys are the scene paths.
         current_scene (str): The path of the current scene
@@ -72,7 +73,11 @@ class Workspace:
         assert (not self.qt_directory.exists()),\
                 "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
                 "Please give a non-existing directory (it will be created)"
-        self.qt_directory.mkpath(self.qt_directory.path())
+        self.qt_directory.mkpath(".")
+        self.subdirs = dict()
+        self.subdirs["Configs"] = "Configuration folder"
+        for subpath in self.subdirs:
+            self.qt_directory.mkpath(subpath)
 
     def new_scene(self, scene):
         """ Add a new scene to the workspace.

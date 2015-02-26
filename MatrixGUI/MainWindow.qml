@@ -40,7 +40,7 @@ ApplicationWindow {
   menuBar: MenuWidget {
     id: menuWidget
     // workspace signals
-    onSig_menu_newWorkspace:    sig_newWorkspace()
+    onSig_menu_newWorkspace:    {newWorkspaceDialog.open(); sig_newWorkspace()}
     onSig_menu_changeWorkspace: sig_changeWorkspace()
     onSig_menu_deleteWorkspace: sig_deleteWorkspace()
     // scene signals
@@ -51,9 +51,9 @@ ApplicationWindow {
   }
 
   FileDialog {
-    id: newWorkspace
+    id: newWorkspaceDialog
     title: "Please choose a folder"
-    onAccepted: {console.log("You chose: " + newWorkspace.fileUrls)}
+    onAccepted: {console.log("You chose: " + newWorkspaceDialog.fileUrls)}
     onRejected: {console.log("Canceled")}
     visible: false
   }

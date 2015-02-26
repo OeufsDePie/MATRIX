@@ -141,6 +141,16 @@ class Scene:
         """
         self.workspace.delete_scene(self.path)
 
+    def __str__(self):
+        """ Change displaying of a scene.
+
+        Example:
+            >>> print(scene)
+        """
+        s = ["Scene : " + self.name                       ,\
+             "   workspace : " + self.workspace.name      ,\
+             "   path      : " + self.path]
+        return ("\n".join(s))
 
 class Utils:
     """ Useful functions.

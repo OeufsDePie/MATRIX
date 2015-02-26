@@ -27,6 +27,12 @@ class WorkspaceManager(object):
         return os.path.join(self.projectPath, "pictures.xml")
 
     def new_workspace(self, name="", path=""):
+        """ Create a new workspace.
+
+        Args:
+            name (str): The name of the workspace.
+            path (str): The path of the workspace. Default is "".
+        """
         ws = Workspace(name,path)
         print(ws)
 

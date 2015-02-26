@@ -58,7 +58,11 @@ ApplicationWindow {
       Button{text: "Select Folder"; onClicked: selectFolderDialog.open()}
       Text{id: folderSelected; text: ""}
       Text{text: "Choose workspace name* :"}
-      TextEdit{id: workspaceName; text: "Workspace 1"}
+      TextField{
+        id: workspaceName;
+        placeholderText: qsTr("Enter workspace name");
+        selectByMouse: true
+      }
       Text{text: "*The name will be used to generate\nthe workspace repository"}
     }
     standardButtons: StandardButton.Ok

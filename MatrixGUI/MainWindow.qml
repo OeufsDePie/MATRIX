@@ -4,6 +4,7 @@ import QtQuick.Controls 1.3
 import PictureWidget 1.0
 import ReconstructionWidget 0.1
 import MenuWidget 0.1
+import QtQuick.Dialogs 1.0         // for the FileDialog
 
 ApplicationWindow {
   id: root
@@ -47,6 +48,18 @@ ApplicationWindow {
     onSig_menu_changeScene:     sig_changeScene()
     onSig_menu_saveScene:       sig_saveScene()
     onSig_menu_deleteScene:     sig_deleteScene()
+  }
+
+  FileDialog {
+    id: newWorkspace
+    title: "Please choose a folder"
+    onAccepted: {
+      console.log("You chose: " + newWorkspace.fileUrls)
+    }
+    onRejected: {
+      console.log("Canceled")
+    }
+    Component.onCompleted: visible = true
   }
 
   /* May need a wrapper, we'll see later */

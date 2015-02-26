@@ -35,6 +35,7 @@ class Workspace:
         path (str): The path of the workspace.
         scenes (dict(Scene)): The dictionnary of the scenes it contains.
             Keys are the scene paths.
+        current_scene (str): The path of the current scene
     """
 
     def __init__(self, name="", path=""):
@@ -50,6 +51,7 @@ class Workspace:
         self.name = name
         self.path = path
         self.scenes = dict()
+        self.current_scene = ""
 
     def new_scene(self, scene):
         """ Add a new scene to the workspace.
@@ -60,8 +62,9 @@ class Workspace:
         Raises:
             AssertionError: If a scene with the same path already exists.
         """
-        assert (scene.path not in self.scenes), "A scene with that path already exists"
+        assert (scene.path not in self.scenes), "A scene with that path already exists."
         self.scenes[scene.path] = scene
+        self.set_current_scene(scene.path)
 
     def delete_scene(self, scene_path):
         """ Delete the scene identified by its local path.
@@ -70,7 +73,34 @@ class Workspace:
             scene_path (str): The path (relatively to the workspace) of the scene to delete.
         """
         del self.scenes[scene_path]
+        if (self.current_scene == scene_path):
+            self.current_scene = ""
 
+    def get_current_scene(self):
+        """ Get the current scene of the workspace.
+
+        Returns:
+            Scene: The current scene.
+
+        Raises:
+            AssertionError: If no current scene.
+            AssertionError: If the current scene has disappeared.
+        """
+        assert (self.current_scene), "There is no current scene."
+        assert (self.current_scene in self.scenes), "The current scene is not reachable."
+        return self.scenes[self.current_scene]
+
+    def set_current_scene(self, scene_path):
+        """ Set the current scene.
+
+        Args:
+            scene_path (str): The path of the scene which will be the current scene.
+
+        Raises:
+            AssertionError: If the scene does not exist in the workspace.
+        """
+        assert (scene_path in self.scenes), "That scene does not exist in this workspace."
+        self.current_scene = scene_path
 
 class Scene:
     """ A scene containing all its images.

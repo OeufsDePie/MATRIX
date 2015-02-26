@@ -37,7 +37,7 @@ class Workspace:
     Attributes:
         name (str): The name of the workspace.
         path (str): The path of the workspace.
-        scenes (dict(Scene)): The dictionnary of the scenes it contains.
+        scenes (dict(str,Scene)): The dictionnary of the scenes it contains.
             Keys are the scene paths.
         current_scene (str): The path of the current scene
     """

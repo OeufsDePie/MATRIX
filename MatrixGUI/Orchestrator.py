@@ -43,12 +43,47 @@ root = engine.rootObjects()[0]
 # Start the app and show the view
 
 
-
+#################   WORKSPACE MANAGER  #####################
+#                         SLOTS
 @pyqtSlot()
 def new_workspace():
     workspaceManager.new_workspace("test_name","test_path")
-root.sig_newWorkspace.connect(new_workspace)
 
+@pyqtSlot()
+def change_workspace():
+    pass
+
+@pyqtSlot()
+def delete_workspace():
+    pass
+
+@pyqtSlot()
+def new_scene():
+    pass
+
+@pyqtSlot()
+def change_scene():
+    pass
+
+@pyqtSlot()
+def save_scene():
+    pass
+
+@pyqtSlot()
+def delete_scene():
+    pass
+
+
+
+#                         SIGNALS
+root.sig_newWorkspace.connect(new_workspace)
+root.sig_changeWorkspace.connect(change_workspace)
+root.sig_deleteWorkspace.connect(delete_workspace)
+root.sig_newScene.connect(new_scene)
+root.sig_changeScene.connect(change_scene)
+root.sig_saveScene.connect(save_scene)
+root.sig_deleteScene.connect(delete_scene)
+############################################################
 
 
 

@@ -28,10 +28,25 @@ ApplicationWindow {
 
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace()
+  signal sig_changeWorkspace()
+  signal sig_deleteWorkspace()
+  signal sig_newScene()
+  signal sig_changeScene()
+  signal sig_saveScene()
+  signal sig_deleteScene()
 
   /* The menubar should rather be exported as a proper component */
   menuBar: MenuWidget {
     id: menuWidget
+    // workspace signals
+    onSig_menu_newWorkspace:    sig_newWorkspace()
+    onSig_menu_changeWorkspace: sig_changeWorkspace()
+    onSig_menu_deleteWorkspace: sig_deleteWorkspace()
+    // scene signals
+    onSig_menu_newScene:        sig_newScene()
+    onSig_menu_changeScene:     sig_changeScene()
+    onSig_menu_saveScene:       sig_saveScene()
+    onSig_menu_deleteScene:     sig_deleteScene()
   }
 
   /* May need a wrapper, we'll see later */

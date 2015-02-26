@@ -26,6 +26,10 @@ class WorkspaceManager(object):
         '''
         return os.path.join(self.projectPath, "pictures.xml")
 
+    def new_workspace(self, name="", path=""):
+        ws = Workspace(name,path)
+        print(ws)
+
 
 class Workspace:
     """ A workspace containing its own configuration and scenes.

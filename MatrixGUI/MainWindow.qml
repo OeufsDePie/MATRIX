@@ -26,6 +26,9 @@ ApplicationWindow {
   signal sig_launchReconstruction
   function slot_addLog(logDate, logMessage) { reconstructionWidget.addLog(logDate, logMessage) }
 
+  /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
+  signal sig_newWorkspace()
+
   /* The menubar should rather be exported as a proper component */
   menuBar: MenuWidget {
     id: menuWidget

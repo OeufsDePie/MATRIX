@@ -41,5 +41,16 @@ root = engine.rootObjects()[0]
 #root.pictureMoved.connect(picureManager.move)
 
 # Start the app and show the view
+
+
+
+@pyqtSlot()
+def new_workspace():
+    workspaceManager.new_workspace("test_name","test_path")
+root.sig_newWorkspace.connect(new_workspace)
+
+
+
+
 root.show()
 sys.exit(app.exec_())

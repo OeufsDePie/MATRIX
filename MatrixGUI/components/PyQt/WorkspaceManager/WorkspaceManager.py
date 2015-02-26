@@ -2,6 +2,8 @@ import os
 import unicodedata
 import string
 import re                 # regular expressions
+########## PyQt5 imports
+from PyQt5.QtCore import QDir
 
 class WorkspaceManager(object):
     """ Manages the workspace.
@@ -46,6 +48,7 @@ class Workspace:
         scenes (dict(str,Scene)): The dictionnary of the scenes it contains.
             Keys are the scene paths.
         current_scene (str): The path of the current scene
+        qt_directory (QDir): The directory corresponding to that workspace
     """
 
     def __init__(self, name="", path=""):
@@ -62,6 +65,7 @@ class Workspace:
         self.path = path
         self.scenes = dict()
         self.current_scene = ""
+        self.qt_directory = QDir(self.path)
 
     def new_scene(self, scene):
         """ Add a new scene to the workspace.

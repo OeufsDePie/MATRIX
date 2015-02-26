@@ -108,8 +108,8 @@ class Pygphoto(QObject):
 
         # The filename is the fourth word
         filename = output.split()[3]
-        # We remove the trailing simple quotes ("\'")
-        return filename.strip("\'")
+        # We remove the trailing simple quotes ("'")
+        return filename.strip("'")
 
     def query_file_list(self):
         """Generate the list of filenames for all the files present on the

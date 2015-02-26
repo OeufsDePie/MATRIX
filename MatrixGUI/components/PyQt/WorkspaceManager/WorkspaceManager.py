@@ -58,6 +58,9 @@ class Workspace:
             name (str): The name of the workspace. Default is "".
             path (str): The path of the workspace. Default is "".
 
+        Raises:
+            AssertionError: If a directory with that path already exists.
+
         Examples:
             >>> ws = Workspace("ws1","/home/mpizenbe/matrix/ws1")
         """
@@ -66,6 +69,10 @@ class Workspace:
         self.scenes = dict()
         self.current_scene = ""
         self.qt_directory = QDir(self.path)
+        assert (not self.qt_directory.exists()),\
+                "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
+                "Please give a non-existing directory (it will be created)"
+        self.qt_directory.mkpath(self.qt_directory.path())
 
     def new_scene(self, scene):
         """ Add a new scene to the workspace.

@@ -67,6 +67,8 @@ class Workspace:
         """
         self.name = name
         self.path = path
+        if not self.path:
+            self.path = Utils.valid_name(self.name)
         self.scenes = dict()
         self.current_scene = ""
         self.qt_directory = QDir(self.path)
@@ -201,7 +203,7 @@ class Utils:
         This method may produce invalid filenames such as "."
         """
         # the authorized characters
-        valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+        valid_chars = "-_.()/ %s%s" % (string.ascii_letters, string.digits)
         # tranform to authorized characters
         valid_string = ''.join(c for c in unicodedata.normalize('NFKD',s) if c in valid_chars)
         # remove spaces at the extremities

@@ -45,9 +45,9 @@ root = engine.rootObjects()[0]
 
 #################   WORKSPACE MANAGER  #####################
 #                         SLOTS
-@pyqtSlot()
-def new_workspace():
-    workspaceManager.new_workspace("Workspace 1","Workspace_1")
+@pyqtSlot("QString", "QString")
+def new_workspace(name, path):
+    workspaceManager.new_workspace(name, path)
 
 @pyqtSlot()
 def change_workspace():

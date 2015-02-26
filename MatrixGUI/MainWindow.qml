@@ -28,7 +28,7 @@ ApplicationWindow {
   function slot_addLog(logDate, logMessage) { reconstructionWidget.addLog(logDate, logMessage) }
 
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
-  signal sig_newWorkspace()
+  signal sig_newWorkspace(string name, string path)
   signal sig_changeWorkspace()
   signal sig_deleteWorkspace()
   signal sig_newScene()
@@ -40,7 +40,7 @@ ApplicationWindow {
   menuBar: MenuWidget {
     id: menuWidget
     // workspace signals
-    onSig_menu_newWorkspace:    {newWorkspaceDialog.open(); sig_newWorkspace()}
+    onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
     onSig_menu_changeWorkspace: sig_changeWorkspace()
     onSig_menu_deleteWorkspace: sig_deleteWorkspace()
     // scene signals
@@ -54,7 +54,11 @@ ApplicationWindow {
     id: newWorkspaceDialog
     title: "Please choose a folder"
     selectFolder: true
-    onAccepted: {console.log("You chose: " + newWorkspaceDialog.fileUrls)}
+    onAccepted: {
+      var absolutePath = newWorkspaceDialog.folder.toString().substring(7)
+      //console.log("You chose: " + absolutePath)
+      sig_newWorkspace("Workspace 3", absolutePath + "/Workspace_3")
+    }
     onRejected: {console.log("Canceled")}
     visible: false
   }

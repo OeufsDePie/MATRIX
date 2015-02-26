@@ -75,7 +75,8 @@ class Workspace:
         assert (not self.qt_directory.exists()),\
                 "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
                 "Please give a non-existing directory (it will be created)"
-        self.qt_directory.mkpath(".")
+        assert (self.qt_directory.mkpath(".")), "The directory " +\
+                self.qt_directory.absolutePath() + " can not be created."
         self.subdirs = dict()
         self.subdirs["Configs"] = "Configuration folder"
         for subpath in self.subdirs:

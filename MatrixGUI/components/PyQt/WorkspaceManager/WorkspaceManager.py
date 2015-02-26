@@ -102,6 +102,19 @@ class Workspace:
         assert (scene_path in self.scenes), "That scene does not exist in this workspace."
         self.current_scene = scene_path
 
+    def __str__(self):
+        """ Change displaying of a workspace.
+
+        Example:
+            >>> print(workspace)
+        """
+        s = ["Workspace : " + self.name                     ,\
+             "   path          : " + self.path              ,\
+             "   current scene : " + self.current_scene     ,\
+             "   all scenes    : " + str(list(self.scenes.keys()))]
+        return "\n".join(s)
+
+
 class Scene:
     """ A scene containing all its images.
 
@@ -150,7 +163,7 @@ class Scene:
         s = ["Scene : " + self.name                       ,\
              "   workspace : " + self.workspace.name      ,\
              "   path      : " + self.path]
-        return ("\n".join(s))
+        return "\n".join(s)
 
 class Utils:
     """ Useful functions.

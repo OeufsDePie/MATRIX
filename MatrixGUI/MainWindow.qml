@@ -53,6 +53,7 @@ ApplicationWindow {
   FileDialog {
     id: newWorkspaceDialog
     title: "Please choose a folder"
+    selectFolder: true
     onAccepted: {console.log("You chose: " + newWorkspaceDialog.fileUrls)}
     onRejected: {console.log("Canceled")}
     visible: false

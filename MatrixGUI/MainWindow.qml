@@ -4,7 +4,8 @@ import QtQuick.Controls 1.3
 import PictureWidget 1.0
 import ReconstructionWidget 0.1
 import MenuWidget 0.1
-import QtQuick.Dialogs 1.0         // for the FileDialog
+import QtQuick.Dialogs 1.2         // for the FileDialog
+import QtQuick.Layouts 1.1
 
 ApplicationWindow {
   id: root
@@ -50,17 +51,35 @@ ApplicationWindow {
     onSig_menu_deleteScene:     sig_deleteScene()
   }
 
-  FileDialog {
+  Dialog {
     id: newWorkspaceDialog
-    title: "Please choose a folder"
-    selectFolder: true
-    onAccepted: {
-      var absolutePath = newWorkspaceDialog.folder.toString().substring(7)
-      //console.log("You chose: " + absolutePath)
-      sig_newWorkspace("Workspace 3", absolutePath + "/Workspace_3")
+    GridLayout{
+      columns: 2
+      Button{text: "Select Folder"; onClicked: selectFolderDialog.open()}
+      Text{id: folderSelected; text: ""}
+      Text{text: "Choose workspace name* :"}
+      TextEdit{id: workspaceName; text: "Workspace 1"}
+      Text{text: "*The name will be used to generate\nthe workspace repository"}
     }
-    onRejected: {console.log("Canceled")}
-    visible: false
+    standardButtons: StandardButton.Ok
+    onAccepted: {
+      sig_newWorkspace(workspaceName.text, folderSelected.text + "/" + workspaceName.text)
+    }
+
+    FileDialog {
+      id: selectFolderDialog
+      title: "Please choose a folder"
+      selectFolder: true
+      onAccepted: {
+        var absolutePath = selectFolderDialog.folder.toString().substring(7)
+        console.log("You chose: " + absolutePath)
+        folderSelected.text = absolutePath
+        //sig_newWorkspace("Workspace 3", absolutePath + "/Workspace_3")
+      }
+      onRejected: {console.log("Canceled")}
+      visible: false
+    }
+
   }
 
   /* May need a wrapper, we'll see later */

@@ -66,7 +66,7 @@ class Workspace:
             >>> ws = Workspace("ws1","/home/mpizenbe/matrix/ws1")
         """
         self.name = name
-        self.path = path
+        self.path = Utils.valid_name(path)
         if not self.path:
             self.path = Utils.valid_name(self.name)
         self.scenes = dict()

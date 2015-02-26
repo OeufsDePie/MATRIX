@@ -44,7 +44,7 @@ class Pygphoto(object):
         # We remove the trailing simple quotes ("'") 
         return filename.strip("'")
 
-     def query_file_list(self):
+    def query_file_list(self):
         '''Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
@@ -156,9 +156,33 @@ class Pygphoto(object):
         # The destination is 'output_dir/filename.suffix
         destination_path = os.path.normpath(os.path.join(output_dir, '%f.%C'))
 
-        command = [Pygphoto.GPHOTO, '--get-all-files', '--filename', destination_path]
+        command = [Pygphoto.GPHOTO,
+                   '--get-all-files',
+                   '--filename',
+                   destination_path]
         command.append('--force-overwrite')
         return subprocess.call(command)
+
+
+    def download_all_thumbnails(self, output_dir):
+        '''Download all the thumbnails for the files present on the camera
+
+        Overwrite any present file with the same names. Very fast.
+
+        '''
+        # Check that the output dir is a valid directory
+        if(not os.path.isdir(output_dir)):
+            return 1
+        # The destination is 'output_dir/filename.suffix
+        destination_path = os.path.normpath(os.path.join(output_dir, '%f.%C'))
+
+        command = [Pygphoto.GPHOTO,
+                   '--get-all-thumbnails',
+                   '--force-overwrite',
+                   '--filename', 
+                   destination_path]
+        return subprocess.call(command)
+
 
         
 if __name__ == '__main__':
@@ -171,13 +195,15 @@ if __name__ == '__main__':
     print '~~~~~~~~ _query_file_list'
     filelist = pygph.query_file_list()
     print '~~~~~~~~ download_file False'
-    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=False)
+    print pygph.download_file(filename, 'test', overwrite=False)
     print '~~~~~~~~ download_file False'
-    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=False)
+    print pygph.download_file(filename, 'test', overwrite=False)
     print '~~~~~~~~ download_file True'
-    print pygph.download_file(filename, os.path.abspath('test/'), overwrite=True)
+    print pygph.download_file(filename, 'test', overwrite=True)
+    print '~~~~~~~~ download_all_thumbnails'
+    print pygph.download_all_thumbnails('thumbnails')
     print '~~~~~~~~ download_files False'
-    print pygph.download_files(filelist, os.path.abspath('test/'), overwrite=False)
+    print pygph.download_files(filelist, 'test', overwrite=False)
     print '~~~~~~~~ download_all'
-    print pygph.download_all(os.path.abspath('test/'))
+    print pygph.download_all('test')
     # print pygph.download_file(3, 'test')

@@ -53,13 +53,9 @@ ApplicationWindow {
   FileDialog {
     id: newWorkspace
     title: "Please choose a folder"
-    onAccepted: {
-      console.log("You chose: " + newWorkspace.fileUrls)
-    }
-    onRejected: {
-      console.log("Canceled")
-    }
-    Component.onCompleted: visible = true
+    onAccepted: {console.log("You chose: " + newWorkspace.fileUrls)}
+    onRejected: {console.log("Canceled")}
+    visible: false
   }
 
   /* May need a wrapper, we'll see later */

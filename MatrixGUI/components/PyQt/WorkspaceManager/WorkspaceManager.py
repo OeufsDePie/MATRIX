@@ -63,6 +63,33 @@ class WorkspaceManager(object):
         if (self.current_workspace == workspace_path):
             self.current_workspace = ""
 
+    def get_current_workspace(self):
+        """ Get the current workspace.
+
+        Returns:
+            Workspace: The current workspace.
+
+        Raises:
+            AssertionError: If no current workspace.
+            AssertionError: If the current workspace has disappeared.
+        """
+        assert (self.current_workspace), "There is no current workspace."
+        assert (self.current_workspace in self.workspaces), "The current workspace is not reachable."
+        return self.workspaces[self.current_workspace]
+
+    def set_current_workspace(self, workspace_path):
+        """ Set the current workspace.
+
+        Args:
+            workspace_path (str): The absolute path of the workspace
+                    which will be the current workspace.
+
+        Raises:
+            AssertionError: If the workspace does not exist in the workspace manager.
+        """
+        assert (workspace_path in self.workspaces),\
+                "That workspace does not exist in this workspace."
+        self.current_workspace = workspace_path
 
 
 class Workspace:

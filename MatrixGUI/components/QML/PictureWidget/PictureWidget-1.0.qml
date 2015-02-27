@@ -9,9 +9,11 @@ Rectangle {
   property variant pictures
 
   /* Raised each time a picture is re-ordered */
-  signal pictureMoved(int indexFrom, int indexTo)
+  signal movePicture(int indexFrom, int indexTo)
   /* Raised when a picture is deleted/discarded */
-  signal pictureDiscarded(int index)
+  signal discardPicture(int index)
+  /* Raised when ordering a filter */
+  signal filterPictures(int status)
 
   width: 300
   /* First element is only a little picture viewer, as a box that contains an image  */
@@ -53,13 +55,7 @@ Rectangle {
     }
     /* Filter all pictures below */
     onCurrentIndexChanged: {
-      /* Clear the model */
-      listView.model.clear()
-
-      /* Populate the model; This will repaint components according to the new filter */
-      for(var i = 0; i < pictures.count; i++) {
-        listView.model.append(pictures.get(i));
-      }
+      filterPictures(filterModel.get(filters.currentIndex).value)
     }  
   }
 
@@ -91,7 +87,7 @@ Rectangle {
         id: listView
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: 0
-        model: ListModel {}
+        model: pictures
         clip: true
         delegate: pictureDelegate
         focus: true
@@ -105,17 +101,13 @@ Rectangle {
     id: pictureDelegate
     Item {
       id: pictureWrapper
-        
-      property int filter: filterModel.get(filters.currentIndex).value
-
-      height: visible ? pictureName.height : 0
+      height: pictureName.height
       width: pictureWidget.width
-      visible: filter == status || filter == -1
 
       /* Initialize the viewer with the first loaded element of the model */
       Component.onCompleted: {
         if(index == listView.currentIndex) {
-          viewer.source = image
+          viewer.source = path
         }
       }
       RowLayout {
@@ -152,7 +144,7 @@ Rectangle {
          anchors.fill: parent
          drag.axis: Drag.YAxis
          drag.minimumY: 0
-         drag.maximumY: listView.model.count * pictureWrapper.height
+         drag.maximumY: listView.model.count() * pictureWrapper.height
 
          onPressed: {
            positionStarted = pictureWrapper.y
@@ -172,31 +164,18 @@ Rectangle {
             pictureWrapper.y = positionStarted
             /* indexMoved == 0 means that the item wasn't drag, so it's considered as a click */
             if (indexMoved != 0) {
-              /* As some item are not visible, we have to find the good one */
-              var newIndex = index;
-              var moves = indexMoved; //In order to not unbind the property
-              var incr = indexMoved < 0 ? -1 : 1; //We can drag up or down
-              while(moves != 0) {
-                newIndex += incr;
-                var elem  = listView.model.get(newIndex)
-                if(!elem || elem.status == filter || filter == -1){
-                  moves -= incr;
-                }
-              }
-              /* Ensure that the index isn't out of bounds */
-              newIndex = Math.min(Math.max(0, newIndex), listView.model.count - 1);
+              /* Find the new index */
+              var newIndex = index + indexMoved
               
+              /* Ensure that the index isn't out of bounds */
+              newIndex = Math.min(Math.max(0, newIndex), listView.model.count() - 1);
+
               /* Send the corresponding signal */
-              pictureMoved(index, newIndex)
-              /* Now, newIndex holds the index new index of the moved item */
-              listView.model.move(index, newIndex, 1)
-/*              pictures.move(index, newIndex, 1)*/
-
-
+              movePicture(index, newIndex)
             } else {
               /* Only a click, so select the element in the viewer */
+              viewer.source = path
               listView.currentIndex = index
-              viewer.source = image
             }
           }
         }
@@ -211,4 +190,24 @@ Rectangle {
         y: listView.currentItem.y
       }
     }
-  }
+
+    function refreshModel() {
+      listView.model = [];
+      listView.model = pictures;
+    }
+
+    function pictureMoved(index){
+      refreshModel();
+      listView.currentIndex = index
+    }
+
+    function picturesFiltered(){
+      refreshModel();
+      /* Repaint the viewer if needed */
+      if(listView.currentItem){ 
+        listView.currentItem.Component.completed() 
+      } else {
+        viewer.source = ""
+      }
+    }
+}

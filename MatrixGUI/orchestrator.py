@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 #import interfaceReconstruction
 import sys, signal, os
-from OpenGL import GL
+#from OpenGL import GL
 from PyQt5.QtQuick import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *

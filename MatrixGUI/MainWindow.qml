@@ -53,17 +53,23 @@ ApplicationWindow {
 
   Dialog {
     id: newWorkspaceDialog
+    width: dialogGrid.width + 20
     GridLayout{
+      id: dialogGrid
+      width: 700
       columns: 2
-      Button{text: "Select Folder"; onClicked: selectFolderDialog.open()}
+      columnSpacing: 15
+      anchors.horizontalCenter: newWorkspaceDialog.anchors.horizontalCenter
+      Button{text: "Select Folder"; onClicked: selectFolderDialog.open(); Layout.fillWidth: true}
       Text{id: folderSelected; text: ""}
       Text{text: "Choose workspace name* :"}
       TextField{
         id: workspaceName;
         placeholderText: qsTr("Enter workspace name");
-        selectByMouse: true
+        selectByMouse: true;
+        Layout.fillWidth: true
       }
-      Text{text: "*The name will be used to generate\nthe workspace repository"}
+      Text{text: "*The name will be used to generate the workspace repository"; Layout.columnSpan: 2}
     }
     standardButtons: StandardButton.Ok
     onAccepted: {

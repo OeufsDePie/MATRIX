@@ -8,15 +8,15 @@ import QtQuick.Dialogs 1.0
 FileDialog {
   id: fileDialog
 
- // property alias selectedFolder: fileDialog.folder
-  folder: "/home/mbenkort/Documents/ProjeyLong/MATRIX/MatrixGUI/Workspace"
+  signal importPictures(variant picturesFiles)
+
+  property alias selectedFolder: fileDialog.folder
   selectMultiple: true
   selectFolder: false
   nameFilters: ["Image files (*.jpg *.png *.jpeg *.JPEG, *.JPG, *.PNG)"]
   title: "If you could choose pictures to import, that would be great."
-  onAccepted: {
-    console.log(fileDialog.fileUrls)
-    Qt.quit()
-  }
   Component.onCompleted: visible = true
+  onAccepted: {
+    importPictures(fileDialog.fileUrls)
+  }
 }

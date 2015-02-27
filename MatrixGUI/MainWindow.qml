@@ -4,6 +4,7 @@ import QtQuick.Controls 1.3
 import PictureWidget 1.0
 import ReconstructionWidget 0.1
 import MenuWidget 0.1
+import PictureFetcher 0.1
 
 ApplicationWindow {
   id: root
@@ -16,17 +17,20 @@ ApplicationWindow {
    * for reading purpose 
    */
 
-  /* PICTURE WIDGET SIGNALS/SLOTS */
+  /* PICTURE COMPONENT SIGNALS/SLOTS */
   signal sig_movePicture(int indexFrom, int indexTo)
   signal sig_discardPicture(int indexDelete)
   signal sig_filterPictures(int status)
   function slot_pictureMoved(index) { pictureWidget.pictureMoved(index) }
   function slot_picturesFiltered() { pictureWidget.picturesFiltered() }
 
-
-  /* RECONSTRUCTION WIDGET SIGNALS/SLOTS */
+  /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction
   function slot_addLog(logDate, logMessage) { reconstructionWidget.addLog(logDate, logMessage) }
+
+  /* FETCHER COMPONENT SIGNALS/SLOTS */
+  signal sig_importPictures(variant picturesFiles)
+  function slot_picturesImported(pictureModel) { pictureWidget.pictures = pictureModel }
 
   /* The menubar should rather be exported as a proper component */
   menuBar: MenuWidget {
@@ -41,13 +45,14 @@ ApplicationWindow {
     onMovePicture: sig_movePicture(indexFrom, indexTo)
     onFilterPictures: sig_filterPictures(status)
     onDiscardPicture: sig_discardPicture(indexDelete)
-    pictures: pictureModel
   }
 
 
   /* Wrapper for the reconstruction widget */
-  Rectangle {
+  Item {
+    id: wrapperReconstruction
     width: root.width - pictureWidget.width
+    height: reconstructionWidget.height
     anchors.left: pictureWidget.right
     ReconstructionWidget {
       id: reconstructionWidget
@@ -55,20 +60,28 @@ ApplicationWindow {
     }
   }
 
-  /* Temporary model for test, ideally, it should be supplied via context by the PyQt script */
-  ListModel {
-    id: pictureModel2
-    ListElement{pictureIndex: 0; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7100.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7100.JPG"}
-    ListElement{pictureIndex: 1; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7101.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7101.JPG"}
-    ListElement{pictureIndex: 2; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7102.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7102.JPG"}
-    ListElement{pictureIndex: 3; icon: "../../../Resources/Icons/delete.png"; status: "2"; name: "100_7103.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7103.JPG"}
-    ListElement{pictureIndex: 4; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7104.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7104.JPG"}
-    ListElement{pictureIndex: 5; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7105.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7105.JPG"}
-    ListElement{pictureIndex: 6; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7106.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7106.JPG"}
-    ListElement{pictureIndex: 7; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7107.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7107.JPG"}
-    ListElement{pictureIndex: 8; icon: "../../../Resources/Icons/reconstruction.png"; status: "1"; name: "100_7108.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7108.JPG"}
-    ListElement{pictureIndex: 8; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7109.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7109.JPG"}
-    ListElement{pictureIndex: 9; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7110.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7110.JPG"}
+  Rectangle {
+    width: 200
+    height: 50
+    color: "#1db7ff"
+    anchors.top: wrapperReconstruction.bottom
+    anchors.horizontalCenter: wrapperReconstruction.horizontalCenter
+    Text {
+      anchors.centerIn: parent
+      text: "Import Pictures"
+      color: "white"
+    }
+    MouseArea {
+      anchors.fill: parent
+      onPressed: {
+        var component = Qt.createQmlObject("
+          import QtQuick 2.0; import PictureFetcher 0.1; 
+            PictureFetcher {
+              selectedFolder: '" + thumbnailsPath + "'
+              onImportPictures: sig_importPictures(picturesFiles)
+            }
+          ", root);
+      }
+    }
   }
-
 }

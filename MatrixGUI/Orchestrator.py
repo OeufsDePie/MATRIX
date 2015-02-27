@@ -17,6 +17,7 @@ class Orchestrator(QObject):
   # Define all sendable signals
   pictureMoved = pyqtSignal(int)
   picturesFiltered = pyqtSignal()
+  picturesImported = pyqtSignal(QVariant)
 
   # Define All Usable Slots
   @pyqtSlot(int, int)
@@ -38,6 +39,12 @@ class Orchestrator(QObject):
     self.pictureManager.setFilterRegExp(regExp)
     self.picturesFiltered.emit()
 
+  @pyqtSlot(QVariant)
+  def importPictures(self, picturesFiles):
+    print(picturesFiles)
+    self.picturesImported.emit(self.pictureManager)
+
+
   def __init__(self): 
     super(Orchestrator, self).__init__()
     # Instantiate the app, and all attached logic modules
@@ -56,8 +63,10 @@ class Orchestrator(QObject):
     engine.addImportPath(self.QML_PACKAGE)
 
     # Temporary, model will be supplied by another module
+    thumbnailsPath = os.path.join(os.getcwd(), 'Workspace', 'project1', 'thumbnails')
     self.pictureManager = pictureModel.instantiateManager()
-    engine.rootContext().setContextProperty('pictureModel', self.pictureManager)
+    #engine.rootContext().setContextProperty('pictureModel', self.pictureManager)
+    engine.rootContext().setContextProperty('thumbnailsPath', thumbnailsPath)
 
     engine.load(QUrl(self.MAIN_VIEW))
     self.root = engine.rootObjects()[0]
@@ -75,6 +84,9 @@ class Orchestrator(QObject):
     self.root.sig_filterPictures.connect(self.filterPictures)
     self.pictureMoved.connect(self.root.slot_pictureMoved)
     self.picturesFiltered.connect(self.root.slot_picturesFiltered)
+
+    self.root.sig_importPictures.connect(self.importPictures)
+    self.picturesImported.connect(self.root.slot_picturesImported)
 
 if __name__ == '__main__':
   matrix = Orchestrator()

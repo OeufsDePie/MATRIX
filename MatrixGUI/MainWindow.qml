@@ -4,6 +4,7 @@ import QtQuick.Controls 1.3
 import PictureWidget 1.0
 import ReconstructionWidget 0.1
 import MenuWidget 0.1
+import FolderDialogWidget 0.1
 import QtQuick.Dialogs 1.2         // for the FileDialog
 import QtQuick.Layouts 1.1
 
@@ -76,18 +77,9 @@ ApplicationWindow {
       sig_newWorkspace(workspaceName.text, folderSelected.text + "/" + workspaceName.text)
     }
 
-    FileDialog {
+    FolderDialogWidget {
       id: selectFolderDialog
-      title: "Please choose a folder"
-      selectFolder: true
-      onAccepted: {
-        var absolutePath = selectFolderDialog.folder.toString().substring(7)
-        console.log("You chose: " + absolutePath)
-        folderSelected.text = absolutePath
-        //sig_newWorkspace("Workspace 3", absolutePath + "/Workspace_3")
-      }
-      onRejected: {console.log("Canceled")}
-      visible: false
+      target: folderSelected
     }
 
   }

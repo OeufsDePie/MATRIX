@@ -47,8 +47,22 @@ class Orchestrator(QObject):
         status  (int):  The status that should be filtered, according to PictureState
     """
     regExp = QRegExp(status != -1 and str(status) or "")
+    #TODO handle non discarded status
     self.pictureManager.setFilterRegExp(regExp)
     self.picturesFiltered.emit()
+
+  @pyqtSlot(QVariant, QVariant)
+  def newPictures(newPictures, deletedPictures):
+    """
+      Handle an update from the camera to manage new or deleted pictures.
+
+      Args:
+        newPictures (list<str>): A list of newly found pictures
+        deletedPictures (list<str>): A list of all previously existing pictures now deleted by user
+    """
+    #self.pictureModel.deleteThumbnails(deletedPictures)
+    #self.workspaceManager.deleteThumbnails(deletedPictures)
+    print("TODO")    
 
   @pyqtSlot(QVariant)
   def importPictures(self, picturesFiles):
@@ -68,27 +82,32 @@ class Orchestrator(QObject):
     super(Orchestrator, self).__init__()
     # Instantiate the app, and all attached logic modules
     self.app = QGuiApplication(sys.argv)
-    #iR = interfaceReconstruction.Ireconstruction("folderPly/","folderPhoto/")
     self.workspaceManager = WorkspaceManager()
     self.pictureModel = PictureModel(self.RESOURCES)
     self.pictureFetcher = Pygphoto()
+    #self.pictureFetcher.setActiveMode(True) # Default, watch for new files
+    #self.pictureFetcher.setWatchCamera(True) 
 
     # Initialize and configure all modules
     # Temporary, photos will be added by signals
     self.workspaceManager.setProjectPath("Workspace/project1/")
+    
 
     # Instantiate the view
     engine = QQmlApplicationEngine()
     engine.addImportPath(self.QML_PACKAGE)
 
-    # Temporary, model will be supplied by another module
-    thumbnailsPath = os.path.join(os.getcwd(), "Workspace", "project1", "thumbnails")
-    engine.rootContext().setContextProperty("thumbnailsPath", thumbnailsPath)
+#    # Temporary, model will be supplied by another module
+#    thumbnailsPath = os.path.join(os.getcwd(), "Workspace", "project1", "thumbnails")
+#    engine.rootContext().setContextProperty("thumbnailsPath", thumbnailsPath)
 
     engine.load(QUrl(self.MAIN_VIEW))
     self.root = engine.rootObjects()[0]
 
+    # Link every slots
     self.connectEverything()
+    
+    # Let's have fun !
     self.root.show()
 
   def connectEverything(self):
@@ -101,7 +120,10 @@ class Orchestrator(QObject):
     
     self.pictureMoved.connect(self.root.slot_pictureMoved)
     self.picturesFiltered.connect(self.root.slot_picturesFiltered)
+
     self.picturesImported.connect(self.root.slot_picturesImported)
+    #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
+    #self.pictureFetcher.newPictures(self.newPictures)
 
 if __name__ == "__main__":
   matrix = Orchestrator()

@@ -60,6 +60,13 @@ ApplicationWindow {
     }
   }
 
+  /* A Window for the picture */
+  PictureFetcher {
+    id: pictureFetcher
+    onImportPictures: sig_importPicture(picturesFiles)
+  }
+
+  /* Temporary button to manually import pictures */
   Rectangle {
     width: 200
     height: 50
@@ -73,15 +80,7 @@ ApplicationWindow {
     }
     MouseArea {
       anchors.fill: parent
-      onPressed: {
-        var component = Qt.createQmlObject("
-          import QtQuick 2.0; import PictureFetcher 0.1; 
-            PictureFetcher {
-              selectedFolder: '" + thumbnailsPath + "'
-              onImportPictures: sig_importPictures(picturesFiles)
-            }
-          ", root);
-      }
+      onPressed: pictureFetcher.open()
     }
   }
 }

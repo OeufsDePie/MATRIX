@@ -106,6 +106,20 @@ class WorkspaceManager(object):
         ws = self.get_current_workspace()
         ws.new_scene(name,path)
 
+    def delete_scene(self, scene_path):
+        """ Delete the scene identified by its path in the current workspace.
+
+        Args:
+            scene_path (str): The relative path of the scene to delete in the current workspace.
+
+        Raises:
+            AssertionError: If the scene directory does not exist or can not be deleted.
+        """
+        ws = self.get_current_workspace()
+        assert (scene_path in ws.scenes),\
+                "The scene "+ scene_path +" does not exist in the current workspace."
+        ws.delete_scene(scene_path)
+
 class Workspace:
     """ A workspace containing its own configuration and scenes.
 

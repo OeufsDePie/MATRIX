@@ -47,12 +47,11 @@ except AssertionError as e:
 
 # Test of deleting scenes
 print("\n######################## Deleting scenes ##########################")
-ws = wsm.get_current_workspace()
-ws.delete_scene("path_different")
+wsm.delete_scene("path_different")
 
 # Test of deleting a non-existing scene
 print("\n######################## Deleting scenes ##########################")
 try:
-    ws.delete_scene("path_different")
+    wsm.delete_scene("path_different")
 except AssertionError as e:
     print(e)

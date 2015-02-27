@@ -24,7 +24,7 @@ Dialog {
    }
    Text{text: "*The name will be used to generate the workspace repository"; Layout.columnSpan: 2}
   }
-  standardButtons: StandardButton.Ok
+  standardButtons: StandardButton.Cancel | StandardButton.Ok
   onAccepted: {
    sig_newWorkspace(workspaceName.text, folderSelected.text + "/" + workspaceName.text)
   }

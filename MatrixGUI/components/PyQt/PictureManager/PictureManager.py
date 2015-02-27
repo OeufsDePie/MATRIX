@@ -1,8 +1,7 @@
-from PyQt5.Qtcore import QAbstractListModel, Qt, QModelIndex, pyqtSlot, QObject
-from enum import Enum
+from PyQt5.QtCore import *
 import xml.etree.ElementTree as ET
-
-class PictureState(Enum):
+import os
+class PictureState():
   '''
     An Enumeration to handle all different state in which a picture may be
   '''
@@ -17,16 +16,79 @@ class Picture(object):
     structure and is used to manipulate photos as dataModel along the use of the application
   '''
 
-  def __init__(self, path, date, state = PictureState.NEW):
+  def __init__(self, resourcesPath, path, date = None, status = PictureState.NEW):
     '''
       Initialize a picture. 
       
-      path  -- path to the picture file (!TODO specified relative path) 
+      path  -- path to the picture file
       date  -- the date the photo has been taken 
-      state -- the state of the picture, see PictureState upon
+      status -- the status of the picture, see PictureState upon
     '''
-    self.path, self.date, self.state = path, date, state
+    self.path, self.date, self.status, self._resourcesPath = path, date, status, resourcesPath
     self.name = os.path.basename(self.path)
+
+  @pyqtProperty(str)
+  def icon(self):
+    return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
+
+class PictureManager(QSortFilterProxyModel):
+  @pyqtSlot(result=int)
+  def count(self):
+    '''
+      An alias to be used in QML as a property. We can't use the rowCount method
+      as it should remain available inside the class.
+    '''
+    return self.rowCount()
+
+  def move(self, initRow, finalRow):
+    '''
+      Move a row from an index to another. Exactly, put initRow after finalRow if moving up to down, 
+      and before finalRow if moving down to up
+      
+      initRow -- The starting index
+      finalRow -- The final index
+    '''
+    # Ensure the index is correct
+    if not initRow.isValid() or not finalRow.isValid():
+      return False
+
+    outOfBounds = lambda index, sup: index < 0 or index >= sup
+    if outOfBounds(initRow.row(), self.rowCount()) or outOfBounds(finalRow.row(), self.rowCount()):
+      return False
+
+    # Find the corresponding index in the real model
+    source = self.sourceModel()
+    initSourceRow = 0; finalSourceRow = 0
+    for i in range(0, source.rowCount()):
+      srcName = source.data(source.index(i), PictureModel.NAME_ROLE)
+      filterInitName = self.data(initRow, PictureModel.NAME_ROLE)
+      filterFinalName = self.data(finalRow, PictureModel.NAME_ROLE)
+      initSourceRow = srcName == filterInitName and i or initSourceRow
+      finalSourceRow = srcName == filterFinalName and i or finalSourceRow
+
+    initIndex = initRow.row()
+    finalIndex = finalRow.row()
+    if(initIndex < finalIndex):
+      # Moving downside. FinalIndex should be the index of initRow new child. 
+      finalIndex += 1
+      finalSourceRow += 1
+    elif(initIndex > finalIndex):
+      #Moving upside. We will insert a row before, so the index will be displaced
+      initSourceRow += 1
+    else:
+      # Both index are equal, do nothing, there is no move
+      return True
+
+    # Move picture from source model and notify the proxy
+    state = self.beginMoveRows(QModelIndex(), initIndex, initIndex, QModelIndex(), finalIndex)
+    source.insertRow(finalSourceRow)
+    source.setData(source.index(finalSourceRow),  \
+      source.data(source.index(initSourceRow), source.ITEM_ROLE), \
+      source.ITEM_ROLE)
+    source.removeRow(initSourceRow)
+    self.endMoveRows()
+
+    return state
 
 class PictureModel(QAbstractListModel):
   '''
@@ -36,10 +98,19 @@ class PictureModel(QAbstractListModel):
   PATH_ROLE = Qt.UserRole + 1
   NAME_ROLE = Qt.UserRole + 2
   DATE_ROLE = Qt.UserRole + 3
-  STATE_ROLE = Qt.UserRole + 4
-  _roles = {PATH_ROLE: 'path', NAME_ROLE: 'name', DATE_ROLE: 'date', STATE_ROLE: 'state'}
+  STATUS_ROLE = Qt.UserRole + 4
+  ICON_ROLE = Qt.UserRole + 5
+  ITEM_ROLE = Qt.UserRole + 50 # This role is related to the whole item / picture 
+  _roles = {
+    PATH_ROLE: 'path', 
+    NAME_ROLE: 'name', 
+    DATE_ROLE: 'date', 
+    STATUS_ROLE: 'status', 
+    ICON_ROLE: 'icon',
+    ITEM_ROLE: 'item'
+  }
 
-  def __init__(self, listPictures = [], parent = None)
+  def __init__(self, resourcesPath, listPictures = [], parent = None):
     ''' 
       Initialize a picture model
       
@@ -47,9 +118,22 @@ class PictureModel(QAbstractListModel):
       parent -- Parent Element; May remains None in our case
     '''
     super(PictureModel, self).__init__(parent)
+    self._resourcesPath = resourcesPath
     self._data = listPictures # Store as an attribute the pictures for future purpose
 
-  def data(self, index, role = PictureModel.NAME_ROLE):
+  def instantiateManager(self):
+    manager = PictureManager()
+    manager.setSourceModel(self)
+    manager.setFilterRole(self.STATUS_ROLE)
+    return manager
+
+  def insertRow(self, row, parent = QModelIndex()):
+    self.beginInsertRows(QModelIndex(), row, row)
+    self._data.insert(row, None)
+    self.endInsertRows()
+    return True
+
+  def data(self, index, role = NAME_ROLE):
     '''
       Retrieve a piece of information from an item (a picture) of the model
 
@@ -58,16 +142,21 @@ class PictureModel(QAbstractListModel):
     '''
     # Ensure the index
     if not index.isValid():
-      return None
+      return QVariant()
     elif index.row() > len(self._data):
-      return None
+      return QVariant()
   
     # Ensure the role
     if not role in PictureModel._roles:
-      return None
+      return QVariant()
 
     # Index and role are correct, retrieve the picture and send back the requested information
     picture = self._data[index.row()]
+    if picture == None:
+      return QVariant()
+
+    if(role == self.ITEM_ROLE):
+      return picture
     return getattr(picture, PictureModel._roles[role])
   
   def roleNames(self):
@@ -84,81 +173,49 @@ class PictureModel(QAbstractListModel):
       index -- The index where the picture should be inserted. If None, the picture will be
       appended at the end.
     '''
-    # Ensure Index
-    if not index.isValid():
-      return False
     # Append at the end
     if index == None:
-      self.beginInsertRows(QModelIndex(), len(self._data), len(self._data)):
+      self.beginInsertRows(QModelIndex(), len(self._data), len(self._data))
       self._data.append(picture)
       self.endInsertRows()
     # Insert in the list
     else:
+      # Ensure Index
+      if not index.isValid():
+        return False
       row = index.row()
       if row > len(self._data):
         return False
-      else
+      else:
         self.beginInsertRows(QModelIndex(), row, row)
         self._data.insert(row, picture)
         self.endInsertRows()
     return True
 
-  @pyqtSlot(QModelIndex)
-  def remove(self, index):
+  def removeRow(self, row, parent = QModelIndex()):
     '''
       Remove a picture from the model
 
-      index -- The picture's index (mdr lol)
+      row -- The picture's index
     '''
     # Ensure the index is correct
     if len(self._data) <= 0:
       return False
 
-    if not index.isValid():
+    if row < 0 or row >= self.rowCount():
       return False
   
     # Annihilate the item
-    row = index.row()
     self.beginRemoveRows(QModelIndex(), row, row)
     del self._data[row]
     self.endRemoveRows()
     return True
-
-  @pyqtSlot(QModelIndex, QModelIndex)
-  def move(self, initRow, finalRow) 
-    '''
-      Move a row from an index to another.
-      
-      initRow -- The starting index
-      finalRow -- The final index
-    '''
-    # Ensure index
-    if not initRow.isValid() or not finalRow.isValid()
-      return False
-
-    outOfBounds = lambda index, sup: index < 0 || index >= sup
-    if outOfBounds(initRow.row(), self.rowCount()) || outOfBounds(finalRow(), self.rowCount()):
-      return False
-
-    # Move picture
-    picture = self._data[initRow]
-    status = self.remove(initRow)
-    status = status and self.add(picture, finalRow)
-    return status
 
   def rowCount(self, parent = QModelIndex()):
     '''
       Return the number of element within that model
     '''
     return len(self._data)
-  
-  @pyqtProperty(int)
-  def size(self):
-    '''
-      An alias to be used in QML as a property. We can't use the rowCount method
-      as it should remain available inside the class.
-    '''
-    return self.rowCount()
 
   def setData(self, index, value, role):
     '''
@@ -172,13 +229,18 @@ class PictureModel(QAbstractListModel):
     if not index.isValid() or index.row() > self.rowCount() or not role in PictureModel._roles:
       return False
 
-    picture = self._data[index.row()]
-    setattr(picture, PictureModel._roles[role], value)
-    self.dataChanged(index, index)
+    if(role == self.ITEM_ROLE):
+      self._data[index.row()] = value
+    else:
+      picture = self._data[index.row()]
+      setattr(picture, PictureModel._roles[role], value)
+
+    self.dataChanged.emit(index, index, [role])
     return True
 
   def printData(self):
-    print(self._data)
+    for picture in self._data:
+      print (picture == None and "-----" or str(picture.status) + " - " + picture.name)
     
   def addFromXML(self, xmlPath):
     '''
@@ -186,10 +248,10 @@ class PictureModel(QAbstractListModel):
     
       xmlPath -- The path to the XML model file
     '''
-    root = ET.parse(xmlPath).getroot()
+    root = ET.parse(xmlPath).getroot()     
     listPictures = []
-    for child in root
+    for child in root:
       #name = child.attrib['name']
       path = child.text
-      self.add(Picture(path))
-      xmlPath -- The path to the xml file
+      status = child.attrib['status']
+      self.add(Picture(self._resourcesPath, path, status = status))

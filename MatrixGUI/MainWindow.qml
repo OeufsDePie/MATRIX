@@ -11,16 +11,18 @@ ApplicationWindow {
   width: 800  //Screen.desktopAvailableWidth
   height: 600 //Screen.desktopAvailableHeight
 
-  property alias pictures: pictureWidget.pictures
-
   /*
    * All signals and slot are aliased here. Thus, they are easier to catch in PyQt, and are gather 
    * for reading purpose 
    */
 
   /* PICTURE WIDGET SIGNALS/SLOTS */
-  signal sig_pictureMoved
-  signal sig_pictureDiscarded
+  signal sig_movePicture(int indexFrom, int indexTo)
+  signal sig_discardPicture(int indexDelete)
+  signal sig_filterPictures(int status)
+  function slot_pictureMoved(index) { pictureWidget.pictureMoved(index) }
+  function slot_picturesFiltered() { pictureWidget.picturesFiltered() }
+
 
   /* RECONSTRUCTION WIDGET SIGNALS/SLOTS */
   signal sig_launchReconstruction
@@ -36,10 +38,12 @@ ApplicationWindow {
     id: pictureWidget
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    onPictureDiscarded: sig_pictureDiscarded()
-    onPictureMoved: sig_pictureMoved()
+    onMovePicture: sig_movePicture(indexFrom, indexTo)
+    onFilterPictures: sig_filterPictures(status)
+    onDiscardPicture: sig_discardPicture(indexDelete)
     pictures: pictureModel
   }
+
 
   /* Wrapper for the reconstruction widget */
   Rectangle {
@@ -53,7 +57,7 @@ ApplicationWindow {
 
   /* Temporary model for test, ideally, it should be supplied via context by the PyQt script */
   ListModel {
-    id: pictureModel
+    id: pictureModel2
     ListElement{pictureIndex: 0; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7100.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7100.JPG"}
     ListElement{pictureIndex: 1; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7101.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7101.JPG"}
     ListElement{pictureIndex: 2; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7102.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7102.JPG"}

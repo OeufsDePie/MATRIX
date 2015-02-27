@@ -41,7 +41,6 @@ class Orchestrator(QObject):
 
   @pyqtSlot(QVariant)
   def importPictures(self, picturesFiles):
-    print(picturesFiles)
     self.picturesImported.emit(self.pictureManager)
 
 
@@ -65,7 +64,6 @@ class Orchestrator(QObject):
     # Temporary, model will be supplied by another module
     thumbnailsPath = os.path.join(os.getcwd(), 'Workspace', 'project1', 'thumbnails')
     self.pictureManager = pictureModel.instantiateManager()
-    #engine.rootContext().setContextProperty('pictureModel', self.pictureManager)
     engine.rootContext().setContextProperty('thumbnailsPath', thumbnailsPath)
 
     engine.load(QUrl(self.MAIN_VIEW))

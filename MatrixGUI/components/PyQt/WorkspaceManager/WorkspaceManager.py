@@ -87,8 +87,8 @@ class WorkspaceManager(object):
         Raises:
             AssertionError: If the workspace does not exist in the workspace manager.
         """
-        assert (workspace_path in self.workspaces),\
-                "That workspace does not exist in this workspace."
+        assert (workspace_path in self.workspaces), "The workspace " +\
+                workspace_path + "does not exist in this workspace manager."
         self.current_workspace = workspace_path
 
 
@@ -154,16 +154,18 @@ class Workspace:
                 "The directory " + self.qt_directory.absolutePath() + " can not be deleted."
 
 
-    def new_scene(self, scene):
+    def new_scene(self, name="", path=""):
         """ Add a new scene to the workspace.
 
         Args:
-            scene (Scene): The new scene
+            name (str): The name of the new scene
+            path (str): The local path of the scene (inside workspace)
 
         Raises:
             AssertionError: If a scene with the same path already exists.
         """
-        assert (scene.path not in self.scenes), "A scene with that path already exists."
+        assert (path not in self.scenes), "A scene with that path already exists."
+        scene = Scene(self, name, path)
         self.scenes[scene.path] = scene
         self.set_current_scene(scene.path)
 
@@ -245,10 +247,9 @@ class Scene:
         self.name = name
         if not name:
             self.name = "scene_" + str(len(workspace.scenes))
-        self.path = path
-        if not path:
+        self.path = Utils.valid_name(path)
+        if not self.path:
             self.path = Utils.valid_name(self.name)
-        workspace.new_scene(self)
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.

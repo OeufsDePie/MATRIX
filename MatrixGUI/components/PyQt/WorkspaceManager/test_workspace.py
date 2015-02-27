@@ -30,3 +30,11 @@ print(wsm.current_workspace)
 print("\n######################## Deleting the current workspace ##########################")
 wsm.delete_workspace(wsm.current_workspace)
 print(wsm.current_workspace)
+
+# Test of creating scenes
+print("\n######################## Creating scenes ##########################")
+wsm.set_current_workspace('/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI/Workspace_2')
+ws = wsm.get_current_workspace()
+ws.new_scene("Première scene")
+ws.new_scene()
+ws.new_scene("Scene avec path différent", "path_différent")

@@ -11,7 +11,16 @@ class WorkspaceManager(object):
     Will handle all interactions between user and modules and the working space.
     This class is responsible for managing files inside the workspace and for
     communicating any change through signals.
+
+    Attributes:
+        workspaces (dict(str,Workspace)): All the workspaces
+        current_workspace (str): The current workspace
     """
+    def __init__(self):
+        """Initialize a workspace manager.
+        """
+        self.workspaces = dict()
+        self.current_workspace = ""
 
     def setProjectPath(self, projectPath):
         '''
@@ -33,10 +42,27 @@ class WorkspaceManager(object):
 
         Args:
             name (str): The name of the workspace.
-            path (str): The path of the workspace. Default is "".
+            path (str): The absolute path of the workspace. Default is "".
         """
         ws = Workspace(name,path)
+        self.workspaces[path] = ws
+        self.current_workspace = path
         print(ws)
+
+    def delete_workspace(self, workspace_path):
+        """ Delete the workspace identified by its abolute path.
+
+        Args:
+            workspace_path (str): The absolute path of the workspace to delete.
+
+        Raises:
+            AssertionError: If the workspace directory does not exist or can not be deleted.
+        """
+        self.workspaces[workspace_path].delete()
+        del self.workspaces[workspace_path]
+        if (self.current_workspace == workspace_path):
+            self.current_workspace = ""
+
 
 
 class Workspace:
@@ -81,6 +107,25 @@ class Workspace:
         self.subdirs["Configs"] = "Configuration folder"
         for subpath in self.subdirs:
             self.qt_directory.mkpath(subpath)
+
+    def delete(self):
+        """ Delete the workspace (and its contents).
+
+        It must not be called by itself but by the workspace manager !
+
+        Raises:
+            AssertionError: If the workspace directory does not exist or can not be deleted.
+        """
+        # Deleting the scenes
+        self.current_scene = ""
+        for scene_path in self.scenes:
+            self.delete_scene(scene_path)
+        # Deleting the workspace directory
+        assert (self.qt_directory.exists()),\
+                "The directory " + self.qt_directory.absolutePath() + " does not exists."
+        assert (self.qt_directory.removeRecursively()),\
+                "The directory " + self.qt_directory.absolutePath() + " can not be deleted."
+
 
     def new_scene(self, scene):
         """ Add a new scene to the workspace.

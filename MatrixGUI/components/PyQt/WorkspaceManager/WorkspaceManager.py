@@ -1,4 +1,5 @@
 import os
+import xml.etree.cElementTree as ET
 
 class WorkspaceManager(object):
   '''
@@ -21,3 +22,14 @@ class WorkspaceManager(object):
       pictures on the project.
     '''
     return os.path.join(self.projectPath, "pictures.xml")
+
+  def generateModel(self, picturesFiles):
+    root = ET.Element("pictures")
+    for url in picturesFiles:
+      ET.SubElement(root, "picture", status="0").text = url.path() 
+      ET.SubElement(root, "picture", status="1").text = url.path() 
+      ET.SubElement(root, "picture", status="2").text = url.path() 
+      ET.SubElement(root, "picture", status="3").text = url.path() 
+
+    tree = ET.ElementTree(root)
+    tree.write(self.pictureModelPath())

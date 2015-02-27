@@ -41,6 +41,9 @@ class Orchestrator(QObject):
 
   @pyqtSlot(QVariant)
   def importPictures(self, picturesFiles):
+    self.workspaceManager.generateModel(picturesFiles)
+    self.pictureModel.addFromXML(self.workspaceManager.pictureModelPath())
+    self.pictureManager = self.pictureModel.instantiateManager()
     self.picturesImported.emit(self.pictureManager)
 
 
@@ -50,12 +53,11 @@ class Orchestrator(QObject):
     app = QGuiApplication(sys.argv)
     #iR = interfaceReconstruction.Ireconstruction('folderPly/','folderPhoto/')
     self.workspaceManager = WorkspaceManager()
-    pictureModel = PictureModel(self.RESOURCES)
+    self.pictureModel = PictureModel(self.RESOURCES)
 
     # Initialize and configure all modules
     # Temporary, photos will be added by signals
-    self.workspaceManager.setProjectPath('Workspace/testPics/')
-    pictureModel.addFromXML(self.workspaceManager.pictureModelPath())
+    self.workspaceManager.setProjectPath('Workspace/project1/')
 
     # Instantiate the view
     engine = QQmlApplicationEngine()
@@ -63,7 +65,6 @@ class Orchestrator(QObject):
 
     # Temporary, model will be supplied by another module
     thumbnailsPath = os.path.join(os.getcwd(), 'Workspace', 'project1', 'thumbnails')
-    self.pictureManager = pictureModel.instantiateManager()
     engine.rootContext().setContextProperty('thumbnailsPath', thumbnailsPath)
 
     engine.load(QUrl(self.MAIN_VIEW))

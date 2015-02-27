@@ -1,4 +1,4 @@
-import os
+import os, random, math
 import xml.etree.cElementTree as ET
 
 class WorkspaceManager(object):
@@ -26,10 +26,8 @@ class WorkspaceManager(object):
   def generateModel(self, picturesFiles):
     root = ET.Element("pictures")
     for url in picturesFiles:
-      ET.SubElement(root, "picture", status="0").text = url.path() 
-      ET.SubElement(root, "picture", status="1").text = url.path() 
-      ET.SubElement(root, "picture", status="2").text = url.path() 
-      ET.SubElement(root, "picture", status="3").text = url.path() 
+      status = str(int(math.floor(4*random.random())))
+      ET.SubElement(root, "picture", status=status).text = url.path() 
 
     tree = ET.ElementTree(root)
     tree.write(self.pictureModelPath())

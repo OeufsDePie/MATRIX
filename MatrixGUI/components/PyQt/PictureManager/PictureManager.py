@@ -79,6 +79,8 @@ class PictureManager(QSortFilterProxyModel):
       # Both index are equal, do nothing, there is no move
       return True
 
+    print(initIndex, finalIndex)
+    print(initSourceRow, finalSourceRow)
     # Move picture from source model and notify the proxy
     state = self.beginMoveRows(QModelIndex(), initIndex, initIndex, QModelIndex(), finalIndex)
     source.insertRow(finalSourceRow)

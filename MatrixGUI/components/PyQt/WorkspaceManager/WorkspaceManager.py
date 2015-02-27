@@ -91,6 +91,18 @@ class WorkspaceManager(object):
                 workspace_path + "does not exist in this workspace manager."
         self.current_workspace = workspace_path
 
+    def new_scene(self, name="", path=""):
+        """ Create a new scene in the current workspace.
+
+        Args:
+            name (str): The name of the scene.
+            path (str): The local path of the scene in the workspace.
+
+        Raises:
+            AssertionError: If there is no current workspace or the scene already exists.
+        """
+        ws = self.get_current_workspace()
+        ws.new_scene(name,path)
 
 class Workspace:
     """ A workspace containing its own configuration and scenes.

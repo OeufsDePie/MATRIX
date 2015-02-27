@@ -58,6 +58,8 @@ class WorkspaceManager(object):
         Raises:
             AssertionError: If the workspace directory does not exist or can not be deleted.
         """
+        assert (workspace_path in self.workspaces),\
+                "The workspace "+ workspace_path +" does not exist in the workspace manager."
         self.workspaces[workspace_path].delete()
         del self.workspaces[workspace_path]
         if (self.current_workspace == workspace_path):
@@ -187,6 +189,9 @@ class Workspace:
         Args:
             scene_path (str): The path (relatively to the workspace) of the scene to delete.
         """
+        assert (scene_path in self.scenes),\
+                "The scene "+ scene_path +" does not exist in the workspace."
+        self.scenes[scene_path].delete()
         del self.scenes[scene_path]
         if (self.current_scene == scene_path):
             self.current_scene = ""
@@ -265,8 +270,10 @@ class Scene:
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.
+
+        It must not be called by itself but by the workspace !
         """
-        self.workspace.delete_scene(self.path)
+        pass
 
     def __str__(self):
         """ Change displaying of a scene.

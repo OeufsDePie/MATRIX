@@ -37,3 +37,22 @@ wsm.set_current_workspace('/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matth
 wsm.new_scene("Première scene")
 wsm.new_scene()
 wsm.new_scene("Scene avec path différent", "path_différent")
+
+# Test of creating a scene already existing
+print("\n######################## Creating a scene already existing ##########################")
+try:
+    wsm.new_scene("Scene avec path différent", "path_différent")
+except AssertionError as e:
+    print(e)
+
+# Test of deleting scenes
+print("\n######################## Deleting scenes ##########################")
+ws = wsm.get_current_workspace()
+ws.delete_scene("path_different")
+
+# Test of deleting a non-existing scene
+print("\n######################## Deleting scenes ##########################")
+try:
+    ws.delete_scene("path_different")
+except AssertionError as e:
+    print(e)

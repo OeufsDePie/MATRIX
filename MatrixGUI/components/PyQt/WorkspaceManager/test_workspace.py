@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import WorkspaceManager
 from WorkspaceManager import *
 
@@ -47,11 +48,11 @@ except AssertionError as e:
 
 # Test of deleting scenes
 print("\n######################## Deleting scenes ##########################")
-wsm.delete_scene("path_different")
+wsm.delete_scene(os.path.join(wsm.current_workspace,"path_different"))
 
 # Test of deleting a non-existing scene
 print("\n######################## Deleting scenes ##########################")
 try:
-    wsm.delete_scene("path_different")
+    wsm.delete_scene(os.path.join(wsm.current_workspace,"path_different"))
 except AssertionError as e:
     print(e)

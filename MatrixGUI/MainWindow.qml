@@ -1,9 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.3
-import PictureWidget 1.0
-import ReconstructionWidget 0.1
-import MenuWidget 0.1
+import PictureManager 1.0
+import Reconstruction 0.1
+import Menu 0.1
 import PictureFetcher 0.1
 
 ApplicationWindow {
@@ -21,25 +21,25 @@ ApplicationWindow {
   signal sig_movePicture(int indexFrom, int indexTo)
   signal sig_discardPicture(int indexDelete)
   signal sig_filterPictures(int status)
-  function slot_pictureMoved(index) { pictureWidget.pictureMoved(index) }
-  function slot_picturesFiltered() { pictureWidget.picturesFiltered() }
+  function slot_pictureMoved(index) { pictureManager.pictureMoved(index) }
+  function slot_picturesFiltered() { pictureManager.picturesFiltered() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction
-  function slot_addLog(logDate, logMessage) { reconstructionWidget.addLog(logDate, logMessage) }
+  function slot_addLog(logDate, logMessage) { reconstruction.addLog(logDate, logMessage) }
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
-  function slot_picturesImported(pictureModel) { pictureWidget.pictures = pictureModel }
+  function slot_picturesImported(pictureModel) { pictureManager.pictures = pictureModel }
 
   /* The menubar should rather be exported as a proper component */
-  menuBar: MenuWidget {
-    id: menuWidget
+  menuBar: Menu {
+    id: menu
   }
 
   /* May need a wrapper, we'll see later */
-  PictureWidget {
-    id: pictureWidget
+  PictureManager {
+    id: pictureManager
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     onMovePicture: sig_movePicture(indexFrom, indexTo)
@@ -51,15 +51,22 @@ ApplicationWindow {
   /* Wrapper for the reconstruction widget */
   Item {
     id: wrapperReconstruction
-    width: root.width - pictureWidget.width
-    height: reconstructionWidget.height
-    anchors.left: pictureWidget.right
-    ReconstructionWidget {
-      id: reconstructionWidget
+    width: root.width - pictureManager.width
+    height: reconstruction.height
+    anchors.left: pictureManager.right
+    Reconstruction {
+      id: reconstruction
       onLaunchReconstruction: sig_launchReconstruction()
     }
   }
 
+  /* A Window for the picture */
+  PictureFetcher {
+    id: pictureFetcher
+    onImportPictures: sig_importPicture(picturesFiles)
+  }
+
+  /* Temporary button to manually import pictures */
   Rectangle {
     width: 200
     height: 50
@@ -73,15 +80,7 @@ ApplicationWindow {
     }
     MouseArea {
       anchors.fill: parent
-      onPressed: {
-        var component = Qt.createQmlObject("
-          import QtQuick 2.0; import PictureFetcher 0.1; 
-            PictureFetcher {
-              selectedFolder: '" + thumbnailsPath + "'
-              onImportPictures: sig_importPictures(picturesFiles)
-            }
-          ", root);
-      }
+      onPressed: pictureFetcher.open()
     }
   }
 }

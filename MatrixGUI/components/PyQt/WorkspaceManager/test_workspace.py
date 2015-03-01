@@ -7,13 +7,13 @@ wsm = WorkspaceManager()
 
 # Test workspace creation
 print("\n######################## Creating new workspaces ##########################")
-wsm.new_workspace("Workspace 1", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI/Workspace_1")
-wsm.new_workspace("Workspace 2", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI/Workspace_2")
+wsm.new_workspace("Workspace 1", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI")
+wsm.new_workspace("Workspace 2", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI")
 
 # Test already existing workspace
 print("\n######################## Creating a workspace that already exists ##########################")
 try:
-    wsm.new_workspace("Workspace 12", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI/Workspace_1")
+    wsm.new_workspace("Workspace 1", "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/MatrixGUI")
 except AssertionError as e:
     print(e)
 

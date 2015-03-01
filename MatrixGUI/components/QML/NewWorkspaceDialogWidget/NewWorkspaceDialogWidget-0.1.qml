@@ -26,7 +26,7 @@ Dialog {
   }
   standardButtons: StandardButton.Cancel | StandardButton.Ok
   onAccepted: {
-   sig_newWorkspace(workspaceName.text, folderSelected.text + "/" + workspaceName.text)
+   sig_newWorkspace(workspaceName.text, folderSelected.text)
   }
 
   FolderDialogWidget {

@@ -38,8 +38,9 @@ class WorkspaceManager(object):
 
         Args:
             name (str): The name of the workspace.
-            path (str): The absolute path of the workspace. Default is "".
+            path (str): The absolute path of the directory that will contain the new workspace.
         """
+        path = os.path.join(path,name)
         ws = Workspace(name,path)
         self.workspaces[ws.path] = ws
         self.current_workspace = ws.path

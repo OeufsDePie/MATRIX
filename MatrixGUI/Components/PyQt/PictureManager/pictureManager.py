@@ -50,6 +50,10 @@ class PictureManager(QSortFilterProxyModel):
     """
     return self.rowCount()
 
+  @pyqtSlot(int, result=str)
+  def getName(self, index):
+    return self.sourceModel().data(self.sourceModel().index(index), PictureModel.NAME_ROLE)
+
   def move(self, initRow, finalRow):
     """
       Move a row from an index to another. Exactly, put initRow after finalRow if moving up to down, 

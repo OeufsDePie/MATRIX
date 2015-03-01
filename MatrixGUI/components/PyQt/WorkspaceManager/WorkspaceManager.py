@@ -1,9 +1,5 @@
 import os
-import unicodedata
-import string
-import re                 # regular expressions
-########## PyQt5 imports
-from PyQt5.QtCore import QDir
+from Workspace import Workspace
 
 class WorkspaceManager(object):
     """ Manages the workspace.
@@ -45,8 +41,8 @@ class WorkspaceManager(object):
             path (str): The absolute path of the workspace. Default is "".
         """
         ws = Workspace(name,path)
-        self.workspaces[path] = ws
-        self.current_workspace = path
+        self.workspaces[ws.path] = ws
+        self.current_workspace = ws.path
         print(ws)
 
     def delete_workspace(self, workspace_path):
@@ -98,7 +94,7 @@ class WorkspaceManager(object):
 
         Args:
             name (str): The name of the scene.
-            path (str): The local path of the scene in the workspace.
+            path (str): The relative path of the scene in the workspace.
 
         Raises:
             AssertionError: If there is no current workspace or the scene already exists.
@@ -119,238 +115,3 @@ class WorkspaceManager(object):
         assert (scene_path in ws.scenes),\
                 "The scene "+ scene_path +" does not exist in the current workspace."
         ws.delete_scene(scene_path)
-
-class DirectorySpace:
-    """ A space based on a directory in the file system.
-
-    Attributes:
-        name (str): The name of the space.
-        path (str): The path of the space.
-        subdirs (dict(str,str)): The useful subdirectories (path,name).\
-                The paths are the keys
-        qt_directory (QDir): The directory corresponding to that workspace
-    """
-
-    def __init__(self, name="", path=""):
-        """Initialize a DirectorySpace.
-
-        Args:
-            name (str): The name of the directory space. Default is "".
-            path (str): The path of the directory space. Default is "".
-
-        Raises:
-            AssertionError: If a directory with that path already exists.
-        """
-        self.name = name
-        self.path = Utils.valid_name(path)
-        if not self.path:
-            self.path = Utils.valid_name(self.name)
-        self.qt_directory = QDir(self.path)
-        assert (not self.qt_directory.exists()),\
-                "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
-                "Please give a non-existing directory (it will be created)"
-        assert (self.qt_directory.mkpath(".")), "The directory " +\
-                self.qt_directory.absolutePath() + " can not be created."
-        self.subdirs = dict()
-
-    def delete(self):
-        """ Delete the directory space (and its contents).
-
-        Raises:
-            AssertionError: If the directory does not exist or can not be deleted.
-        """
-        # Deleting the workspace directory
-        assert (self.qt_directory.exists()),\
-                "The directory " + self.qt_directory.absolutePath() + " does not exists."
-        assert (self.qt_directory.removeRecursively()),\
-                "The directory " + self.qt_directory.absolutePath() + " can not be deleted."
-
-
-class Workspace(DirectorySpace):
-    """ A workspace containing its own configuration and scenes.
-
-    Attributes:
-        name (str): The name of the workspace.
-        path (str): The path of the workspace.
-        subdirs (dict(str,str)): The useful subdirectories (path,name)
-        scenes (dict(str,Scene)): The dictionnary of the scenes it contains.
-            Keys are the scene paths.
-        current_scene (str): The path of the current scene
-        qt_directory (QDir): The directory corresponding to that workspace
-    """
-
-    def __init__(self, name="", path=""):
-        """Initialize a workspace.
-
-        Args:
-            name (str): The name of the workspace. Default is "".
-            path (str): The path of the workspace. Default is "".
-
-        Raises:
-            AssertionError: If a directory with that path already exists.
-
-        Examples:
-            >>> ws = Workspace("ws1","/home/mpizenbe/matrix/ws1")
-        """
-        super().__init__(name,path)
-        self.subdirs["Configs"] = "Configuration folder"
-        for subpath in self.subdirs:
-            self.qt_directory.mkpath(subpath)
-        self.scenes = dict()
-        self.current_scene = ""
-
-    def delete(self):
-        """ Delete the workspace (and its contents).
-
-        It must not be called by itself but by the workspace manager !
-
-        Raises:
-            AssertionError: If the workspace directory does not exist or can not be deleted.
-        """
-        # Deleting the scenes
-        self.current_scene = ""
-        for scene_path in self.scenes:
-            self.delete_scene(scene_path)
-        # Deleting the workspace directory
-        super().delete()
-
-
-    def new_scene(self, name="", path=""):
-        """ Add a new scene to the workspace.
-
-        Args:
-            name (str): The name of the new scene
-            path (str): The local path of the scene (inside workspace)
-
-        Raises:
-            AssertionError: If a scene with the same path already exists.
-        """
-        assert (path not in self.scenes), "A scene with that path already exists."
-        scene = Scene(self, name, path)
-        self.scenes[scene.path] = scene
-        self.set_current_scene(scene.path)
-
-    def delete_scene(self, scene_path):
-        """ Delete the scene identified by its local path.
-
-        Args:
-            scene_path (str): The path (relatively to the workspace) of the scene to delete.
-        """
-        assert (scene_path in self.scenes),\
-                "The scene "+ scene_path +" does not exist in the workspace."
-        self.scenes[scene_path].delete()
-        del self.scenes[scene_path]
-        if (self.current_scene == scene_path):
-            self.current_scene = ""
-
-    def get_current_scene(self):
-        """ Get the current scene of the workspace.
-
-        Returns:
-            Scene: The current scene.
-
-        Raises:
-            AssertionError: If no current scene.
-            AssertionError: If the current scene has disappeared.
-        """
-        assert (self.current_scene), "There is no current scene."
-        assert (self.current_scene in self.scenes), "The current scene is not reachable."
-        return self.scenes[self.current_scene]
-
-    def set_current_scene(self, scene_path):
-        """ Set the current scene.
-
-        Args:
-            scene_path (str): The path of the scene which will be the current scene.
-
-        Raises:
-            AssertionError: If the scene does not exist in the workspace.
-        """
-        assert (scene_path in self.scenes), "That scene does not exist in this workspace."
-        self.current_scene = scene_path
-
-    def __str__(self):
-        """ Change displaying of a workspace.
-
-        Example:
-            >>> print(workspace)
-        """
-        s = ["Workspace : " + self.name                     ,\
-             "   path          : " + self.path              ,\
-             "   current scene : " + self.current_scene     ,\
-             "   all scenes    : " + str(list(self.scenes.keys()))]
-        return "\n".join(s)
-
-
-class Scene(DirectorySpace):
-    """ A scene containing all its images.
-
-    Attributes:
-        workspace (Workspace): The workspace containing the scene.
-        name (str): The name of the scene. It must be unique in the workspace.
-            For example : "Shooting ENSEEIHT".
-            Default is "scene_n" where n is the current number of scenes in workspace.
-        path (str): The absolute path of the scene.
-    """
-
-    def __init__(self, workspace, name="", path=""):
-        """ Initialize a scene in a workspace.
-
-        Args:
-            workspace (Workspace): The parent workspace.
-            name (str): The name of the scene
-            path (str): The path relatively to the current workspace
-
-        Examples:
-            >>> sc = Scene(ws)
-            >>> sc = Scene(ws, "Shooting ENSEEIHT")
-            >>> sc = Scene(ws, "Shooting ENSEEIHT", "shoot_n7")
-        """
-        self.workspace = workspace
-        if not name:
-            name = "scene_" + str(len(workspace.scenes))
-        path = Utils.valid_name(path)
-        if not path:
-            path = Utils.valid_name(name)
-        super().__init__(name,workspace.path +"/"+path)
-
-    def delete(self):
-        """ Delete the scene and remove its access from the workspace.
-
-        It must not be called by itself but by the workspace !
-        """
-        super().delete()
-
-    def __str__(self):
-        """ Change displaying of a scene.
-
-        Example:
-            >>> print(scene)
-        """
-        s = ["Scene : " + self.name                       ,\
-             "   workspace : " + self.workspace.name      ,\
-             "   path      : " + self.path]
-        return "\n".join(s)
-
-class Utils:
-    """ Useful functions.
-    """
-
-    def valid_name(s):
-        """ Transform a string in order to get a valid filename
-
-        This method may produce invalid filenames such as "."
-        """
-        # the authorized characters
-        valid_chars = "-_.()/ %s%s" % (string.ascii_letters, string.digits)
-        # tranform to authorized characters
-        valid_string = ''.join(c for c in unicodedata.normalize('NFKD',s) if c in valid_chars)
-        # remove spaces at the extremities
-        valid_string = valid_string.strip()
-        # replace spaces by underscores
-        valid_string  = valid_string.replace(" ","_")
-        # remove multiple spaces and others
-        valid_string = re.sub('\.+','\.',valid_string)
-        valid_string = re.sub('-+','-',valid_string)
-        valid_string = re.sub('_+','_',valid_string)
-        return valid_string

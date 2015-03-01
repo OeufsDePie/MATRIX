@@ -1,7 +1,7 @@
 import os
 from Workspace import Workspace
 
-class WorkspaceManager(object):
+class WorkspaceManager():
     """ Manages the workspace.
 
     Will handle all interactions between user and modules and the working space.

@@ -6,7 +6,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtQml import *
 from components.PyQt.PictureManager.PictureManager import *
-from components.PyQt.WorkspaceManager.WorkspaceManager import *
+from components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 
 MAIN_VIEW = './MainWindow.qml'
 QML_PACKAGE = './components/QML'

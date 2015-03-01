@@ -29,13 +29,13 @@ class Picture(object):
     self.name = os.path.basename(self.path)
 
   @pyqtProperty(str)
-  """
-    Retrieve the icon corresponding to the picture's status
-
-    Returns: 
-      str: The path to the icon file. 
-  """
   def icon(self):
+    """
+      Retrieve the icon corresponding to the picture's status
+
+      Returns: 
+        str: The path to the icon file. 
+    """
     return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
 
 class PictureManager(QSortFilterProxyModel):

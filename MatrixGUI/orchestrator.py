@@ -1,14 +1,14 @@
 #! /usr/bin/python3
 #import interfaceReconstruction
 import sys, signal, os
-#from OpenGL import GL
+from OpenGL import GL
 from PyQt5.QtQuick import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtQml import *
-from components.PyQt.PictureManager.pictureManager import *
-from components.PyQt.WorkspaceManager.workspaceManager import *
-from components.PyQt.PictureFetcher.pictureFetcher import *
+from Components.PyQt.PictureManager.pictureManager import *
+from Components.PyQt.WorkspaceManager.workspaceManager import *
+from Components.PyQt.PictureFetcher.pygphoto import *
 
 class Orchestrator(QObject):
   MAIN_VIEW = os.path.join(os.getcwd(), "MainWindow.qml")
@@ -17,26 +17,37 @@ class Orchestrator(QObject):
 
   # Define all sendable signals
   # Send to inform view that picture has been moved  
-  pictureMoved = pyqtSignal(int)
+  picturesMoved = pyqtSignal(QVariant, int)
   # Send to inform that pictures have been filtered
   picturesFiltered = pyqtSignal()
   # Send to inform that picture have been imported. 
   picturesImported = pyqtSignal(QVariant)
 
   # Define All Usable Slots
-  @pyqtSlot(int, int)
-  def movePicture(self, indexFrom, indexTo):
+  @pyqtSlot(QVariant, int)
+  def movePictures(self, indexes, startIndexTo):
     """
-      A slot that handle the reorganization between pictures
+      A slot that handle the reorganization between pictures. If more than one index
+      are supplied, the first pictures selected will be moved at indexTo, and the other 
+      will be appended
 
       Args:
-        indexFrom (int):  The current index of the picture
-        indexTo   (int):  The destination index of the picture 
+        indexes (list<int>):  Indexes to be moved
+        startIndexTo   (int):  The destination start index of all pictures
     """
-    state = self.pictureManager.move( \
-      self.pictureManager.index(indexFrom, 0), \
-      self.pictureManager.index(indexTo, 0))
-    if state: self.pictureMoved.emit(indexTo)
+    offsetDown = 0; offsetUp = 0; 
+    state = True
+    indexes = indexes.toVariant()
+    indexes.sort()
+    for indexFrom in indexes:
+      indexFrom = max(0, indexFrom - offsetDown)
+      indexTo = min(self.pictureManager.rowCount() - 1, startIndexTo + offsetUp)
+      state = state and self.pictureManager.move( \
+        self.pictureManager.index(indexFrom, 0), \
+        self.pictureManager.index(indexTo, 0))
+      if(indexFrom < indexTo): offsetDown += 1
+      if(indexFrom > indexTo): offsetUp += 1
+    if state: self.picturesMoved.emit(indexes, startIndexTo)
 
   @pyqtSlot(int)
   def filterPictures(self, status):
@@ -109,16 +120,17 @@ class Orchestrator(QObject):
     
     # Let's have fun !
     self.root.show()
+    self.app.exec_()
 
   def connectEverything(self):
     """
       Every connections between slots and signals are done here
     """
     self.root.sig_filterPictures.connect(self.filterPictures)
-    self.root.sig_movePicture.connect(self.movePicture)
+    self.root.sig_movePictures.connect(self.movePictures)
     self.root.sig_importPictures.connect(self.importPictures)
     
-    self.pictureMoved.connect(self.root.slot_pictureMoved)
+    self.picturesMoved.connect(self.root.slot_picturesMoved)
     self.picturesFiltered.connect(self.root.slot_picturesFiltered)
 
     self.picturesImported.connect(self.root.slot_picturesImported)
@@ -127,4 +139,3 @@ class Orchestrator(QObject):
 
 if __name__ == "__main__":
   matrix = Orchestrator()
-  sys.exit(matrix.app.exec_())

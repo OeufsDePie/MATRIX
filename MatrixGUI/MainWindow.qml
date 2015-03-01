@@ -18,10 +18,10 @@ ApplicationWindow {
    */
 
   /* PICTURE COMPONENT SIGNALS/SLOTS */
-  signal sig_movePicture(int indexFrom, int indexTo)
+  signal sig_movePictures(variant indexes, int indexTo)
   signal sig_discardPicture(int indexDelete)
   signal sig_filterPictures(int status)
-  function slot_pictureMoved(index) { pictureManager.pictureMoved(index) }
+  function slot_picturesMoved(indexFrom, indexTo) { pictureManager.picturesMoved(indexFrom, indexTo) }
   function slot_picturesFiltered() { pictureManager.picturesFiltered() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
@@ -42,7 +42,7 @@ ApplicationWindow {
     id: pictureManager
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    onMovePicture: sig_movePicture(indexFrom, indexTo)
+    onMovePictures: sig_movePictures(indexes, indexTo)
     onFilterPictures: sig_filterPictures(status)
     onDiscardPicture: sig_discardPicture(indexDelete)
   }
@@ -63,7 +63,7 @@ ApplicationWindow {
   /* A Window for the picture */
   PictureFetcher {
     id: pictureFetcher
-    onImportPictures: sig_importPicture(picturesFiles)
+    onImportPictures: sig_importPictures(picturesFiles)
   }
 
   /* Temporary button to manually import pictures */

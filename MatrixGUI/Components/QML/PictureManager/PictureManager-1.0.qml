@@ -8,7 +8,7 @@ Rectangle {
   property variant pictures
 
   /* Raised each time a picture is re-ordered */
-  signal movePicture(int indexFrom, int indexTo)
+  signal movePictures(variant indexes, int indexTo)
   /* Raised when a picture is deleted/discarded */
   signal discardPicture(int index)
   /* Raised when ordering a filter */
@@ -87,32 +87,57 @@ Rectangle {
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: 0
         model: pictures
-        clip: true
         delegate: pictureDelegate
-        focus: true
-        highlight: highlightDelegate
-        highlightMoveDuration: 0
+
+        Item {
+          id: selectedPictures
+          property variant model: ListModel {}
+        }
       }
     }
   }
+
   /* Define delegate for the view */
+  Rectangle {
+    id: dragIndicator
+    width: pictureWidget.width
+    anchors.top: separator2.bottom
+    height: 2
+    color: "#76d2fe"
+    visible: false
+  }
+
   Component {
     id: pictureDelegate
-    Item {
+    Rectangle {
       id: pictureWrapper
+
+      property bool isFocused: false
+      property bool isSelected: _isSelected(name)
+      property bool isHovered: false
+      property string imagePath: path
+
       height: pictureName.height
       width: pictureWidget.width
+      color: isSelected ? "#1db7ff" : "transparent";
+      border {width: isHovered ? 2 : 0; color: "#76d2fe"}
 
       /* Initialize the viewer with the first loaded element of the model */
       Component.onCompleted: {
         if(index == listView.currentIndex) {
           viewer.source = path
+          isFocused = true
+          /* If Selected and reCompleted, it's probably because the element have been moved */
+          if(isSelected) {
+            selectedPictures.model.setProperty(name, "index", index);
+            console.log(selectedPictures.model);
+          }
         }
       }
       RowLayout {
         /* Icon that represent the image status */
         anchors.left: parent.left
-        anchors.leftMargin: spacing
+        anchors.leftMargin: spacing * (isFocused ? 2 : 1)
         spacing: 10
         
         Image {
@@ -130,83 +155,136 @@ Rectangle {
           color: "#000000"
         }
       }
+      /* An Indicator for hovering */
+      Rectangle {
+        width: isHovered ? 8 : 0
+        height: pictureWrapper.height
+        anchors.left: pictureWrapper.left
+        color: "#76d2fe"
+      }
+
       /* Handle mouseClick in order to update the pictureViewer. Also
        in charge of reordering element via drag'n'drop */
        MouseArea {
-         id: dragArea
+          id: dragArea
 
-         /* Properties use to handle the drag and drop */
-         property int positionStarted
-         property int positionEnded
-         property int indexMoved: Math.floor((positionEnded - positionStarted)/pictureWrapper.height)
+          /* Properties use to handle the drag and drop */
+          property int positionStarted
+          property int positionEnded
+          property int indexMoved: Math.floor((positionEnded - positionStarted)/pictureWrapper.height)
+          property int newIndex: Math.min(Math.max(0, index + indexMoved), listView.model.count() - 1)
 
-         anchors.fill: parent
-         drag.axis: Drag.YAxis
-         drag.minimumY: 0
-         drag.maximumY: listView.model.count() * pictureWrapper.height
+          acceptedButtons: Qt.LeftButton | Qt.RightButton
+          anchors.fill: parent
+          drag.axis: Drag.YAxis
+          drag.minimumY: 0
+          drag.maximumY: listView.model.count() * pictureWrapper.height
+          drag.target: null
+          hoverEnabled: true
 
-         onPressed: {
-           positionStarted = pictureWrapper.y
-           /* Sounds glitchy, but we also initialize the positionEnded to handle simpleClick for which,
-            onPositionChanged never get called */
-            positionEnded = positionStarted
-            dragArea.drag.target = pictureWrapper
+          onEntered: { isHovered = true }
+          onExited: { isHovered = false }
+          onPressed: {
+            if(mouse.button == Qt.LeftButton) {
+              positionStarted = pictureWrapper.y
+              /* Sounds glitchy, but we also initialize the positionEnded to handle simpleClick for which,
+              onPositionChanged never get called */
+              positionEnded = positionStarted
+              dragArea.drag.target = pictureWrapper
+            }
           }
           onPositionChanged: {
-            pictureWrapper.opacity = 0.5
-            positionEnded = pictureWrapper.y
+            if(dragArea.drag.target != null) {
+              pictureWrapper.opacity = 0.3
+              positionEnded = pictureWrapper.y
+              dragIndicator.visible = true
+              dragIndicator.anchors.topMargin = newIndex * pictureWrapper.height
+              if(indexMoved > 0) dragIndicator.anchors.topMargin += pictureWrapper.height
+            }
           }
           /* On release, click or move element, depending of the executed action */
           onReleased: {
-            pictureWrapper.opacity = 1
-            dragArea.drag.target = null
-            pictureWrapper.y = positionStarted
-            /* indexMoved == 0 means that the item wasn't drag, so it's considered as a click */
-            if (indexMoved != 0) {
-              /* Find the new index */
-              var newIndex = index + indexMoved
-              
-              /* Ensure that the index isn't out of bounds */
-              newIndex = Math.min(Math.max(0, newIndex), listView.model.count() - 1);
-
-              /* Send the corresponding signal */
-              movePicture(index, newIndex)
+            if(mouse.button == Qt.RightButton) {
+              _unselect(name);
             } else {
-              /* Only a click, so select the element in the viewer */
-              viewer.source = path
-              listView.currentIndex = index
+              pictureWrapper.opacity = 1
+              dragArea.drag.target = null
+              pictureWrapper.y = positionStarted
+              dragIndicator.visible = false
+              /* indexMoved == 0 means that the item wasn't drag, so it's considered as a click */
+              if (indexMoved != 0) {
+                /* Send the corresponding signal */
+                var indexes = _selectedIndexes();
+                indexes = indexes.length == 0 ? [index] : indexes;
+                movePictures(indexes, newIndex);
+              } else {
+                /* Only a click, so select the element in the viewer */
+                viewer.source = path
+                if(mouse.modifiers & Qt.ControlModifier) {
+                  if(!_isSelected(name)) {
+                    selectedPictures.model.append({"idSelected": name, "index": index});
+                  }
+                } else if(mouse.modifiers & Qt.ShiftModifier) {
+
+                } else {
+                  listView.currentItem.isFocused = false
+                  listView.currentIndex = index
+                  isFocused = true
+                }
+              }
             }
           }
         }
       }
     }
 
-    /* Define delegate for the highlightning */
-    Component {
-      id: highlightDelegate
-      Rectangle {
-        color: "#1db7ff"
-        y: listView.currentItem.y
+    function _iterateOnSelected(id, callback) {
+      for(var i = 0; i < selectedPictures.model.count; i++) {
+        if(selectedPictures.model.get(i).idSelected == id) {
+          return callback(i);
+        }
       }
+      return false;
     }
+
+    function _unselect(id) {
+      _iterateOnSelected(id, function(i){
+        selectedPictures.model.remove(i);
+      });
+    }
+
+    function _isSelected(id) {
+      return _iterateOnSelected(id, function(i){ return true; });
+    }
+
+    function _selectedIndexes() {
+      var indexes = [];
+      for(var i = 0; i < selectedPictures.model.count; i++)
+        indexes.push(selectedPictures.model.get(i).index);
+      return indexes;
+    }
+
 
     function refreshModel() {
       listView.model = [];
       listView.model = pictures;
     }
 
-    function pictureMoved(index){
+    function picturesMoved(indexFrom, indexTo){
       refreshModel();
-      listView.currentIndex = index
+      listView.currentIndex = indexTo;
+      listView.currentItem.isFocused = true;
+      viewer.source = listView.currentItem.imagePath
+      selectedPictures.model.clear();
     }
 
     function picturesFiltered(){
       refreshModel();
       /* Repaint the viewer if needed */
       if(listView.currentItem){ 
-        listView.currentItem.Component.completed() 
+        listView.currentItem.Component.completed();
       } else {
-        viewer.source = ""
+        viewer.source = "";
       }
     }
 }

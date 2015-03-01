@@ -4,6 +4,7 @@ import QtQuick.Controls 1.3
 import PictureWidget 1.0
 import ReconstructionWidget 0.1
 import MenuWidget 0.1
+import NewWorkspaceDialogWidget 0.1
 
 ApplicationWindow {
   id: root
@@ -11,7 +12,7 @@ ApplicationWindow {
   width: 800  //Screen.desktopAvailableWidth
   height: 600 //Screen.desktopAvailableHeight
 
-  property alias pictures: pictureWidget.pictureModel
+  property alias pictures: pictureWidget.pictures
 
   /*
    * All signals and slot are aliased here. Thus, they are easier to catch in PyQt, and are gather 
@@ -26,17 +27,41 @@ ApplicationWindow {
   signal sig_launchReconstruction
   function slot_addLog(logDate, logMessage) { reconstructionWidget.addLog(logDate, logMessage) }
 
+  /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
+  signal sig_newWorkspace(string name, string path)
+  signal sig_changeWorkspace()
+  signal sig_deleteWorkspace()
+  signal sig_newScene()
+  signal sig_changeScene()
+  signal sig_saveScene()
+  signal sig_deleteScene()
+
   /* The menubar should rather be exported as a proper component */
-  menuBar: MenuWidget {}
+  menuBar: MenuWidget {
+    id: menuWidget
+    // workspace signals
+    onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
+    onSig_menu_changeWorkspace: sig_changeWorkspace()
+    onSig_menu_deleteWorkspace: sig_deleteWorkspace()
+    // scene signals
+    onSig_menu_newScene:        sig_newScene()
+    onSig_menu_changeScene:     sig_changeScene()
+    onSig_menu_saveScene:       sig_saveScene()
+    onSig_menu_deleteScene:     sig_deleteScene()
+  }
+
+  NewWorkspaceDialogWidget {
+    id: newWorkspaceDialog
+  }
 
   /* May need a wrapper, we'll see later */
   PictureWidget {
     id: pictureWidget
-    anchors.top: parent.top 
+    anchors.top: parent.top
     anchors.bottom: parent.bottom
-    pictureModel: pictureModel
     onPictureDiscarded: sig_pictureDiscarded()
     onPictureMoved: sig_pictureMoved()
+    pictures: pictureModel
   }
 
   /* Wrapper for the reconstruction widget */
@@ -52,17 +77,17 @@ ApplicationWindow {
   /* Temporary model for test, ideally, it should be supplied via context by the PyQt script */
   ListModel {
     id: pictureModel
-    ListElement{name: "100_7100.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7100.JPG"}
-    ListElement{name: "100_7101.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7101.JPG"}
-    ListElement{name: "100_7102.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7102.JPG"}
-    ListElement{name: "100_7103.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7103.JPG"}
-    ListElement{name: "100_7104.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7104.JPG"}
-    ListElement{name: "100_7105.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7105.JPG"}
-    ListElement{name: "100_7106.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7106.JPG"}
-    ListElement{name: "100_7107.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7107.JPG"}
-    ListElement{name: "100_7108.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7108.JPG"}
-    ListElement{name: "100_7109.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7109.JPG"}
-    ListElement{name: "100_7110.JPG"; image: "../../../ImageDataset_SceauxCastle/images/100_7110.JPG"}
+    ListElement{pictureIndex: 0; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7100.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7100.JPG"}
+    ListElement{pictureIndex: 1; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7101.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7101.JPG"}
+    ListElement{pictureIndex: 2; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7102.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7102.JPG"}
+    ListElement{pictureIndex: 3; icon: "../../../Resources/Icons/delete.png"; status: "2"; name: "100_7103.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7103.JPG"}
+    ListElement{pictureIndex: 4; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7104.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7104.JPG"}
+    ListElement{pictureIndex: 5; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7105.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7105.JPG"}
+    ListElement{pictureIndex: 6; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7106.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7106.JPG"}
+    ListElement{pictureIndex: 7; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7107.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7107.JPG"}
+    ListElement{pictureIndex: 8; icon: "../../../Resources/Icons/reconstruction.png"; status: "1"; name: "100_7108.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7108.JPG"}
+    ListElement{pictureIndex: 8; icon: "../../../Resources/Icons/new.png"; status: "0"; name: "100_7109.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7109.JPG"}
+    ListElement{pictureIndex: 9; icon: "../../../Resources/Icons/processed.png"; status: "3"; name: "100_7110.JPG"; image: "../../../../ImageDataset_SceauxCastle/images/100_7110.JPG"}
   }
 
 }

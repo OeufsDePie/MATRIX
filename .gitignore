@@ -223,3 +223,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Temporary Test Folder
+MATRIX/MatrixGUI/Tests

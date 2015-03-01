@@ -56,3 +56,7 @@ try:
     wsm.delete_scene("path_different")
 except AssertionError as e:
     print(e)
+
+# Test of selecting current scene
+print("\n######################## Selecting current scenes ##########################")
+wsm.set_current_scene("Premiere_scene")

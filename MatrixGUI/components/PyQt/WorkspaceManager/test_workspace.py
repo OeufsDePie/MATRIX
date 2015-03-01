@@ -42,17 +42,17 @@ wsm.new_scene("Scene avec path différent", "path_différent")
 # Test of creating a scene already existing
 print("\n######################## Creating a scene already existing ##########################")
 try:
-    wsm.new_scene("Scene avec path différent", "path_différent")
+    wsm.new_scene("Scene avec path encore différent", "path_différent")
 except AssertionError as e:
     print(e)
 
 # Test of deleting scenes
 print("\n######################## Deleting scenes ##########################")
-wsm.delete_scene(os.path.join(wsm.current_workspace,"path_different"))
+wsm.delete_scene("path_different")
 
 # Test of deleting a non-existing scene
-print("\n######################## Deleting scenes ##########################")
+print("\n######################## Deleting already existing scenes ##########################")
 try:
-    wsm.delete_scene(os.path.join(wsm.current_workspace,"path_different"))
+    wsm.delete_scene("path_different")
 except AssertionError as e:
     print(e)

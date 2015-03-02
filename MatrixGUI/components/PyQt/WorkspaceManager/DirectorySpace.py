@@ -1,6 +1,7 @@
 import os
 from PyQt5.QtCore import QDir
 from Utils import Utils
+from Serializable import Serializable       # need the package import in __init__.py
 
 class DirectorySpace:
     """ A space based on a directory in the file system.

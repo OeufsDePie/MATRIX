@@ -69,7 +69,7 @@ class Workspace(DirectorySpace):
         if not path:
             path = Utils.valid_name(name)
         assert (path not in self.scenes), "A scene with the path "+path+" already exists."
-        scene = Scene(self, name, path)
+        scene = Scene(name, self.full_path(), path)
         self.scenes[path] = scene
         self.set_current_scene(path)
         print(scene)

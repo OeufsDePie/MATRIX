@@ -4,4 +4,9 @@ class Serializable(metaclass=ABCMeta):
 
     @abstractmethod
     def serialize(self):
-        print("serialize of Serializable")
+        return self.__dict__
+
+    @abstractmethod
+    def deserialize(self, serial):
+        for key in serial:
+            setattr(self,key,serial[key])

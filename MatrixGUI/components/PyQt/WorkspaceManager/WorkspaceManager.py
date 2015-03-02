@@ -33,17 +33,17 @@ class WorkspaceManager():
         '''
         return os.path.join(self.projectPath, "pictures.xml")
 
-    def new_workspace(self, name="", path=""):
+    def new_workspace(self, name="", base_path=""):
         """ Create a new workspace.
 
         Args:
             name (str): The name of the workspace.
-            path (str): The absolute path of the directory that will contain the new workspace.
+            base_path (str): The absolute path of the directory that will contain the new workspace.
         """
-        path = os.path.join(path,name)
-        ws = Workspace(name,path)
-        self.workspaces[ws.path] = ws
-        self.current_workspace = ws.path
+        ws = Workspace(name,base_path)
+        ws.create_directory()
+        self.workspaces[ws.full_path()] = ws
+        self.current_workspace = ws.full_path()
         print(ws)
 
     def delete_workspace(self, workspace_path):

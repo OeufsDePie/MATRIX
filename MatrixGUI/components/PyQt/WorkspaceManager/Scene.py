@@ -40,3 +40,14 @@ class Scene(DirectorySpace):
              "   workspace : " + self.base_path           ,\
              "   path      : " + self.relative_path]
         return "\n".join(s)
+
+    @staticmethod
+    def deserialize(serial):
+        """ Regenerate a Scene object from serialized data (JSON like).
+
+        Args:
+            serial (dict()): The serialized version of a Scene object.
+        """
+        scene = DirectorySpace.deserialize(serial)
+        scene.__class__ = Scene
+        return scene

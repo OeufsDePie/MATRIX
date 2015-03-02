@@ -3,7 +3,7 @@ from PyQt5.QtCore import QDir
 from Utils import Utils
 from Serializable import Serializable       # need the package import in __init__.py
 
-class DirectorySpace:
+class DirectorySpace(Serializable):
     """ A space based on a directory in the file system.
 
     Attributes:
@@ -60,3 +60,13 @@ class DirectorySpace:
                 "The directory " + self.qt_directory.absolutePath() + " does not exists."
         assert (self.qt_directory.removeRecursively()),\
                 "The directory " + self.qt_directory.absolutePath() + " can not be deleted."
+
+    def serialize(self):
+        return dict(\
+                name = self.name,\
+                absolute_path = self.qt_directory.absolutePath())
+
+
+    @staticmethod
+    def deserialize(serial):
+        return DirectorySpace(name=serial['name'], absolute_path=serial['absolute_path'])

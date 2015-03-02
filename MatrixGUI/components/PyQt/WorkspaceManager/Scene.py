@@ -6,33 +6,22 @@ class Scene(DirectorySpace):
     """ A scene containing all its images.
 
     Attributes:
-        workspace (Workspace): The workspace containing the scene.
         name (str): The name of the scene. It must be unique in the workspace.
             For example : "Shooting ENSEEIHT".
             Default is "scene_n" where n is the current number of scenes in workspace.
-        path (str): The relative path of the scene.
+        base_path (str): The path of the scene's workspace.
+        relative_path (str): The path of the scene relatively to base_path.
     """
 
-    def __init__(self, workspace, name="", path=""):
+    def __init__(self, name, base_path, relative_path=""):
         """ Initialize a scene in a workspace.
 
         Args:
-            workspace (Workspace): The parent workspace.
-            name (str): The name of the scene
-            path (str): The path relatively to the current workspace
-
-        Examples:
-            >>> sc = Scene(ws)
-            >>> sc = Scene(ws, "Shooting ENSEEIHT")
-            >>> sc = Scene(ws, "Shooting ENSEEIHT", "shoot_n7")
+            name (str): The name of the scene.
+            base_path (str): The path of the scene's workspace.
+            relative_path (str): The path relatively to the workspace.
         """
-        self.workspace = workspace
-        if not name:
-            name = "scene_" + str(len(workspace.scenes)+1)
-        path = Utils.valid_name(path)
-        if not path:
-            path = Utils.valid_name(name)
-        super().__init__(name,os.path.join(workspace.path,path),"relative")
+        super().__init__(name,base_path,relative_path)
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.
@@ -48,6 +37,6 @@ class Scene(DirectorySpace):
             >>> print(scene)
         """
         s = ["Scene : " + self.name                       ,\
-             "   workspace : " + self.workspace.name      ,\
-             "   path      : " + self.path]
+             "   workspace : " + self.base_path           ,\
+             "   path      : " + self.relative_path]
         return "\n".join(s)

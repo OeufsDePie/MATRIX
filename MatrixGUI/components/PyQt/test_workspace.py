@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
-import WorkspaceManager
-from WorkspaceManager import *
+from WorkspaceManager.WorkspaceManager import WorkspaceManager
 
 wsm = WorkspaceManager()
 

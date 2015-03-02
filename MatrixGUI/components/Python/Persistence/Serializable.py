@@ -6,7 +6,7 @@ class Serializable(metaclass=ABCMeta):
     def serialize(self):
         return self.__dict__
 
+    @staticmethod
     @abstractmethod
-    def deserialize(self, serial):
-        for key in serial:
-            setattr(self,key,serial[key])
+    def deserialize(serial):
+        return

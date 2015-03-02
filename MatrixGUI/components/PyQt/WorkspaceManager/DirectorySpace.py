@@ -36,12 +36,18 @@ class DirectorySpace(Serializable):
         self.relative_path = relative_path
         assert (os.path.isabs(base_path)), "The path " + base_path + " is not absolute."
         self.qt_directory = QDir(os.path.join(base_path,relative_path))
+        self.subdirs = dict()
+
+    def create_directory(self):
+        """ Effectively creates the directory thanks to Qt object QDir
+        """
         assert (not self.qt_directory.exists()),\
                 "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
                 "Please give a non-existing directory (it will be created)"
         assert (self.qt_directory.mkpath(".")), "The directory " +\
                 self.qt_directory.absolutePath() + " can not be created."
-        self.subdirs = dict()
+        for subpath in self.subdirs:
+            self.qt_directory.mkpath(subpath)
 
     def delete(self):
         """ Delete the directory space (and its contents).

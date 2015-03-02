@@ -41,6 +41,7 @@ class WorkspaceManager():
             base_path (str): The absolute path of the directory that will contain the new workspace.
         """
         ws = Workspace(name,base_path)
+        ws.create_directory()
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
         print(ws)

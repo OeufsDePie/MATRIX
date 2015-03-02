@@ -26,14 +26,9 @@ class Workspace(DirectorySpace):
 
         Raises:
             AssertionError: If a directory with that path already exists.
-
-        Examples:
-            >>> ws = Workspace("ws1","/home/mpizenbe/matrix/ws1")
         """
         super().__init__(name,base_path,relative_path)
         self.subdirs["Configs"] = "Configuration folder"
-        for subpath in self.subdirs:
-            self.qt_directory.mkpath(subpath)
         self.scenes = dict()
         self.current_scene = ""
 
@@ -52,7 +47,6 @@ class Workspace(DirectorySpace):
         # Deleting the workspace directory
         super().delete()
 
-
     def new_scene(self, name="", path=""):
         """ Add a new scene to the workspace.
 
@@ -70,6 +64,7 @@ class Workspace(DirectorySpace):
             path = Utils.valid_name(name)
         assert (path not in self.scenes), "A scene with the path "+path+" already exists."
         scene = Scene(name, self.full_path(), path)
+        scene.create_directory()
         self.scenes[path] = scene
         self.set_current_scene(path)
         print(scene)

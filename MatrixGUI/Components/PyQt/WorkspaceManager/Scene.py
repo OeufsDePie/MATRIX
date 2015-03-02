@@ -1,5 +1,5 @@
 from DirectorySpace import DirectorySpace
-from Utils import Utils
+from Utils import Utils                     # need the package import in __init__.py
 import os
 
 class Scene(DirectorySpace):

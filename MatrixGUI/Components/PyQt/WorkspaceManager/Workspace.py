@@ -1,6 +1,6 @@
 from DirectorySpace import DirectorySpace
 from Scene import Scene
-from Utils import Utils
+from Utils import Utils                     # need the package import in __init__.py
 
 class Workspace(DirectorySpace):
     """ A workspace containing its own configuration and scenes.

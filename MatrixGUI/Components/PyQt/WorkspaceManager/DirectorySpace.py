@@ -1,6 +1,6 @@
 import os
 from PyQt5.QtCore import QDir
-from Utils import Utils
+from Utils import Utils                     # need the package import in __init__.py
 from Serializable import Serializable       # need the package import in __init__.py
 
 class DirectorySpace(Serializable):

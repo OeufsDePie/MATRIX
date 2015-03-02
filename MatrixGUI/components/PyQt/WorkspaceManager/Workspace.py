@@ -7,20 +7,22 @@ class Workspace(DirectorySpace):
 
     Attributes:
         name (str): The name of the workspace.
-        path (str): The path of the workspace.
-        subdirs (dict(str,str)): The useful subdirectories (path,name)
+        base_path (str): The absolute path of the directory containing the workspace.
+        relative_path (str): The path of the workspace relatively to base_path.
+        subdirs (dict(str,str)): The useful subdirectories (path,name).
         scenes (dict(str,Scene)): The dictionnary of the scenes it contains.
             Keys are the scene paths.
-        current_scene (str): The path of the current scene
-        qt_directory (QDir): The directory corresponding to that workspace
+        current_scene (str): The path of the current scene.
+        qt_directory (QDir): The directory corresponding to that workspace.
     """
 
-    def __init__(self, name="", absolute_path=""):
+    def __init__(self, name="", base_path="", relative_path=""):
         """Initialize a workspace.
 
         Args:
             name (str): The name of the workspace. Default is "".
-            absolute_path (str): The absolute path of the workspace. Default is "".
+            base_path (str): The absolute path of the directory containing the workspace.
+            relative_path (str): The path of the workspace relatively to base_path.
 
         Raises:
             AssertionError: If a directory with that path already exists.
@@ -28,7 +30,7 @@ class Workspace(DirectorySpace):
         Examples:
             >>> ws = Workspace("ws1","/home/mpizenbe/matrix/ws1")
         """
-        super().__init__(name,absolute_path,"absolute")
+        super().__init__(name,base_path,relative_path)
         self.subdirs["Configs"] = "Configuration folder"
         for subpath in self.subdirs:
             self.qt_directory.mkpath(subpath)
@@ -61,11 +63,15 @@ class Workspace(DirectorySpace):
         Raises:
             AssertionError: If a scene with the same path already exists.
         """
+        if not name:
+            name = "scene_" + str(len(self.scenes)+1)
         path = Utils.valid_name(path)
+        if not path:
+            path = Utils.valid_name(name)
         assert (path not in self.scenes), "A scene with the path "+path+" already exists."
         scene = Scene(self, name, path)
-        self.scenes[scene.path] = scene
-        self.set_current_scene(scene.path)
+        self.scenes[path] = scene
+        self.set_current_scene(path)
         print(scene)
 
     def delete_scene(self, scene_path):
@@ -114,7 +120,7 @@ class Workspace(DirectorySpace):
             >>> print(workspace)
         """
         s = ["Workspace : " + self.name                     ,\
-             "   path          : " + self.path              ,\
+             "   path          : " + self.full_path()       ,\
              "   current scene : " + self.current_scene     ,\
              "   all scenes    : " + str(list(self.scenes.keys()))]
         return "\n".join(s)

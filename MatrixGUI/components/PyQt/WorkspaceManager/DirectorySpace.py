@@ -7,46 +7,40 @@ class DirectorySpace(Serializable):
     """ A space based on a directory in the file system.
 
     Attributes:
-        path_types (set(str)): A class attribute containing {"absolute","relative"}
-        path_type (str): the type of the path ("absolute" or "relative")
         name (str): The name of the space.
-        path (str): The path of the space.
+        base_path (str): The absolute path of the directory containing the space.
+        relative_path (str): The path of the directory space relatively to base_path.
         subdirs (dict(str,str)): The useful subdirectories (path,name).\
                 The paths are the keys
         qt_directory (QDir): The directory corresponding to that workspace
     """
-    path_types = frozenset(["absolute","relative"])
 
-    def __init__(self, name="", absolute_path="", path_type="absolute"):
+    def __init__(self, name="", base_path="", relative_path=""):
         """Initialize a DirectorySpace.
 
         Args:
             name (str): The name of the directory space. Default is "".
-            absolute_path (str): The absolute path of the directory space. Default is "".
-            path_type (str): "absolute" or "relative".\
-                    It is the type of the string wich will be stored in the attribute path.\
-                    It is NOT the type of the path given as an argument.\
-                    This later one must be absolute.
+            base_path (str): The absolute path of the directory containing the space.
+            relative_path (str): The path of the space relatively to base_path.
 
         Raises:
             AssertionError: If a directory with that path already exists.
         """
+        assert name, "The argument name must not be empty"
         self.name = name
-        absolute_path = Utils.valid_name(absolute_path)
-        assert (os.path.isabs(absolute_path)), "The path " + absolute_path + " is not absolute."
-        assert (path_type in self.path_types), "The type "+path_type+" does not exists." + \
-                " Please use one in : " + self.path_types.__str__()
-        self.qt_directory = QDir(absolute_path)
+        base_path = Utils.valid_name(base_path)
+        self.base_path = base_path
+        relative_path = Utils.valid_name(relative_path)
+        if not relative_path:
+            relative_path = Utils.valid_name(name)
+        self.relative_path = relative_path
+        assert (os.path.isabs(base_path)), "The path " + base_path + " is not absolute."
+        self.qt_directory = QDir(os.path.join(base_path,relative_path))
         assert (not self.qt_directory.exists()),\
                 "The directory " + self.qt_directory.absolutePath() + " already exists. " + \
                 "Please give a non-existing directory (it will be created)"
         assert (self.qt_directory.mkpath(".")), "The directory " +\
                 self.qt_directory.absolutePath() + " can not be created."
-        self.path_type = path_type
-        if (path_type == "absolute"):
-            self.path = self.qt_directory.absolutePath()
-        else:
-            self.path = self.qt_directory.dirName()
         self.subdirs = dict()
 
     def delete(self):
@@ -61,12 +55,19 @@ class DirectorySpace(Serializable):
         assert (self.qt_directory.removeRecursively()),\
                 "The directory " + self.qt_directory.absolutePath() + " can not be deleted."
 
+    def full_path(self):
+        return os.path.join(self.base_path, self.relative_path)
+
     def serialize(self):
         return dict(\
                 name = self.name,\
-                absolute_path = self.qt_directory.absolutePath())
+                base_path = self.base_path,\
+                relative_path = self.relative_path)
 
 
     @staticmethod
     def deserialize(serial):
-        return DirectorySpace(name=serial['name'], absolute_path=serial['absolute_path'])
+        return DirectorySpace(\
+                name=serial['name'],\
+                base_path=serial['base_path'],\
+                relative_path=serial['relative_path'])

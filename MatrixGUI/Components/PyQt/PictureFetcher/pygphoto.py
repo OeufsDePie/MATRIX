@@ -361,7 +361,7 @@ if __name__ == "__main__":
 
     # Wait for a camera to connect
     print("Waiting for connected camera...")
-    while False:
+    while True:
         if pygph.check_camera_connected():
             break
         time.sleep(0.5)

@@ -119,3 +119,30 @@ class Workspace(DirectorySpace):
              "   current scene : " + self.current_scene     ,\
              "   all scenes    : " + str(list(self.scenes.keys()))]
         return "\n".join(s)
+
+    def serialize(self):
+        """ Serialize a Workspace object.
+        """
+        serial = super().serialize()
+        serial["subdirs"] = self.subdirs
+        serial["scenes"] = dict()
+        for scene in self.scenes:
+            serial["scenes"][scene] = self.scenes[scene].serialize()
+        serial["current_scene"] = self.current_scene
+        return serial
+
+    @staticmethod
+    def deserialize(serial):
+        """ Recreate a Workspace object from its serialization.
+
+        Args:
+            serial (dict()): The serialized version of a Workspace object.
+        """
+        workspace = DirectorySpace.deserialize(serial)
+        workspace.__class__ = Workspace
+        workspace.subdirs = serial["subdirs"]
+        workspace.scenes = dict()
+        for scene in serial["scenes"]:
+            workspace.scenes[scene] = Scene.deserialize(serial["scenes"][scene])
+        workspace.current_scene = serial["current_scene"]
+        return workspace

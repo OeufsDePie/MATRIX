@@ -1,4 +1,5 @@
-import os
+import os, random, math
+import xml.etree.cElementTree as ET
 from Workspace import Workspace
 
 class WorkspaceManager():
@@ -32,6 +33,14 @@ class WorkspaceManager():
         pictures on the project.
         '''
         return os.path.join(self.projectPath, "pictures.xml")
+
+    def generateModel(self, picturesFiles):
+        root = ET.Element("pictures")
+        for url in picturesFiles:
+            status = str(int(math.floor(4*random.random())))
+            ET.SubElement(root, "picture", status=status).text = url.path()
+        tree = ET.ElementTree(root)
+        tree.write(self.pictureModelPath())
 
     def new_workspace(self, name="", base_path=""):
         """ Create a new workspace.

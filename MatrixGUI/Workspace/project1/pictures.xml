@@ -1,9 +1,1 @@
-<?xml version="1.0"?>
-<pictures>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7100.JPG</picture>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7100.JPG</picture>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7100.JPG</picture>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7100.JPG</picture>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7101.JPG</picture>
-    <picture>/home/loux/Documents/MATRIX/ImageDataset_SceauxCastle/images/100_7102.JPG</picture>
-</pictures>
+<pictures><picture status="1">/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/testPics/1.jpg</picture><picture status="3">/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/testPics/2.png</picture><picture status="0">/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/testPics/3.png</picture><picture status="1">/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_matthieu/testPics/4.png</picture></pictures>

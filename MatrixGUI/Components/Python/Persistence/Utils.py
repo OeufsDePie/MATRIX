@@ -21,7 +21,7 @@ class Utils:
         # replace spaces by underscores
         valid_string  = valid_string.replace(" ","_")
         # remove multiple spaces and others
-        valid_string = re.sub('\.+','\.',valid_string)
+        valid_string = re.sub('\.+','.',valid_string)
         valid_string = re.sub('-+','-',valid_string)
         valid_string = re.sub('_+','_',valid_string)
         return valid_string

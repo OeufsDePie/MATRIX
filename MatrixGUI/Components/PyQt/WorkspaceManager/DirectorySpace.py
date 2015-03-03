@@ -1,9 +1,9 @@
 import os
 from PyQt5.QtCore import QDir
-from Utils import Utils
-from Serializable import Serializable       # need the package import in __init__.py
+from Utils import Utils                     # need the package import in __init__.py
+from Savable import Savable                 # need the package import in __init__.py
 
-class DirectorySpace(Serializable):
+class DirectorySpace(Savable):
     """ A space based on a directory in the file system.
 
     Attributes:
@@ -77,3 +77,23 @@ class DirectorySpace(Serializable):
                 name=serial['name'],\
                 base_path=serial['base_path'],\
                 relative_path=serial['relative_path'])
+
+    def save(self, file_name):
+        """ Save the object in the file system.
+        """
+        # path of the directory containing the the save
+        directory_path = self.full_path()
+        super().save(directory_path,file_name)
+
+    @classmethod
+    def load(cls, base_path, file_name, object_class=None):
+        """ Recreate a DirectorySpace object from a file.
+
+        Args:
+            base_path (str): The path of the directory containing the file.
+            file_name (str): The name of the file to load.
+            object_class (class): The class of the object to recreate.
+        """
+        if object_class == None:
+            object_class = cls
+        return Savable.load(base_path, file_name, object_class)

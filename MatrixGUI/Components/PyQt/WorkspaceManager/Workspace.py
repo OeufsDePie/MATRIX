@@ -105,7 +105,7 @@ class Workspace(DirectorySpace):
         Raises:
             AssertionError: If the scene does not exist in the workspace.
         """
-        assert (scene_path in self.scenes), "That scene does not exist in this workspace."
+        assert (scene_path in self.scenes), "That scene "+scene_path+" does not exist in this workspace."
         self.current_scene = scene_path
 
     def __str__(self):

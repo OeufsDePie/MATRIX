@@ -40,10 +40,6 @@ class Workspace(DirectorySpace):
         Raises:
             AssertionError: If the workspace directory does not exist or can not be deleted.
         """
-        # Deleting the scenes
-        self.current_scene = ""
-        for scene_path in self.scenes:
-            self.delete_scene(scene_path)
         # Deleting the workspace directory
         super().delete()
 

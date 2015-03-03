@@ -4,7 +4,7 @@ import subprocess
 import os
 import time
 import threading
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
 
 class Pygphoto(QObject):
     """Allows simple operations on a USB connected camera by interfacing
@@ -18,6 +18,7 @@ class Pygphoto(QObject):
     # Constants
     # Command lines string value
     _GPHOTO = "gphoto2"
+
     # Camera events check period in seconds
     _EVENTS_PERIOD = 1
 
@@ -27,30 +28,40 @@ class Pygphoto(QObject):
 
     onContentChanged = pyqtSignal(list, list)
     """When watching the camera for new files, emit this signal when there
-     has been some changes in the camera filesystem. Arguments are the
-     lists of new files and deleted files
+    has been some changes in the camera filesystem. Arguments are the
+    lists of new files and deleted files
     """
 
+    _onWatchCamera = pyqtSignal(bool)
+    """This signal indicates if the component should start or stop
+    watching for connection events with a camera."""
+
+    _onWatchFile = pyqtSignal(bool)
+    """This signal indicates if the component should start or stop
+    watching for new files on the camera."""
+
     def __init__(self, watch_camera=False, watch_files=False):
+        # Super constructor
+        QObject.__init__(self)
         # _files_index is an internal dictionnary that associate all the
         # files present on the camera, along with their gphoto index
         self._files_index = dict()
-        # _watching_files indicates if this component is watching for new files
-        self._watching_files = watch_files
-        # _watching_camera indicates if this component is watching for camera connections
-        self._watching_camera = watch_camera
-        # This lock is used to modify the watching flags
-        self.__lock__ = threading.RLock()
-        # Start the thread that watches for camera events
-        self._watch_thread = threading.Thread(target=self._watch_events)
-        self._watch_thread.daemon = True
-        self._watch_thread.start()
-        # The memorized state of camera connection
-        self._camera_connection = False
-        # The memorized occupied space on camera
-        self._camera_occupied_space = 0
-        
-    def check_camera_connected(self):
+        # Create an internal CameraWatcher
+        self._camera_watcher = Pygphoto.CameraWatcher(watch_camera, watch_files)
+        # Connect watch file and watch camera signals
+        self._onWatchFile.connect(self._camera_watcher.set_watching_files)
+        self._onWatchCamera.connect(self._camera_watcher.set_watching_camera)
+        # Forward signals from camera_watcher
+        self._camera_watcher.onCameraConnection.connect(self.__forward_onCameraConnection)
+        self._camera_watcher.onContentChanged.connect(self.__forward_onContentChanged)
+        # Create a thread to execute the CameraWatcher in
+        self._watcher_thread = QThread()
+        self._camera_watcher.moveToThread(self._watcher_thread)
+        # Start the watching
+        self._watcher_thread.started.connect(self._camera_watcher._watch_events)
+        self._watcher_thread.start()
+
+    def check_camera_connected():
         """Check if a camera is connected
         """
         # Try an auto-detect and see if there are results
@@ -63,7 +74,7 @@ class Pygphoto(QObject):
         # Then comes the list of connected camera (that can be empty)
         return (len(lines) > 2)
 
-    def query_storage_info(self):
+    def query_storage_info():
         """Return a dict of values concerny memory usage {free, occupied,
         total} containing values in KB
 
@@ -86,16 +97,15 @@ class Pygphoto(QObject):
         result["occupied"] = result["total"] - result["free"]
         return result
 
-    def _update_file_list(self, filenames_list):
-        """Update the internal dictionnary of filenames
+    def _filelist_to_dict(filenames_list):
+        """Convert a filename list to a dictionnary associating filenames
+        with their index.
 
         """
-        with self.__lock__:
-            # Number each files, starting with 1
-            self._files_index = dict(zip(filenames_list,
-                                         range(1, len(filenames_list) + 1)))
-
-    def _query_filename(self, index):
+        # Number each files, starting with 1
+        return dict(zip(filenames_list, range(1, len(filenames_list) + 1)))
+        
+    def _query_filename(index):
         """Return the filename of the file indexed "index" when listing all
         the files present on the camera
 
@@ -111,7 +121,7 @@ class Pygphoto(QObject):
         # We remove the trailing simple quotes ("'")
         return filename.strip("'")
 
-    def query_file_list(self):
+    def query_file_list():
         """Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
@@ -132,9 +142,6 @@ class Pygphoto(QObject):
                 filename = words[1]
                 retval.append(filename)
 
-        # Take the opportunity to update the internal file list
-        # and return
-        self._update_file_list(retval)
         return retval
 
     def download_file(self, filename, output_dir, overwrite=True, thumbnail=False):
@@ -152,7 +159,7 @@ class Pygphoto(QObject):
             index = self._files_index[filename]
             if (not self._query_filename(index) == filename):
                 # Update the files dictionnary
-                self.query_file_list()
+                self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
                 index = self._files_index[filename]
 
         # The destination is "output_dir/filename
@@ -198,9 +205,8 @@ class Pygphoto(QObject):
             command = "--get-file"
 
         # Update the files dictionnary
-        self.query_file_list()
+        self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
 
-        print(filename_list)
         with self.__lock__:
             # Download each file
             for filename in filename_list:
@@ -223,7 +229,7 @@ class Pygphoto(QObject):
                     return return_code
         return 0
 
-    def download_all(self, output_dir, overwrite=True, thumbnail=False):
+    def download_all(output_dir, overwrite=True, thumbnail=False):
         """Download all the files present on the camera.
 
         Overwrites preexisting files. Faster than 'download_files()'.
@@ -249,121 +255,193 @@ class Pygphoto(QObject):
     ###############################
     #  Watching functionality     #
     ###############################
-    
+
+    # If we want to forward signals
+    @pyqtSlot(bool)
+    def __forward_onCameraConnection(boolean):
+        self.onCameraConnection.emit(boolean)
+
+    @pyqtSlot(list, list)
+    def __forward_onContentChanged(newfiles, delfiles):
+        self.onContentChanged.emit(newfiles, delfiles)
+
+    @pyqtSlot(bool)
     def set_watching_files(self, value):
         """Set whether the component should watch for changes in the camera
         filesystem.
 
         """
-        with self.__lock__:
-            self._watching_files = value
+        self._onWatchCamera.emit(value)
 
+    @pyqtSlot(bool)
     def set_watching_camera(self, value):
         """Set whether the component should watch for presence of a connected
         camera.
 
         """
-        with self.__lock__:
-            self._watching_camera = value
- 
-    def is_watching_file(self, value):
-        """Indicates whether the component is watching for changes in the camera
-        filesystem.
+        self._onWatchCamera.emit(value)
+
+    class CameraWatcher(QObject):
+
+        # Signals
+        onCameraConnection = pyqtSignal(bool)
+        """This signal indicates if a camera is connected"""
+
+        onContentChanged = pyqtSignal(list, list)
+        """When watching the camera for new files, emit this signal when there
+        has been some changes in the camera filesystem. Arguments are
+        the lists of new files and deleted files
 
         """
-        with self.__lock__:
-            return self._watching_files
 
-    def is_watching_camera(self, value):
-        """Indicates whether the component is watching for presence of a connected
-        camera.
-
+        _onWatchEvents = pyqtSignal()
+        """Internal signals for active watching
         """
-        with self.__lock__:
-            return self._watching_camera
- 
 
-    def _watch_events(self):
-        """Executed by the watching thread : checks for every events.
-        """
-        while(True):
+        def __init__(self, watch_camera, watch_files):
+            # Super constructor
+            QObject.__init__(self)
+            # _files_index is an internal dictionnary that associate
+            # all the files present on the camera, along with their
+            # gphoto index
+            self._files_index = dict()
+            # Internal lock for accessing some of the attributes
+            self.__lock__ = threading.RLock()
+            # _watching_files indicates if this component is watching for new files
+            self._watching_files = watch_files
+            # _watching_camera indicates if this component is watching for camera connections
+            self._watching_camera = watch_camera
+            # The memorized state of camera connection
+            self._camera_connection = False
+            # The memorized occupied space on camera
+            self._camera_occupied_space = 0
+            # Connect watch event signal to itself
+            self._onWatchEvents.connect(self._watch_events)
+
+        @pyqtSlot(bool)
+        def set_watching_files(self, value):
+            """Set whether the component should watch for changes in the camera
+            filesystem.
+
+            """
+            with self.__lock__:
+                self._watching_files = value
+
+        @pyqtSlot(bool)
+        def set_watching_camera(self, value):
+            """Set whether the component should watch for presence of a connected
+            camera.
+
+            """
+            with self.__lock__:
+                self._watching_camera = value
+
+        def is_watching_file(self, value):
+            """Indicates whether the component is watching for changes in the camera
+            filesystem.
+
+            """
+            with self.__lock__:
+                return self._watching_files
+
+        def is_watching_camera(self, value):
+            """Indicates whether the component is watching for presence of a connected
+            camera.
+
+            """
+            with self.__lock__:
+                return self._watching_camera
+
+        @pyqtSlot()
+        def _watch_events(self):
+            """Executed by the watching thread : checks for every events.
+            """
+            time.sleep(Pygphoto._EVENTS_PERIOD)
+            # Check for the different events
             with self.__lock__:
                 if self._watching_camera:
                     self._watch_camera()
                 if (self._watching_files 
                     and self._camera_connection):
                     self._watch_files()
-            time.sleep(Pygphoto._EVENTS_PERIOD)
+            # Recursive call through Qt signals
+            self._onWatchEvents.emit()
 
-    def _watch_camera(self):
-        """Check for a change in camera connection, possibly raising a
-        onCameraConnection signal.
+        def _watch_camera(self):
+            """Check for a change in camera connection, possibly raising a
+            onCameraConnection signal.
 
-        """
-        new_camera_connection = self.check_camera_connected()
-        if(new_camera_connection != self._camera_connection):
-            # Raise a signal
-            Pygphoto.onCameraConnection.emit(new_camera_connection)
-        # Set new state
-        self._camera_connection = new_camera_connection
+            """
+            new_camera_connection = Pygphoto.check_camera_connected()
+            if(new_camera_connection != self._camera_connection):
+                # Raise a signal
+                self.onCameraConnection.emit(new_camera_connection)
+            # Set new state
+            self._camera_connection = new_camera_connection
 
-    def _watch_files(self):
-        """Check for changes in the camera filesystem, possibly raising a
-        onContentChanged signal.
+        def _watch_files(self):
+            """Check for changes in the camera filesystem, possibly raising a
+            onContentChanged signal.
 
-        """
-        new_occupied_space = self.query_storage_info()
-        if(new_occupied_space != self._camera_occupied_space):
-            # Search for new and deleted files
-            diff = self._diff_files()
-            # Raise a signal
-            Pygphoto.onContentChanged.emit(diff)
-        # Set new state
-        self._camera_occupied_space = new_occupied_space
-        
-    def _diff_files(self):
-        """Query the camera and return the couple of lists (new_files,
-        deleted_files) relatively to the last check.
+            """
+            new_occupied_space = Pygphoto.query_storage_info()
+            if(new_occupied_space != self._camera_occupied_space):
+                # Search for new and deleted files
+                diff = self._diff_files()
+                print(str(diff))
+                # Raise a signal
+                self.onContentChanged.emit(diff[0], diff[1])
+            # Set new state
+            self._camera_occupied_space = new_occupied_space
 
-        """
-        new_files = []
-        deleted_files = []
-        # Copy last index
-        with self.__lock__:
+        def _diff_files(self):
+            """Query the camera and return the couple of lists (new_files,
+            deleted_files) relatively to the last check.
+
+            """
+            new_files = []
+            deleted_files = []
+            # Copy last index
             last_files_index = self._files_index.copy()
-        # Update index
-        self.query_file_list()
-        # Copy recent index
-        with self.__lock__:
-            recent_files_index = self._files_index.copy()
+            # Update index
+            self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
 
-        # Check for new files
-        for recent_file in recent_files_index:
-            # Check recent_files was already present
-            if not(recent_file in last_files_index):
-                new_files.append(recent_file)
-        # Check for deleted files
-        for last_file in last_files_index:
-            # Check last_files is still present
-            if not(last_file in recent_files_index):
-                deleted_files.append(last_file)
+            # Check for new files
+            for recent_file in self._files_index:
+                # Check recent_files was already present
+                if not(recent_file in last_files_index):
+                    new_files.append(recent_file)
+            # Check for deleted files
+            for last_file in last_files_index:
+                # Check last_files is still present
+                if not(last_file in self._files_index):
+                    deleted_files.append(last_file)
 
-        return (new_files, deleted_files)
+            return (new_files, deleted_files)
 
 if __name__ == "__main__":
     # TESTINGS
-    pygph = Pygphoto(watch_camera=True, watch_files=False)
-
     class TestPygphoto(QObject):
-        @pyqtSlot(bool)
-        def connectCamera():
-            pass
+        def __init__(self):
+            QObject.__init__(self)
 
+        @pyqtSlot(bool)
+        def connectCamera(boolean):
+            print("Camera connected : " + str(boolean))
+
+        @pyqtSlot(list, list)
+        def newFiles(new, deleted):
+            print("New files : " + str(new))
+            print("Deleted files : " + str(deleted))
+
+    testpygph = TestPygphoto()
+    pygph = Pygphoto(watch_camera=True, watch_files=True)
+    print("Instantiated")
+    pygph.onCameraConnection.connect(testpygph.connectCamera)
+    pygph.onContentChanged.connect(testpygph.newFiles)
     # Wait for a camera to connect
     print("Waiting for connected camera...")
-    while True:
-        if pygph.check_camera_connected():
-            break
+    while not Pygphoto.check_camera_connected():
         time.sleep(0.5)
 
     # print("\n~~~~~~~~ _query_filename")

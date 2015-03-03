@@ -1,16 +1,19 @@
 import QtQuick 2.0
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.1
+
 import PictureManager 1.0
 import Reconstruction 0.1
 import Menu 0.1
 import PictureFetcher 0.1
 import NewWorkspaceDialogWidget 0.1
+import ConfigBar 0.1
 
 ApplicationWindow {
   id: root
   color: "#161616"
-  width: 800  //Screen.desktopAvailableWidth
+  width: Screen.desktopAvailableWidth
   height: 600 //Screen.desktopAvailableHeight
 
   /*
@@ -33,7 +36,19 @@ ApplicationWindow {
   signal sig_importPictures(variant picturesFiles)
   function slot_picturesImported(pictureModel) { pictureManager.pictures = pictureModel }
 
+  /* CONFIGBAR SIGNALS/SLOTS */
+  signal sig_changeShowMap(bool checked)
+  signal sig_changeQuickConfig(bool checked)
+  signal sig_changeActiveMode(bool checked)
+
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
+  signal sig_newWorkspace(string name, string path)
+  signal sig_changeWorkspace()
+  signal sig_deleteWorkspace()
+  signal sig_newScene()
+  signal sig_changeScene()
+  signal sig_saveScene()
+  signal sig_deleteScene()  /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace(string name, string path)
   signal sig_changeWorkspace()
   signal sig_deleteWorkspace()
@@ -60,37 +75,58 @@ ApplicationWindow {
     id: newWorkspaceDialog
   }
 
-  /* May need a wrapper, we'll see later */
-  PictureManager {
-    id: pictureManager
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    onMovePictures: sig_movePictures(indexes, indexTo)
-    onFilterPictures: sig_filterPictures(status)
-    onDiscardPicture: sig_discardPicture(indexDelete)
+  GridLayout {
+    width: parent.width
+    height: parent.height
+    columns: 30
+    rows: 30
+    PictureManager {
+      id: pictureManager
+      width: 300
+      Layout.columnSpan: 10
+      Layout.rowSpan: 30
+      Layout.fillHeight: true
+      onMovePictures: sig_movePictures(indexes, indexTo)
+      onFilterPictures: sig_filterPictures(status)
+      onDiscardPicture: sig_discardPicture(indexDelete)
+    } 
+    ConfigBar {
+      id: configBar
+      Layout.columnSpan: 20
+      Layout.rowSpan: 10
+      Layout.fillHeight: true
+      Layout.alignment: Qt.AlignHCenter
+
+      onChangeShowMap: sig_changeShowMap(checked)
+      onChangeQuickConfig: sig_changeQuickConfig(checked)
+      onChangeActiveMode: sig_changeActiveMode(checked)
+    }
+
+    /* Import Button */
+    Rectangle {
+      width: 200
+      height: 50
+      color: "#1db7ff"
+      Text {
+        anchors.centerIn: parent
+        text: "Import Pictures"
+        color: "white"
+      }
+      MouseArea {
+        anchors.fill: parent
+        onPressed: pictureFetcher.open()
+      }
+      Layout.alignment: Qt.AlignHCenter
+      Layout.columnSpan: 20
+      Layout.rowSpan: 5
+    }
   }
+
 
   /* Temporary button to manually import pictures */
   /* A Window for the picture */
   PictureFetcher {
     id: pictureFetcher
     onImportPictures: sig_importPictures(picturesFiles)
-  }
-  /* Import Button */
-  Rectangle {
-    width: 200
-    height: 50
-    color: "#1db7ff"
-    anchors.top: parent.top
-    anchors.horizontalCenter: parent.horizontalCenter
-    Text {
-      anchors.centerIn: parent
-      text: "Import Pictures"
-      color: "white"
-    }
-    MouseArea {
-      anchors.fill: parent
-      onPressed: pictureFetcher.open()
-    }
   }
 }

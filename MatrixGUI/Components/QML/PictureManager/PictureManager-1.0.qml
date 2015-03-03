@@ -18,8 +18,6 @@ Rectangle {
   signal filterPictures(int status) /* Raised when ordering a filter */
   signal movePictures (variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
 
-  width: 300
-
   /* First element is only a little picture viewer, as a box that contains an image  */
   Viewer {
     id: viewerWrapper

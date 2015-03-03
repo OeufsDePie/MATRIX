@@ -90,35 +90,35 @@ class Orchestrator(QObject):
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
 
-  #### WORKSPACE MANAGER SLOTS
+    #### WORKSPACE MANAGER SLOTS
 
-  @pyqtSlot("QString", "QString")
-  def new_workspace(self,name, path):
-    self.workspaceManager.new_workspace(name, path)
+    @pyqtSlot("QString", "QString")
+    def new_workspace(self,name, path):
+      self.workspaceManager.new_workspace(name, path)
 
-  @pyqtSlot()
-  def change_workspace(self):
-    pass
+    @pyqtSlot()
+    def change_workspace(self):
+      pass
 
-  @pyqtSlot()
-  def delete_workspace(self):
-    pass
+    @pyqtSlot()
+    def delete_workspace(self):
+      pass
 
-  @pyqtSlot()
-  def new_scene(self):
-    pass
+    @pyqtSlot()
+    def new_scene(self):
+      pass
 
-  @pyqtSlot()
-  def change_scene(self):
-    pass
+    @pyqtSlot()
+    def change_scene(self):
+      pass
 
-  @pyqtSlot()
-  def save_scene(self):
-    pass
+    @pyqtSlot()
+    def save_scene(self):
+      pass
 
-  @pyqtSlot()
-  def delete_scene(self):
-    pass
+    @pyqtSlot()
+    def delete_scene(self):
+      pass
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -163,14 +163,14 @@ class Orchestrator(QObject):
         #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
         #self.pictureFetcher.newPictures(self.newPictures)
 
-    ######## workspace manager signals
-    self.root.sig_newWorkspace.connect(self.new_workspace)
-    self.root.sig_changeWorkspace.connect(self.change_workspace)
-    self.root.sig_deleteWorkspace.connect(self.delete_workspace)
-    self.root.sig_newScene.connect(self.new_scene)
-    self.root.sig_changeScene.connect(self.change_scene)
-    self.root.sig_saveScene.connect(self.save_scene)
-    self.root.sig_deleteScene.connect(self.delete_scene)
+        ######## workspace manager signals
+        self.root.sig_newWorkspace.connect(self.new_workspace)
+        self.root.sig_changeWorkspace.connect(self.change_workspace)
+        self.root.sig_deleteWorkspace.connect(self.delete_workspace)
+        self.root.sig_newScene.connect(self.new_scene)
+        self.root.sig_changeScene.connect(self.change_scene)
+        self.root.sig_saveScene.connect(self.save_scene)
+        self.root.sig_deleteScene.connect(self.delete_scene)
 
 if __name__ == "__main__":
     matrix = Orchestrator()

@@ -48,13 +48,6 @@ ApplicationWindow {
   signal sig_newScene()
   signal sig_changeScene()
   signal sig_saveScene()
-  signal sig_deleteScene()  /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
-  signal sig_newWorkspace(string name, string path)
-  signal sig_changeWorkspace()
-  signal sig_deleteWorkspace()
-  signal sig_newScene()
-  signal sig_changeScene()
-  signal sig_saveScene()
   signal sig_deleteScene()
 
   /* The menubar should rather be exported as a proper component */

@@ -9,9 +9,11 @@ import Menu 0.1
 import PictureFetcher 0.1
 import NewWorkspaceDialogWidget 0.1
 import ConfigBar 0.1
+import MapViewer 0.1
 
 ApplicationWindow {
   id: root
+
   color: "#161616"
   width: Screen.desktopAvailableWidth
   height: 600 //Screen.desktopAvailableHeight
@@ -34,7 +36,13 @@ ApplicationWindow {
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
-  function slot_picturesImported(pictureModel) { pictureManager.pictures = pictureModel }
+  function slot_picturesImported(pictureModel) { 
+    pictureManager.pictures = pictureModel;
+    mapViewer.pictures = pictureModel;
+    var center = pictureModel.computeCenter();
+    mapViewer.centerLatitude = center.latitude;
+    mapViewer.centerLongitude = center.longitude;
+  }
 
   /* CONFIGBAR SIGNALS/SLOTS */
   signal sig_changeShowMap(bool checked)
@@ -62,6 +70,7 @@ ApplicationWindow {
     onSig_menu_changeScene:     sig_changeScene()
     onSig_menu_saveScene:       sig_saveScene()
     onSig_menu_deleteScene:     sig_deleteScene()
+    onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 
   NewWorkspaceDialogWidget {
@@ -71,47 +80,70 @@ ApplicationWindow {
   GridLayout {
     width: parent.width
     height: parent.height
-    columns: 30
-    rows: 30
+    columns: 3
+    rows: 3
+    columnSpacing: 0
+
     PictureManager {
       id: pictureManager
-      width: 300
-      Layout.columnSpan: 10
-      Layout.rowSpan: 30
+      Layout.rowSpan: 3
       Layout.fillHeight: true
+      Layout.minimumWidth: 300
       onMovePictures: sig_movePictures(indexes, indexTo)
       onFilterPictures: sig_filterPictures(status)
       onDiscardPicture: sig_discardPicture(indexDelete)
+      onFocusOnPicture: {
+        mapViewer.centerLatitude = latitude
+        mapViewer.centerLongitude = longitude
+      }
     } 
     ConfigBar {
       id: configBar
-      Layout.columnSpan: 20
-      Layout.rowSpan: 10
-      Layout.fillHeight: true
-      Layout.alignment: Qt.AlignHCenter
-
-      onChangeShowMap: sig_changeShowMap(checked)
+      Layout.columnSpan: 2
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+      Layout.minimumHeight: 40
+      onChangeShowMap: {
+        sig_changeShowMap(checked)
+        mapViewer.visible = checked
+      }
       onChangeQuickConfig: sig_changeQuickConfig(checked)
       onChangeActiveMode: sig_changeActiveMode(checked)
+      showMapDefault: mapViewerDefaultVisible
     }
 
-    /* Import Button */
     Rectangle {
-      width: 200
-      height: 50
-      color: "#1db7ff"
+      id: timeline
+      Layout.columnSpan: 2
+      Layout.fillWidth: true
+      color: "#666666"
+      height: 40
       Text {
         anchors.centerIn: parent
-        text: "Import Pictures"
-        color: "white"
+        color: "#ffffff"
+        text: "TODO Timeline"
       }
-      MouseArea {
-        anchors.fill: parent
-        onPressed: pictureFetcher.open()
+    }
+
+    Rectangle {
+      id: renderer
+      color: "#020202"
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      Layout.minimumWidth: 300
+      Layout.columnSpan: mapViewer.visible ? 1 : 2
+      Text {
+        anchors.centerIn: parent
+        color: "#ffffff"
+        text: "TODO Renderer"
       }
-      Layout.alignment: Qt.AlignHCenter
-      Layout.columnSpan: 20
-      Layout.rowSpan: 5
+    }
+
+    MapViewer {
+      id: mapViewer
+      visible: mapViewerDefaultVisible
+      Layout.fillHeight: true
+      Layout.minimumWidth: root.width / 3
+      Layout.maximumWidth: root.width / 3
     }
   }
 

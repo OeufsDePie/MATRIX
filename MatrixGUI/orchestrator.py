@@ -90,35 +90,35 @@ class Orchestrator(QObject):
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
 
-      #### WORKSPACE MANAGER SLOTS
+    #### WORKSPACE MANAGER SLOTS
 
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
-        self.workspaceManager.new_workspace(name, path)
+      self.workspaceManager.new_workspace(name, path)
 
     @pyqtSlot()
     def change_workspace(self):
-        pass
+      pass
 
     @pyqtSlot()
     def delete_workspace(self):
-        pass
+      pass
 
     @pyqtSlot()
     def new_scene(self):
-        pass
+      pass
 
     @pyqtSlot()
     def change_scene(self):
-        pass
+      pass
 
     @pyqtSlot()
     def save_scene(self):
-        pass
+      pass
 
     @pyqtSlot()
     def delete_scene(self):
-        pass
+      pass
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -137,6 +137,8 @@ class Orchestrator(QObject):
         # Instantiate the view
         engine = QQmlApplicationEngine()
         engine.addImportPath(self.QML_PACKAGE)
+
+        engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
 
         engine.load(QUrl(self.MAIN_VIEW))
         self.root = engine.rootObjects()[0]

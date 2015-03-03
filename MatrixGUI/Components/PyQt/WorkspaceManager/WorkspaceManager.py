@@ -1,4 +1,4 @@
-import os, random, math
+import os, random, math, exiftool
 import xml.etree.cElementTree as ET
 from Workspace import Workspace
 
@@ -36,11 +36,26 @@ class WorkspaceManager():
 
     def generateModel(self, picturesFiles):
         root = ET.Element("pictures")
-        for url in picturesFiles:
-            status = str(int(math.floor(4*random.random())))
-            ET.SubElement(root, "picture", status=status).text = url.path()
+        with exiftool.ExifTool() as exifparser:
+            for url in picturesFiles:
+                elem = ET.SubElement(root, "picture", status="0")
+                elem.text = url.path()
+
+                # Get EXIF data
+                exifData = exifparser.get_tags(\
+                    ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url.path())
+                if not ('EXIF:GPSLatitude' in exifData):
+                    #May raise an error if no GPS data ?
+                    exifData['EXIF:GPSLatitude'] = "0.0"
+                    exifData['EXIF:GPSLongitude'] = "0.0"
+
+                elem.set('latitude', str(exifData['EXIF:GPSLatitude']))
+                elem.set('longitude', str(exifData['EXIF:GPSLongitude']))
+        
         tree = ET.ElementTree(root)
         tree.write(self.pictureModelPath())
+
+
 
     def new_workspace(self, name="", base_path=""):
         """ Create a new workspace.

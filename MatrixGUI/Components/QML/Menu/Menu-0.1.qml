@@ -13,6 +13,7 @@ MenuBar {
   signal sig_menu_changeScene()
   signal sig_menu_saveScene()
   signal sig_menu_deleteScene()
+  signal sig_menu_importPictures()
 
   style: MenuBarStyle{
     background: Rectangle {
@@ -35,6 +36,7 @@ MenuBar {
     MenuItem { text: "Change scene";                     onTriggered: sig_menu_changeScene() }
     MenuItem { text: "Save scene";   shortcut: "Ctrl+S"; onTriggered: sig_menu_saveScene() }
     MenuItem { text: "Delete scene"; shortcut: "Ctrl+D"; onTriggered: sig_menu_deleteScene() }
+    MenuItem { text: "Import pictures";                  onTriggered: sig_menu_importPictures() }
   }
 
 } 

@@ -22,7 +22,7 @@ Item {
   RowLayout {
     id: wrapper
     anchors.fill: parent
-    spacing: height / 2
+    spacing: height / 4
     Text {
       id: label
       color: textColor

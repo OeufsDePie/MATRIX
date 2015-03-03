@@ -8,7 +8,11 @@ RowLayout {
   signal changeActiveMode(bool checked)
   signal changeShowMap(bool checked)
 
-  spacing: 20
+  property alias quickConfigDefault: quickConfig.checkedDefault
+  property alias activeModeDefault: activeMode.checkedDefault
+  property alias showMapDefault: showMap.checkedDefault
+
+  spacing: 25
 
   ButtonToggable {
     id: quickConfig
@@ -24,7 +28,6 @@ RowLayout {
   ButtonToggable {
     id: showMap
     labelValue: "Show the map"
-    checkedDefault: false
     onValueChanged: changeShowMap(checked)
   }
 

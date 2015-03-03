@@ -163,14 +163,14 @@ class Orchestrator(QObject):
         #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
         #self.pictureFetcher.newPictures(self.newPictures)
 
-    ######## workspace manager signals
-    self.root.sig_newWorkspace.connect(self.new_workspace)
-    self.root.sig_changeWorkspace.connect(self.change_workspace)
-    self.root.sig_deleteWorkspace.connect(self.delete_workspace)
-    self.root.sig_newScene.connect(self.new_scene)
-    self.root.sig_changeScene.connect(self.change_scene)
-    self.root.sig_saveScene.connect(self.save_scene)
-    self.root.sig_deleteScene.connect(self.delete_scene)
+        ######## workspace manager signals
+        self.root.sig_newWorkspace.connect(self.new_workspace)
+        self.root.sig_changeWorkspace.connect(self.change_workspace)
+        self.root.sig_deleteWorkspace.connect(self.delete_workspace)
+        self.root.sig_newScene.connect(self.new_scene)
+        self.root.sig_changeScene.connect(self.change_scene)
+        self.root.sig_saveScene.connect(self.save_scene)
+        self.root.sig_deleteScene.connect(self.delete_scene)
 
 if __name__ == "__main__":
     matrix = Orchestrator()

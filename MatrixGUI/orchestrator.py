@@ -149,19 +149,19 @@ class Orchestrator(QObject):
         self.app.exec_()
 
     def connectEverything(self):
-    """
-    Every connections between slots and signals are done here
-    """
-    self.root.sig_filterPictures.connect(self.filterPictures)
-    self.root.sig_movePictures.connect(self.movePictures)
-    self.root.sig_importPictures.connect(self.importPictures)
+        """
+        Every connections between slots and signals are done here
+        """
+        self.root.sig_filterPictures.connect(self.filterPictures)
+        self.root.sig_movePictures.connect(self.movePictures)
+        self.root.sig_importPictures.connect(self.importPictures)
 
-    self.picturesMoved.connect(self.root.slot_picturesMoved)
-    self.picturesFiltered.connect(self.root.slot_picturesFiltered)
+        self.picturesMoved.connect(self.root.slot_picturesMoved)
+        self.picturesFiltered.connect(self.root.slot_picturesFiltered)
 
-    self.picturesImported.connect(self.root.slot_picturesImported)
-    #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
-    #self.pictureFetcher.newPictures(self.newPictures)
+        self.picturesImported.connect(self.root.slot_picturesImported)
+        #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
+        #self.pictureFetcher.newPictures(self.newPictures)
 
     ######## workspace manager signals
     self.root.sig_newWorkspace.connect(self.new_workspace)

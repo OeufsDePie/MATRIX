@@ -115,7 +115,6 @@ ApplicationWindow {
     }
   }
 
-
   /* Temporary button to manually import pictures */
   /* A Window for the picture */
   PictureFetcher {

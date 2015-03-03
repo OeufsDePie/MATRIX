@@ -4,23 +4,40 @@ import QtPositioning 5.2
 
 Item {
   id: mapViewer
-  width: 800
-  height: 600
+
+  property variant pictures
+  property real centerLatitude
+  property real centerLongitude
 
   Map {
     id: map
     anchors.fill: parent
-    plugin: Plugin { 
-      name: "nokia" 
-      PluginParameter {name: "app_id"; value: "liygoHgPxa5gjJlMQ7F"}
-      PluginParameter {name: "token"; value: "xsu2IGuSc_eN_BQfxT1o9w"}
-      PluginParameter {name: "proxy"; value: "system"}
-    }
+    /* Using Open Street Map Plugin to display map info */
+    plugin: Plugin { name: "osm" }
     center {
-      latitude: 43.36
-      longitude: 1.26
+      latitude: centerLatitude
+      longitude: centerLongitude
     }
 
     gesture.enabled: true
+    Component.onCompleted: zoomLevel = 17
+
+    MapItemView {
+      model: pictures
+      delegate: pin
+    }
+  }
+
+  Component {
+    id: pin
+    MapCircle {
+      border.width: 0
+      color: "#1db7ff"
+      center {
+        latitude: latitude
+        longitude: longitude
+      }
+      radius: latitude == map.center.latitude && longitude == map.center.longitude ? 10 : 5
+    }
   }
 }

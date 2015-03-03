@@ -138,8 +138,11 @@ class Orchestrator(QObject):
         engine = QQmlApplicationEngine()
         engine.addImportPath(self.QML_PACKAGE)
 
+        engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
+
         engine.load(QUrl(self.MAIN_VIEW))
         self.root = engine.rootObjects()[0]
+
 
         # Link every slots
         self.connectEverything()

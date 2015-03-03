@@ -16,7 +16,8 @@ Rectangle {
 
   signal discardPicture(int index) /* Raised when a picture is deleted/discarded */
   signal filterPictures(int status) /* Raised when ordering a filter */
-  signal movePictures (variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
+  signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
+  signal focusOnPicture(real latitude, real longitude) /* Raised when clicking on a picture */
 
   /* First element is only a little picture viewer, as a box that contains an image  */
   Viewer {
@@ -218,10 +219,11 @@ Rectangle {
           } 
 
           /* Only a simple click, so select the element in the viewer */
-          viewerWrapper.viewer.source = path
-          listView.currentItem.isFocused = false
-          listView.currentIndex = index
-          isFocused = true
+          viewerWrapper.viewer.source = path;
+          listView.currentItem.isFocused = false;
+          listView.currentIndex = index;
+          focusOnPicture(latitude, longitude);
+          isFocused = true;
         }
       }
       Component.onCompleted: {

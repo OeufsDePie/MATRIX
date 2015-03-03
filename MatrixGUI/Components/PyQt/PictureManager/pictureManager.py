@@ -16,7 +16,8 @@ class Picture(object):
     A container used to store all data about a particular picture. It reflects an xml
     structure and is used to manipulate photos as dataModel along the use of the application
     """
-    def __init__(self, resourcesPath, path, date = None, status = PictureState.NEW):
+    def __init__(self, resourcesPath, path, latitude, longitude, date = None, \
+        status = PictureState.NEW):
         """
           Initialize a picture. 
           
@@ -25,7 +26,9 @@ class Picture(object):
             date    (str): the date the photo has been taken 
             status  (str): the status of the picture, see PictureState upon
         """
-        self.path, self.date, self.status, self._resourcesPath = path, date, status, resourcesPath
+        self.path, self.status, self._resourcesPath = path, status, resourcesPath
+        self.latitude, self.longitude = latitude, longitude
+        self.date = date
         self.name = os.path.basename(self.path)
 
     @pyqtProperty(str)
@@ -53,6 +56,24 @@ class PictureManager(QSortFilterProxyModel):
     @pyqtSlot(int, result=str)
     def getName(self, index):
         return self.sourceModel().data(self.sourceModel().index(index), PictureModel.NAME_ROLE)
+
+    @pyqtSlot(result=QVariant)
+    def computeCenter(self):
+        """
+        Compute the coordinates of the center associated to all pictures
+
+        Returns:
+            list<float>: The coordinates, latitude then longitude
+        """
+        extract = lambda coord: [ float(getattr(d, coord)) for d in self.sourceModel()._data if getattr(d, coord) != "0.0" ]
+        latitudes = extract('latitude'); longitudes = extract('longitude')
+        coords = {'latitude': 0, 'longitude': 0}
+        if(len(latitudes) > 0 and len(longitudes) > 0):
+            average = lambda list: sum(list) / len(list)
+            coords['latitude'] = average(latitudes)
+            coords['longitude'] = average(longitudes)
+        #Else, throw an error to inform the user ?
+        return coords
 
     def move(self, initRow, finalRow):
         """
@@ -122,6 +143,8 @@ class PictureModel(QAbstractListModel):
     DATE_ROLE = Qt.UserRole + 3
     STATUS_ROLE = Qt.UserRole + 4
     ICON_ROLE = Qt.UserRole + 5
+    LATITUDE_ROLE = Qt.UserRole + 6
+    LONGITUDE_ROLE = Qt.UserRole + 7
     ITEM_ROLE = Qt.UserRole + 50
     _roles = {
         PATH_ROLE: "path", 
@@ -129,7 +152,9 @@ class PictureModel(QAbstractListModel):
         DATE_ROLE: "date", 
         STATUS_ROLE: "status", 
         ICON_ROLE: "icon",
-        ITEM_ROLE: "item"
+        ITEM_ROLE: "item",
+        LATITUDE_ROLE: "latitude",
+        LONGITUDE_ROLE: "longitude"
     }
 
     def __init__(self, resourcesPath, listPictures = [], parent = None):
@@ -298,4 +323,6 @@ class PictureModel(QAbstractListModel):
             #name = child.attrib["name"]
             path = child.text
             status = child.attrib["status"]
-            self.add(Picture(self._resourcesPath, path, status = status))
+            latitude = child.attrib["latitude"]
+            longitude = child.attrib["longitude"]
+            self.add(Picture(self._resourcesPath, path, latitude, longitude, status = status))

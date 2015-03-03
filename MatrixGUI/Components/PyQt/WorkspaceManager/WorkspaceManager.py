@@ -70,6 +70,48 @@ class WorkspaceManager():
         self.current_workspace = ws.full_path()
         print(ws)
 
+    def open_workspace(self, directory_path, file_name):
+        """ Open an existi ng workspace from a save file of the workspace.
+
+        Args:
+            directory_path (str): The absolute path of the directory containing the file.
+            file_name (str): The name of the file containing the save of the workspace.
+        """
+        ws = Workspace.load(directory_path, file_name, Workspace)
+        self.workspaces[ws.full_path()] = ws
+        self.current_workspace = ws.full_path()
+        print("Workspace "+ws.full_path()+" successfully opened.")
+
+    def close_workspace(self, workspace_path):
+        """Close the workspace (it is not visible anymore in the list of open workspaces.
+        Args:
+            workspace_path (str): The absolute path of the workspace to close.
+        """
+        assert workspace_path in self.workspaces,\
+                "The workspace " + workspace_path + " does not exists or is not opened."
+        if self.current_workspace == workspace_path:
+            self.current_workspace = ""
+        del self.workspaces[workspace_path]
+
+    def change_workspace(self, workspace_path):
+        """ Change the current workspace.
+
+        Args:
+            workspace_path (str): The absolute path of the workspace to select.
+        """
+        self.set_current_workspace(workspace_path)
+
+    def save_workspace(self, workspace_path, file_name):
+        """Save the workspace in a file.
+
+        Args:
+            workspace_path (str): The absolute path of the workspace to save.
+            file_name (str): The name of the file to save into.
+        """
+        assert (workspace_path in self.workspaces),\
+                "The workspace "+ workspace_path +" does not exist in the workspace manager."
+        self.workspaces[workspace_path].save(file_name)
+
     def delete_workspace(self, workspace_path):
         """ Delete the workspace identified by its abolute path.
 
@@ -127,6 +169,17 @@ class WorkspaceManager():
         ws = self.get_current_workspace()
         ws.new_scene(name,path)
 
+    def change_scene(self, scene_path):
+        """ Change the current scene identified by its path in the current workspace.
+
+        Args:
+            scene_path (str): The relative path of the scene to select in the current workspace.
+
+        Raises:
+            AssertionError: If the scene directory does not exist.
+        """
+        self.set_current_scene(scene_path)
+
     def delete_scene(self, scene_path):
         """ Delete the scene identified by its path in the current workspace.
 
@@ -148,9 +201,7 @@ class WorkspaceManager():
             scene_path (str): The relative path of the scene to select in the current workspace.
 
         Raises:
-            AssertionError: If the scene directory does not exist or can not be deleted.
+            AssertionError: If the scene directory does not exist.
         """
         ws = self.get_current_workspace()
-        assert (scene_path in ws.scenes),\
-                "The scene "+ scene_path +" does not exist in the current workspace."
         ws.set_current_scene(scene_path)

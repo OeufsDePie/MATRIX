@@ -70,32 +70,19 @@ ApplicationWindow {
     onDiscardPicture: sig_discardPicture(indexDelete)
   }
 
-
-  /* Wrapper for the reconstruction widget */
-  Item {
-    id: wrapperReconstruction
-    width: root.width - pictureManager.width
-    height: reconstruction.height
-    anchors.left: pictureManager.right
-    Reconstruction {
-      id: reconstruction
-      onLaunchReconstruction: sig_launchReconstruction()
-    }
-  }
-
+  /* Temporary button to manually import pictures */
   /* A Window for the picture */
   PictureFetcher {
     id: pictureFetcher
     onImportPictures: sig_importPictures(picturesFiles)
   }
-
-  /* Temporary button to manually import pictures */
+  /* Import Button */
   Rectangle {
     width: 200
     height: 50
     color: "#1db7ff"
-    anchors.top: wrapperReconstruction.bottom
-    anchors.horizontalCenter: wrapperReconstruction.horizontalCenter
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
     Text {
       anchors.centerIn: parent
       text: "Import Pictures"

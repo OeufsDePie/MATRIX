@@ -9,7 +9,7 @@ import Menu 0.1
 import PictureFetcher 0.1
 import NewWorkspaceDialogWidget 0.1
 import OpenWorkspaceDialog 0.1
-import ChangeWorkspaceDialog 0.1
+import SelectFromModelDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
@@ -87,9 +87,11 @@ ApplicationWindow {
   OpenWorkspaceDialog {
     id: openWorkspaceDialog
   }
-  ChangeWorkspaceDialog {
+  SelectFromModelDialog { // change workspace
     id: changeWorkspaceDialog
     model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace :"
+    onAccepted: {sig_changeWorkspace(changeWorkspaceDialog.selected)}
   }
 
   GridLayout {

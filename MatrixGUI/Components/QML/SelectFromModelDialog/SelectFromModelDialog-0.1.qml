@@ -4,13 +4,17 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 
 Dialog {
-  id: changeWorkspaceDialog
+  id: selectFromModelDialog
   property alias model: combo.model
+  property alias title: title.text
+  property alias selected: combo.currentText
   ColumnLayout {
     anchors.left: parent.left
     anchors.right: parent.right
     spacing: 2
-    Text{text: "Select the workspace :"}
+    Text{
+      id: title;
+    }
     ComboBox {
       id: combo
       textRole: "display"
@@ -18,7 +22,4 @@ Dialog {
     }
   }
   standardButtons: StandardButton.Cancel | StandardButton.Ok
-  onAccepted: {
-    sig_changeWorkspace(combo.currentText)
-  }
 }

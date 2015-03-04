@@ -21,6 +21,7 @@ Dialog {
      placeholderText: qsTr("Enter workspace name");
      selectByMouse: true;
      Layout.fillWidth: true
+     Component.onCompleted: console.log("Patate");
    }
    Text{text: "*The name will be used to generate the workspace repository"; Layout.columnSpan: 2}
   }

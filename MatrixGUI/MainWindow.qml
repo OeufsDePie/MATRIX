@@ -51,11 +51,14 @@ ApplicationWindow {
 
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace(string name, string path)
+  signal sig_openWorkspace()
+  signal sig_closeWorkspace()
   signal sig_changeWorkspace()
+  signal sig_saveWorkspace()
   signal sig_deleteWorkspace()
+
   signal sig_newScene()
   signal sig_changeScene()
-  signal sig_saveScene()
   signal sig_deleteScene()
 
   /* The menubar should rather be exported as a proper component */
@@ -63,13 +66,15 @@ ApplicationWindow {
     id: menu
     // workspace signals
     onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
-    onSig_menu_changeWorkspace: sig_changeWorkspace()
-    onSig_menu_deleteWorkspace: sig_deleteWorkspace()
+    onSig_menu_openWorkspace:   {sig_openWorkspace()}
+    onSig_menu_closeWorkspace:  {sig_closeWorkspace()}
+    onSig_menu_changeWorkspace: {sig_changeWorkspace()}
+    onSig_menu_saveWorkspace:   {sig_saveWorkspace()}
+    onSig_menu_deleteWorkspace: {sig_deleteWorkspace()}
     // scene signals
-    onSig_menu_newScene:        sig_newScene()
-    onSig_menu_changeScene:     sig_changeScene()
-    onSig_menu_saveScene:       sig_saveScene()
-    onSig_menu_deleteScene:     sig_deleteScene()
+    onSig_menu_newScene:        {sig_newScene()}
+    onSig_menu_changeScene:     {sig_changeScene()}
+    onSig_menu_deleteScene:     {sig_deleteScene()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 

@@ -94,31 +94,39 @@ class Orchestrator(QObject):
 
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
-      self.workspaceManager.new_workspace(name, path)
+        self.workspaceManager.new_workspace(name, path)
+
+    @pyqtSlot()
+    def open_workspace(self):
+        pass
+
+    @pyqtSlot()
+    def close_workspace(self):
+        pass
 
     @pyqtSlot()
     def change_workspace(self):
-      pass
+        pass
+
+    @pyqtSlot()
+    def save_workspace(self):
+        pass
 
     @pyqtSlot()
     def delete_workspace(self):
-      pass
+        pass
 
     @pyqtSlot()
     def new_scene(self):
-      pass
+        pass
 
     @pyqtSlot()
     def change_scene(self):
-      pass
-
-    @pyqtSlot()
-    def save_scene(self):
-      pass
+        pass
 
     @pyqtSlot()
     def delete_scene(self):
-      pass
+        pass
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -167,11 +175,12 @@ class Orchestrator(QObject):
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
+        self.root.sig_openWorkspace.connect(self.open_workspace)
+        self.root.sig_closeWorkspace.connect(self.close_workspace)
         self.root.sig_changeWorkspace.connect(self.change_workspace)
         self.root.sig_deleteWorkspace.connect(self.delete_workspace)
         self.root.sig_newScene.connect(self.new_scene)
         self.root.sig_changeScene.connect(self.change_scene)
-        self.root.sig_saveScene.connect(self.save_scene)
         self.root.sig_deleteScene.connect(self.delete_scene)
 
 if __name__ == "__main__":

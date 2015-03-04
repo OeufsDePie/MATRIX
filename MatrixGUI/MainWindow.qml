@@ -8,7 +8,7 @@ import Reconstruction 0.1
 import Menu 0.1
 import PictureFetcher 0.1
 import NewWorkspaceDialogWidget 0.1
-import OpenWorkspaceDialog 0.1
+import SelectFileDialog 0.1
 import SelectFromModelDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
@@ -83,8 +83,13 @@ ApplicationWindow {
   NewWorkspaceDialogWidget {
     id: newWorkspaceDialog
   }
-  OpenWorkspaceDialog {
+  SelectFileDialog {
     id: openWorkspaceDialog
+    title: "Choose the file corresponding to the workspace save"
+    onAccepted: {
+      var absolutePath = openWorkspaceDialog.fileUrl.toString().substring(7)
+      sig_openWorkspace(absolutePath)
+    }
   }
   SelectFromModelDialog { // change workspace
     id: changeWorkspaceDialog

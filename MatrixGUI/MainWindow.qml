@@ -56,7 +56,7 @@ ApplicationWindow {
   signal sig_openWorkspace(string path)
   signal sig_closeWorkspace(string path)
   signal sig_changeWorkspace(string path)
-  signal sig_saveWorkspace()
+  signal sig_saveWorkspace(string name, string path)
   signal sig_deleteWorkspace(string path)
 
   signal sig_newScene()
@@ -71,7 +71,7 @@ ApplicationWindow {
     onSig_menu_openWorkspace:   {openWorkspaceDialog.open()}
     onSig_menu_closeWorkspace:  {closeWorkspaceDialog.open()}
     onSig_menu_changeWorkspace: {changeWorkspaceDialog.open()}
-    onSig_menu_saveWorkspace:   {sig_saveWorkspace()}
+    onSig_menu_saveWorkspace:   {saveWorkspaceDialog.open()}
     onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
     // scene signals
     onSig_menu_newScene:        {sig_newScene()}
@@ -80,14 +80,14 @@ ApplicationWindow {
     onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 
-  FolderAndNameDialog {
+  FolderAndNameDialog { // create a new workspace
     id: newWorkspaceDialog
     nameLabel: "Choose workspace name* :"
     namePlaceholder: qsTr("Enter workspace name")
     complementaryInfo: "*The name will be used to generate the workspace repository"
     onAccepted: {sig_newWorkspace(name, folder)}
   }
-  SelectFileDialog {
+  SelectFileDialog { // open a saved workspace
     id: openWorkspaceDialog
     title: "Choose the file corresponding to the workspace save"
     onAccepted: {
@@ -106,6 +106,13 @@ ApplicationWindow {
     model: workspacesModel       // transfered from orchestrator.py
     title: "Select workspace to close :"
     onAccepted: {sig_closeWorkspace(closeWorkspaceDialog.selected)}
+  }
+  FolderAndNameDialog { // save the workspace
+    id: saveWorkspaceDialog
+    nameLabel: "Choose a name for the save"
+    namePlaceholder: qsTr("Enter save name")
+    complementaryInfo: ""
+    onAccepted: {sig_saveWorkspace(name, folder)}
   }
   SelectFromModelDialog { // delete workspace
     id: deleteWorkspaceDialog

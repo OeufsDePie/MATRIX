@@ -54,10 +54,10 @@ ApplicationWindow {
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace(string name, string path)
   signal sig_openWorkspace(string path)
-  signal sig_closeWorkspace()
+  signal sig_closeWorkspace(string path)
   signal sig_changeWorkspace(string path)
   signal sig_saveWorkspace()
-  signal sig_deleteWorkspace()
+  signal sig_deleteWorkspace(string path)
 
   signal sig_newScene()
   signal sig_changeScene()
@@ -69,11 +69,10 @@ ApplicationWindow {
     // workspace signals
     onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
     onSig_menu_openWorkspace:   {openWorkspaceDialog.open()}
-    onSig_menu_closeWorkspace:  {sig_closeWorkspace(path)}
+    onSig_menu_closeWorkspace:  {closeWorkspaceDialog.open()}
     onSig_menu_changeWorkspace: {changeWorkspaceDialog.open()}
-    //onSig_menu_changeWorkspace: {sig_changeWorkspace()}
     onSig_menu_saveWorkspace:   {sig_saveWorkspace()}
-    onSig_menu_deleteWorkspace: {sig_deleteWorkspace()}
+    onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
     // scene signals
     onSig_menu_newScene:        {sig_newScene()}
     onSig_menu_changeScene:     {sig_changeScene()}
@@ -92,6 +91,18 @@ ApplicationWindow {
     model: workspacesModel       // transfered from orchestrator.py
     title: "Select workspace :"
     onAccepted: {sig_changeWorkspace(changeWorkspaceDialog.selected)}
+  }
+  SelectFromModelDialog { // close workspace
+    id: closeWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace to close :"
+    onAccepted: {sig_closeWorkspace(closeWorkspaceDialog.selected)}
+  }
+  SelectFromModelDialog { // delete workspace
+    id: deleteWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace to delete :"
+    onAccepted: {sig_deleteWorkspace(deleteWorkspaceDialog.selected)}
   }
 
   GridLayout {

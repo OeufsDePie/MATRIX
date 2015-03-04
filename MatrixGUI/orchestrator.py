@@ -103,8 +103,7 @@ class Orchestrator(QObject):
 
     @pyqtSlot("QString")
     def close_workspace(self, path):
-        #self.workspaceManager.close_workspace(path)
-        pass
+        self.workspaceManager.close_workspace(path)
 
     @pyqtSlot("QString")
     def change_workspace(self, path):
@@ -114,9 +113,9 @@ class Orchestrator(QObject):
     def save_workspace(self):
         pass
 
-    @pyqtSlot()
-    def delete_workspace(self):
-        pass
+    @pyqtSlot("QString")
+    def delete_workspace(self, path):
+        self.workspaceManager.delete_workspace(path)
 
     @pyqtSlot()
     def new_scene(self):

@@ -8,6 +8,8 @@ import Reconstruction 0.1
 import Menu 0.1
 import PictureFetcher 0.1
 import NewWorkspaceDialogWidget 0.1
+import OpenWorkspaceDialog 0.1
+import ChangeWorkspaceDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
@@ -51,9 +53,9 @@ ApplicationWindow {
 
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace(string name, string path)
-  signal sig_openWorkspace()
+  signal sig_openWorkspace(string path)
   signal sig_closeWorkspace()
-  signal sig_changeWorkspace()
+  signal sig_changeWorkspace(string path)
   signal sig_saveWorkspace()
   signal sig_deleteWorkspace()
 
@@ -66,9 +68,10 @@ ApplicationWindow {
     id: menu
     // workspace signals
     onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
-    onSig_menu_openWorkspace:   {sig_openWorkspace()}
-    onSig_menu_closeWorkspace:  {sig_closeWorkspace()}
-    onSig_menu_changeWorkspace: {sig_changeWorkspace()}
+    onSig_menu_openWorkspace:   {openWorkspaceDialog.open()}
+    onSig_menu_closeWorkspace:  {sig_closeWorkspace(path)}
+    onSig_menu_changeWorkspace: {changeWorkspaceDialog.open()}
+    //onSig_menu_changeWorkspace: {sig_changeWorkspace()}
     onSig_menu_saveWorkspace:   {sig_saveWorkspace()}
     onSig_menu_deleteWorkspace: {sig_deleteWorkspace()}
     // scene signals
@@ -80,6 +83,13 @@ ApplicationWindow {
 
   NewWorkspaceDialogWidget {
     id: newWorkspaceDialog
+  }
+  OpenWorkspaceDialog {
+    id: openWorkspaceDialog
+  }
+  ChangeWorkspaceDialog {
+    id: changeWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
   }
 
   GridLayout {

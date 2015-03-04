@@ -96,17 +96,19 @@ class Orchestrator(QObject):
     def new_workspace(self,name, path):
         self.workspaceManager.new_workspace(name, path)
 
-    @pyqtSlot()
-    def open_workspace(self):
+    @pyqtSlot("QString")
+    def open_workspace(self, path):
+        (directory_path,file_name) = os.path.split(path)
+        self.workspaceManager.open_workspace(directory_path, file_name)
+
+    @pyqtSlot("QString")
+    def close_workspace(self, path):
+        #self.workspaceManager.close_workspace(path)
         pass
 
-    @pyqtSlot()
-    def close_workspace(self):
-        pass
-
-    @pyqtSlot()
-    def change_workspace(self):
-        pass
+    @pyqtSlot("QString")
+    def change_workspace(self, path):
+        self.workspaceManager.change_workspace(path)
 
     @pyqtSlot()
     def save_workspace(self):
@@ -147,6 +149,9 @@ class Orchestrator(QObject):
         engine.addImportPath(self.QML_PACKAGE)
 
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
+
+        # The list model of opened workspaces
+        engine.rootContext().setContextProperty("workspacesModel",self.workspaceManager.workspaces_model)
 
         engine.load(QUrl(self.MAIN_VIEW))
         self.root = engine.rootObjects()[0]

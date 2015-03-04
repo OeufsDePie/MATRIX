@@ -14,6 +14,7 @@ class WorkspaceManager():
         workspaces (dict(str,Workspace)): All the workspaces.
         current_workspace (str): The current workspace.
         workspaces_model (QStringListModel): The list model (for qml) of the workspaces.
+        scenes_model (QStringListModel): The list model (for qml) of the scenes in the current workspace.
     """
     def __init__(self):
         """Initialize a workspace manager.
@@ -21,6 +22,7 @@ class WorkspaceManager():
         self.workspaces = dict()
         self.current_workspace = "" 
         self.workspaces_model = QStringListModel()
+        self.scenes_model = QStringListModel()
 
     def setProjectPath(self, projectPath):
         '''
@@ -106,6 +108,7 @@ class WorkspaceManager():
             workspace_path (str): The absolute path of the workspace to select.
         """
         self.set_current_workspace(workspace_path)
+        self.update_scenes_model()
 
     def save_workspace(self, workspace_path, file_name):
         """Save the workspace in a file.
@@ -139,6 +142,7 @@ class WorkspaceManager():
         """ Updates the attribute workspaces_model.
         """
         self.workspaces_model.setStringList(list(self.workspaces.keys()))
+        self.update_scenes_model()
 
     def get_current_workspace(self):
         """ Get the current workspace.
@@ -167,6 +171,7 @@ class WorkspaceManager():
         assert (workspace_path in self.workspaces), "The workspace " +\
                 workspace_path + "does not exist in this workspace manager."
         self.current_workspace = workspace_path
+        self.update_scenes_model()
 
     def new_scene(self, name="", path=""):
         """ Create a new scene in the current workspace.
@@ -180,6 +185,7 @@ class WorkspaceManager():
         """
         ws = self.get_current_workspace()
         ws.new_scene(name,path)
+        self.update_scenes_model()
 
     def change_scene(self, scene_path):
         """ Change the current scene identified by its path in the current workspace.
@@ -205,6 +211,7 @@ class WorkspaceManager():
         assert (scene_path in ws.scenes),\
                 "The scene "+ scene_path +" does not exist in the current workspace."
         ws.delete_scene(scene_path)
+        self.update_scenes_model()
 
     def set_current_scene(self, scene_path):
         """ Change the current scene identified by its path in the current workspace.
@@ -217,3 +224,8 @@ class WorkspaceManager():
         """
         ws = self.get_current_workspace()
         ws.set_current_scene(scene_path)
+
+    def update_scenes_model(self):
+        """ Updates the attribute scenes_model.
+        """
+        self.scenes_model.setStringList(list(self.get_current_workspace().scenes.keys()))

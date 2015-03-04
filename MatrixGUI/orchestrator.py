@@ -117,17 +117,17 @@ class Orchestrator(QObject):
     def delete_workspace(self, path):
         self.workspaceManager.delete_workspace(path)
 
-    @pyqtSlot()
-    def new_scene(self):
-        pass
+    @pyqtSlot("QString")
+    def new_scene(self, name):
+        self.workspaceManager.new_scene(name)
 
-    @pyqtSlot()
-    def change_scene(self):
-        pass
+    @pyqtSlot("QString")
+    def change_scene(self, path):
+        self.workspaceManager.change_scene(path)
 
-    @pyqtSlot()
-    def delete_scene(self):
-        pass
+    @pyqtSlot("QString")
+    def delete_scene(self, path):
+        self.workspaceManager.delete_scene(path)
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -149,8 +149,9 @@ class Orchestrator(QObject):
 
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
 
-        # The list model of opened workspaces
+        # The list model of opened workspaces and scenes
         engine.rootContext().setContextProperty("workspacesModel",self.workspaceManager.workspaces_model)
+        engine.rootContext().setContextProperty("scenesModel",self.workspaceManager.scenes_model)
 
         engine.load(QUrl(self.MAIN_VIEW))
         self.root = engine.rootObjects()[0]

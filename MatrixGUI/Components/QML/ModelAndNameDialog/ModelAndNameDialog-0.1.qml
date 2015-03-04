@@ -11,13 +11,14 @@ Dialog {
   property alias name: name.text
   property alias model: combo.model
   property alias selected: combo.currentText
-  width: dialogGrid.width + 20
+  width: dialogGrid.implicitWidth + 20
   GridLayout{
     id: dialogGrid
     width: 700
     columns: 2
     columnSpacing: 15
-    anchors.horizontalCenter: modelAndNameDialog.anchors.horizontalCenter
+    anchors.left: parent.left
+    anchors.right: parent.right
     ComboBox {
       id: combo
       textRole: "display"

@@ -11,6 +11,7 @@ import FolderAndNameDialog 0.1
 import SelectFileDialog 0.1
 import SelectFromModelDialog 0.1
 import ModelAndNameDialog 0.1
+import TextFieldDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
@@ -60,9 +61,9 @@ ApplicationWindow {
   signal sig_saveWorkspace(string name, string path)
   signal sig_deleteWorkspace(string path)
 
-  signal sig_newScene()
-  signal sig_changeScene()
-  signal sig_deleteScene()
+  signal sig_newScene(string name)
+  signal sig_changeScene(string path)
+  signal sig_deleteScene(string path)
 
   /* The menubar should rather be exported as a proper component */
   menuBar: Menu {
@@ -75,9 +76,9 @@ ApplicationWindow {
     onSig_menu_saveWorkspace:   {saveWorkspaceDialog.open()}
     onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
     // scene signals
-    onSig_menu_newScene:        {sig_newScene()}
-    onSig_menu_changeScene:     {sig_changeScene()}
-    onSig_menu_deleteScene:     {sig_deleteScene()}
+    onSig_menu_newScene:        {newSceneDialog.open()}
+    onSig_menu_changeScene:     {changeSceneDialog.open()}
+    onSig_menu_deleteScene:     {deleteSceneDialog.open()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 
@@ -121,6 +122,25 @@ ApplicationWindow {
     model: workspacesModel       // transfered from orchestrator.py
     title: "Select workspace to delete :"
     onAccepted: {sig_deleteWorkspace(deleteWorkspaceDialog.selected)}
+  }
+  TextFieldDialog { // create a new scene
+    id: newSceneDialog
+    label: "Choose a name for the new scene*"
+    placeholder: qsTr("name")
+    complementaryInfo: "* The name will be used to generate the scene path inside the current workspace"
+    onAccepted: {sig_newScene(input)}
+  }
+  SelectFromModelDialog { // change scene
+    id: changeSceneDialog
+    model: scenesModel       // transfered from orchestrator.py
+    title: "Select a scene :"
+    onAccepted: {sig_changeScene(changeSceneDialog.selected)}
+  }
+  SelectFromModelDialog { // delete a scene
+    id: deleteSceneDialog
+    model: scenesModel       // transfered from orchestrator.py
+    title: "Select a scene to delete :"
+    onAccepted: {sig_deleteScene(deleteSceneDialog.selected)}
   }
 
   GridLayout {

@@ -11,28 +11,29 @@ Dialog {
   property alias complementaryInfo: complementaryInfo.text
   property alias folder: folderSelected.text
   property alias name: name.text
-  width: dialogGrid.width + 20
+  width: dialogGrid.implicitWidth + 20
   GridLayout{
-   id: dialogGrid
-   width: 700
-   columns: 2
-   columnSpacing: 15
-   anchors.horizontalCenter: folderAndNameDialog.anchors.horizontalCenter
-   Button{text: "Select Folder"; onClicked: selectFolderDialog.open(); Layout.fillWidth: true}
-   Text{id: folderSelected; text: ""}
-   Text{id: nameLabel}
-   TextField{
-     id: name;
-     selectByMouse: true;
-     Layout.fillWidth: true
-   }
-   Text{id: complementaryInfo; Layout.columnSpan: 2}
+    id: dialogGrid
+    width: 700
+    columns: 2
+    columnSpacing: 15
+    anchors.left: parent.left
+    anchors.right: parent.right
+    Button{text: "Select Folder"; onClicked: selectFolderDialog.open(); Layout.fillWidth: true}
+    Text{id: folderSelected; text: ""}
+    Text{id: nameLabel}
+    TextField{
+      id: name;
+      selectByMouse: true;
+      Layout.fillWidth: true
+    }
+    Text{id: complementaryInfo; Layout.columnSpan: 2}
   }
   standardButtons: StandardButton.Cancel | StandardButton.Ok
 
   FolderDialogWidget {
-   id: selectFolderDialog
-   target: folderSelected
+    id: selectFolderDialog
+    target: folderSelected
   }
 
 }

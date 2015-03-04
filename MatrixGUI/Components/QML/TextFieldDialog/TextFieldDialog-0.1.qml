@@ -9,13 +9,14 @@ Dialog {
   property alias placeholder: input.placeholderText
   property alias input: input.text
   property alias complementaryInfo: complementaryInfo.text
-  width: dialogGrid.width + 20
+  width: dialogGrid.implicitWidth + 20
   GridLayout{
     id: dialogGrid
     width: 700
     columns: 2
     columnSpacing: 15
-    anchors.horizontalCenter: textFieldDialog.anchors.horizontalCenter
+    anchors.left: parent.left
+    anchors.right: parent.right
     Text{id: label}
     TextField{
       id: input;

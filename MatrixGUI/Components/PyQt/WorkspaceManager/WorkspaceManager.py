@@ -1,6 +1,7 @@
 import os, random, math, exiftool
 import xml.etree.cElementTree as ET
 from Workspace import Workspace
+from PyQt5.QtCore import QStringListModel
 
 class WorkspaceManager():
     """ Manages the workspace.
@@ -10,14 +11,16 @@ class WorkspaceManager():
     communicating any change through signals.
 
     Attributes:
-        workspaces (dict(str,Workspace)): All the workspaces
-        current_workspace (str): The current workspace
+        workspaces (dict(str,Workspace)): All the workspaces.
+        current_workspace (str): The current workspace.
+        workspaces_model (QStringListModel): The list model (for qml) of the workspaces.
     """
     def __init__(self):
         """Initialize a workspace manager.
         """
         self.workspaces = dict()
-        self.current_workspace = ""
+        self.current_workspace = "" 
+        self.workspaces_model = QStringListModel()
 
     def setProjectPath(self, projectPath):
         '''
@@ -68,6 +71,7 @@ class WorkspaceManager():
         ws.create_directory()
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
+        self.update_workspaces_model()
         print(ws)
 
     def open_workspace(self, directory_path, file_name):
@@ -80,6 +84,7 @@ class WorkspaceManager():
         ws = Workspace.load(directory_path, file_name, Workspace)
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
+        self.update_workspaces_model()
         print("Workspace "+ws.full_path()+" successfully opened.")
 
     def close_workspace(self, workspace_path):
@@ -92,6 +97,7 @@ class WorkspaceManager():
         if self.current_workspace == workspace_path:
             self.current_workspace = ""
         del self.workspaces[workspace_path]
+        self.update_workspaces_model()
 
     def change_workspace(self, workspace_path):
         """ Change the current workspace.
@@ -127,6 +133,12 @@ class WorkspaceManager():
         del self.workspaces[workspace_path]
         if (self.current_workspace == workspace_path):
             self.current_workspace = ""
+        self.update_workspaces_model()
+
+    def update_workspaces_model(self):
+        """ Updates the attribute workspaces_model.
+        """
+        self.workspaces_model.setStringList(list(self.workspaces.keys()))
 
     def get_current_workspace(self):
         """ Get the current workspace.

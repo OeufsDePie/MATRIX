@@ -7,7 +7,10 @@ import PictureManager 1.0
 import Reconstruction 0.1
 import Menu 0.1
 import PictureFetcher 0.1
-import NewWorkspaceDialogWidget 0.1
+import FolderAndNameDialog 0.1
+import SelectFileDialog 0.1
+import SelectFromModelDialog 0.1
+import ModelAndNameDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
@@ -51,11 +54,14 @@ ApplicationWindow {
 
   /* WORKSPACEMANAGER WIDGET SIGNALS/SLOTS */
   signal sig_newWorkspace(string name, string path)
-  signal sig_changeWorkspace()
-  signal sig_deleteWorkspace()
+  signal sig_openWorkspace(string path)
+  signal sig_closeWorkspace(string path)
+  signal sig_changeWorkspace(string path)
+  signal sig_saveWorkspace(string name, string path)
+  signal sig_deleteWorkspace(string path)
+
   signal sig_newScene()
   signal sig_changeScene()
-  signal sig_saveScene()
   signal sig_deleteScene()
 
   /* The menubar should rather be exported as a proper component */
@@ -63,18 +69,58 @@ ApplicationWindow {
     id: menu
     // workspace signals
     onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
-    onSig_menu_changeWorkspace: sig_changeWorkspace()
-    onSig_menu_deleteWorkspace: sig_deleteWorkspace()
+    onSig_menu_openWorkspace:   {openWorkspaceDialog.open()}
+    onSig_menu_closeWorkspace:  {closeWorkspaceDialog.open()}
+    onSig_menu_changeWorkspace: {changeWorkspaceDialog.open()}
+    onSig_menu_saveWorkspace:   {saveWorkspaceDialog.open()}
+    onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
     // scene signals
-    onSig_menu_newScene:        sig_newScene()
-    onSig_menu_changeScene:     sig_changeScene()
-    onSig_menu_saveScene:       sig_saveScene()
-    onSig_menu_deleteScene:     sig_deleteScene()
+    onSig_menu_newScene:        {sig_newScene()}
+    onSig_menu_changeScene:     {sig_changeScene()}
+    onSig_menu_deleteScene:     {sig_deleteScene()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 
-  NewWorkspaceDialogWidget {
+  FolderAndNameDialog { // create a new workspace
     id: newWorkspaceDialog
+    nameLabel: "Choose workspace name* :"
+    namePlaceholder: qsTr("Enter workspace name")
+    complementaryInfo: "*The name will be used to generate the workspace repository"
+    onAccepted: {sig_newWorkspace(name, folder)}
+  }
+  SelectFileDialog { // open a saved workspace
+    id: openWorkspaceDialog
+    title: "Choose the file corresponding to the workspace save"
+    onAccepted: {
+      var absolutePath = openWorkspaceDialog.fileUrl.toString().substring(7)
+      sig_openWorkspace(absolutePath)
+    }
+  }
+  SelectFromModelDialog { // change workspace
+    id: changeWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace :"
+    onAccepted: {sig_changeWorkspace(changeWorkspaceDialog.selected)}
+  }
+  SelectFromModelDialog { // close workspace
+    id: closeWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace to close :"
+    onAccepted: {sig_closeWorkspace(closeWorkspaceDialog.selected)}
+  }
+  ModelAndNameDialog { // save the workspace
+    id: saveWorkspaceDialog
+    nameLabel: "Choose a name for the save"
+    namePlaceholder: qsTr("Enter save name")
+    complementaryInfo: ""
+    model: workspacesModel       // transfered from orchestrator.py
+    onAccepted: {sig_saveWorkspace(name, selected)}
+  }
+  SelectFromModelDialog { // delete workspace
+    id: deleteWorkspaceDialog
+    model: workspacesModel       // transfered from orchestrator.py
+    title: "Select workspace to delete :"
+    onAccepted: {sig_deleteWorkspace(deleteWorkspaceDialog.selected)}
   }
 
   GridLayout {

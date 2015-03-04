@@ -94,31 +94,40 @@ class Orchestrator(QObject):
 
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
-      self.workspaceManager.new_workspace(name, path)
+        self.workspaceManager.new_workspace(name, path)
 
-    @pyqtSlot()
-    def change_workspace(self):
-      pass
+    @pyqtSlot("QString")
+    def open_workspace(self, path):
+        (directory_path,file_name) = os.path.split(path)
+        self.workspaceManager.open_workspace(directory_path, file_name)
 
-    @pyqtSlot()
-    def delete_workspace(self):
-      pass
+    @pyqtSlot("QString")
+    def close_workspace(self, path):
+        self.workspaceManager.close_workspace(path)
+
+    @pyqtSlot("QString")
+    def change_workspace(self, path):
+        self.workspaceManager.change_workspace(path)
+
+    @pyqtSlot("QString", "QString")
+    def save_workspace(self, name, path):
+        self.workspaceManager.save_workspace(path, name)
+
+    @pyqtSlot("QString")
+    def delete_workspace(self, path):
+        self.workspaceManager.delete_workspace(path)
 
     @pyqtSlot()
     def new_scene(self):
-      pass
+        pass
 
     @pyqtSlot()
     def change_scene(self):
-      pass
-
-    @pyqtSlot()
-    def save_scene(self):
-      pass
+        pass
 
     @pyqtSlot()
     def delete_scene(self):
-      pass
+        pass
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -139,6 +148,9 @@ class Orchestrator(QObject):
         engine.addImportPath(self.QML_PACKAGE)
 
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
+
+        # The list model of opened workspaces
+        engine.rootContext().setContextProperty("workspacesModel",self.workspaceManager.workspaces_model)
 
         engine.load(QUrl(self.MAIN_VIEW))
         self.root = engine.rootObjects()[0]
@@ -167,11 +179,13 @@ class Orchestrator(QObject):
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
+        self.root.sig_openWorkspace.connect(self.open_workspace)
+        self.root.sig_closeWorkspace.connect(self.close_workspace)
         self.root.sig_changeWorkspace.connect(self.change_workspace)
+        self.root.sig_saveWorkspace.connect(self.save_workspace)
         self.root.sig_deleteWorkspace.connect(self.delete_workspace)
         self.root.sig_newScene.connect(self.new_scene)
         self.root.sig_changeScene.connect(self.change_scene)
-        self.root.sig_saveScene.connect(self.save_scene)
         self.root.sig_deleteScene.connect(self.delete_scene)
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import PictureManager 1.0
 import Reconstruction 0.1
 import Menu 0.1
 import PictureFetcher 0.1
-import NewWorkspaceDialogWidget 0.1
+import FolderAndNameDialog 0.1
 import SelectFileDialog 0.1
 import SelectFromModelDialog 0.1
 import ConfigBar 0.1
@@ -80,8 +80,12 @@ ApplicationWindow {
     onSig_menu_importPictures:  {pictureFetcher.open()}
   }
 
-  NewWorkspaceDialogWidget {
+  FolderAndNameDialog {
     id: newWorkspaceDialog
+    nameLabel: "Choose workspace name* :"
+    namePlaceholder: qsTr("Enter workspace name")
+    complementaryInfo: "*The name will be used to generate the workspace repository"
+    onAccepted: {sig_newWorkspace(name, folder)}
   }
   SelectFileDialog {
     id: openWorkspaceDialog

@@ -5,30 +5,30 @@ import QtQuick.Layouts 1.1
 import FolderDialogWidget 0.1
 
 Dialog {
-  id: newWorkspaceDialog
+  id: folderAndNameDialog
+  property alias nameLabel: nameLabel.text
+  property alias namePlaceholder: name.placeholderText
+  property alias complementaryInfo: complementaryInfo.text
+  property alias folder: folderSelected.text
+  property alias name: name.text
   width: dialogGrid.width + 20
   GridLayout{
    id: dialogGrid
    width: 700
    columns: 2
    columnSpacing: 15
-   anchors.horizontalCenter: newWorkspaceDialog.anchors.horizontalCenter
+   anchors.horizontalCenter: folderAndNameDialog.anchors.horizontalCenter
    Button{text: "Select Folder"; onClicked: selectFolderDialog.open(); Layout.fillWidth: true}
    Text{id: folderSelected; text: ""}
-   Text{text: "Choose workspace name* :"}
+   Text{id: nameLabel}
    TextField{
-     id: workspaceName;
-     placeholderText: qsTr("Enter workspace name");
+     id: name;
      selectByMouse: true;
      Layout.fillWidth: true
-     Component.onCompleted: console.log("Patate");
    }
-   Text{text: "*The name will be used to generate the workspace repository"; Layout.columnSpan: 2}
+   Text{id: complementaryInfo; Layout.columnSpan: 2}
   }
   standardButtons: StandardButton.Cancel | StandardButton.Ok
-  onAccepted: {
-   sig_newWorkspace(workspaceName.text, folderSelected.text)
-  }
 
   FolderDialogWidget {
    id: selectFolderDialog

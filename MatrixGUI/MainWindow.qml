@@ -10,6 +10,7 @@ import PictureFetcher 0.1
 import FolderAndNameDialog 0.1
 import SelectFileDialog 0.1
 import SelectFromModelDialog 0.1
+import ModelAndNameDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
@@ -107,12 +108,13 @@ ApplicationWindow {
     title: "Select workspace to close :"
     onAccepted: {sig_closeWorkspace(closeWorkspaceDialog.selected)}
   }
-  FolderAndNameDialog { // save the workspace
+  ModelAndNameDialog { // save the workspace
     id: saveWorkspaceDialog
     nameLabel: "Choose a name for the save"
     namePlaceholder: qsTr("Enter save name")
     complementaryInfo: ""
-    onAccepted: {sig_saveWorkspace(name, folder)}
+    model: workspacesModel       // transfered from orchestrator.py
+    onAccepted: {sig_saveWorkspace(name, selected)}
   }
   SelectFromModelDialog { // delete workspace
     id: deleteWorkspaceDialog

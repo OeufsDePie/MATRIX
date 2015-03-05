@@ -25,6 +25,8 @@ class Orchestrator(QObject):
     picturesFiltered = pyqtSignal()
     # Send to inform that picture have been imported. 
     picturesImported = pyqtSignal(QVariant)
+    # Send to inform that pictures have been discarded
+    picturesDiscarded = pyqtSignal(QVariant)
 
     # Define All Usable Slots
     @pyqtSlot(QVariant, int)
@@ -66,6 +68,12 @@ class Orchestrator(QObject):
         self.pictureManager.setFilterRegExp(regExp)
         self.picturesFiltered.emit()
 
+    @pyqtSlot(QVariant)
+    def discardPictures(self, indexes):
+        state = self.pictureManager.discardAll(\
+            [ self.pictureManager.index(i, 0) for i in indexes.toVariant() ])
+        if(state): self.picturesDiscarded.emit(indexes)
+
     @pyqtSlot(QVariant, QVariant)
     def newPictures(newPictures, deletedPictures):
         """
@@ -94,7 +102,6 @@ class Orchestrator(QObject):
         self.picturesImported.emit(self.pictureManager)
 
     #### WORKSPACE MANAGER SLOTS
-
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
         self.workspaceManager.new_workspace(name, path)
@@ -182,15 +189,17 @@ class Orchestrator(QObject):
         self.root.sig_filterPictures.connect(self.filterPictures)
         self.root.sig_movePictures.connect(self.movePictures)
         self.root.sig_importPictures.connect(self.importPictures)
-        
-        self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
+        self.root.sig_discardPictures.connect(self.discardPictures)
 
         self.picturesMoved.connect(self.root.slot_picturesMoved)
         self.picturesFiltered.connect(self.root.slot_picturesFiltered)
-
         self.picturesImported.connect(self.root.slot_picturesImported)
+        self.picturesDiscarded.connect(self.root.slot_picturesDiscarded)
+
         #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
         #self.pictureFetcher.newPictures(self.newPictures)
+
+        self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)

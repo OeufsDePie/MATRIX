@@ -14,7 +14,7 @@ Rectangle {
   property string selectionColor: "#1db7ff"
   property string textColor: "#000000"
 
-  signal discardPicture(int index) /* Raised when a picture is deleted/discarded */
+  signal discardPictures(variant indexes) /* Raised when a picture is deleted/discarded */
   signal filterPictures(int status) /* Raised when ordering a filter */
   signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
   signal focusOnPicture(real latitude, real longitude) /* Raised when clicking on a picture */
@@ -31,22 +31,54 @@ Rectangle {
   /* Just a separator */
   Separator { id: separator1; anchors.top: viewerWrapper.bottom }
 
-  /* Filtering button, to manage pictures visualisation easily */
-  FilterButton {
-    id: filterButton
+  /* Little toolbar */
+  RowLayout {
+    id: toolbar
 
-    anchors {top: separator1.bottom; right: parent.right }
-    height: 25
-    width: pictureWidget.width / 3
+    property int buttonWidth: (pictureWidget.width - 2 * toolbar.spacing) / 3 
+    property int buttonHeight: 25
 
-    /* Filter all pictures below by triggering a signal */
-    onCurrentIndexChanged: {
-      filterPictures(filterButton.model.get(filterButton.currentIndex).value);
-    }  
+    anchors.top: separator1.bottom
+    spacing: 10
+    anchors.horizontalCenter: parent.horizontalCenter
+  
+    /* Unselect all pictures easily */
+    Button {
+      id: unselectButton
+      height: toolbar.buttonHeight
+      style: MyButtonStyle {}
+      text: "Unselect All"
+      width: toolbar.buttonWidth
+      onClicked: selectedPictures.model.clear();
+    }
+
+    /* Discard a picture from the model */
+    Button {
+      id: discardButton
+      height: toolbar.buttonHeight
+      style: MyButtonStyle {}
+      text: "Discard"
+      width: toolbar.buttonWidth
+      onClicked: discardPictures(Utils.selectedIndexes());
+    }
+
+    /* Filtering button, to manage pictures visualisation easily */
+    FilterButton {
+      id: filterButton
+
+      height: toolbar.buttonHeight
+      style: MyComboBoxStyle {}
+      width: toolbar.buttonWidth
+
+      /* Filter all pictures below by triggering a signal */
+      onCurrentIndexChanged: {
+        filterPictures(filterButton.model.get(filterButton.currentIndex).value);
+      }  
+    }
   }
 
   /* Just another separator */
-  Separator { id: separator2; anchors.top: filterButton.bottom }
+  Separator { id: separator2; anchors.top: toolbar.bottom }
 
   Item {
     id: selectedPictures
@@ -229,8 +261,8 @@ Rectangle {
       Component.onCompleted: {
         /* Initialize the viewer with the first loaded element of the model */
         if(index == listView.currentIndex) {
-          viewerWrapper.viewer.source = path
-          isFocused = true
+          viewerWrapper.viewer.source = path;
+          isFocused = true;
           /* This may only occur when complete() is manually called : after a filtering */
           if(isSelected) selectedPictures.model.setProperty(name, "index", index);
         }
@@ -266,5 +298,13 @@ Rectangle {
     } else {
       viewerWrapper.viewer.source = "";
     }
+  }
+
+  function picturesDiscarded(indexes){
+    picturesMoved(0, 0);
+  }
+
+  function picturesImported(){
+    Utils.refreshModel();
   }
 }

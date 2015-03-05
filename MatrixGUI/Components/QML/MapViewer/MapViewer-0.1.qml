@@ -23,6 +23,7 @@ Item {
     Component.onCompleted: zoomLevel = 17
 
     MapItemView {
+      id: itemView
       model: pictures
       delegate: pin
     }
@@ -39,5 +40,13 @@ Item {
       }
       radius: latitude == map.center.latitude && longitude == map.center.longitude ? 10 : 5
     }
+  }
+
+  function refresh(){
+    itemView.model = pictures;
+  }
+
+  function reset(){
+    itemView.model = []; 
   }
 }

@@ -7,9 +7,11 @@ class PictureState():
     """
     NEW = 0 # The picture is newly added to the set of pictures
     RECONSTRUCTION = 1 # A newly added picture used for a reconstruction
-    REJECTED = 2 # A picture rejected by user or after a reconstruction (may be splitted)
+    REJECTED = 2 # A picture rejected after a reconstruction, will not be used for next reconstruction
     PROCESSED = 3 # A processed pictures, used for a reconstruction and not rejected
     THUMBNAIL = 4 # Only a thumbnail corresponding to an existing picture to be imported
+    THUMBNAIL_DISCARDED = 5 # Discard a thumbnail in order to suppress the thumbnail on real import
+    DISCARDED = 6 # Discarded pictures will not be used for the reconstruction
   
 class Picture(object):
     """
@@ -75,14 +77,39 @@ class PictureManager(QSortFilterProxyModel):
         #Else, throw an error to inform the user ?
         return coords
 
+    def discardAll(self, rows):
+        """
+        Change the status of pictures to DISCARDED or THUMBNAIL_DISCARDED
+
+        Args:
+            rows (list<QModelIndex>): The related rows in the proxy model
+        """
+        discarded = [] # Holds all rows already discarded
+        previousSize = self.count()
+        state = True
+        for row in rows:
+            if state and row.isValid(): 
+                if previousSize != self.count():
+                    previouslyDiscarded = [ d for d in discarded if d < row.row() ]
+                    row = self.index(row.row() - len(previouslyDiscarded), 0)
+                    previousSize = self.count()
+                currentStatus = self.data(row, PictureModel.STATUS_ROLE)
+                newStatus = currentStatus == PictureState.THUMBNAIL and PictureState.THUMBNAIL_DISCARDED\
+                    or PictureState.DISCARDED
+                state = state and self.setData(row, newStatus, PictureModel.STATUS_ROLE)
+                discarded.append(row.row())
+            else: 
+                state = False
+        return state
+
     def move(self, initRow, finalRow):
         """
           Move a row from an index to another. Exactly, put initRow after 
           finalRow if moving up to down, and before finalRow if moving down to up
           
           Args:
-            initRow   (int): The starting index
-            finalRow  (int): The final index
+            initRow   (QModelIndex): The starting index
+            finalRow  (QModelIndex): The final index
         """
         # Ensure the index is correct
         if not initRow.isValid() or not finalRow.isValid():

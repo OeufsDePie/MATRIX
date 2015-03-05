@@ -13,7 +13,7 @@ FileDialog {
   property alias selectedFolder: fileDialog.folder
   selectMultiple: true
   selectFolder: false
-  nameFilters: ["Image files (*.jpg *.png)"]
+  nameFilters: ["Image files (*.jpg *.png *.jpeg *.JPG *.JPEG *.PNG)"]
   title: "If you could choose pictures to import, that would be great."
   onAccepted: importPictures(fileDialog.fileUrls)
 }

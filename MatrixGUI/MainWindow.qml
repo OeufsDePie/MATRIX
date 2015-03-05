@@ -21,7 +21,7 @@ ApplicationWindow {
   id: root
 
   color: "#161616"
-  width: Screen.desktopAvailableWidth
+  width: Screen.desktopAvailableWidth - 300
   height: 600 //Screen.desktopAvailableHeight
 
   /*
@@ -31,10 +31,11 @@ ApplicationWindow {
 
   /* PICTURE COMPONENT SIGNALS/SLOTS */
   signal sig_movePictures(variant indexes, int indexTo)
-  signal sig_discardPicture(int indexDelete)
+  signal sig_discardPictures(variant indexes)
   signal sig_filterPictures(int status)
-  function slot_picturesMoved(indexFrom, indexTo) { pictureManager.picturesMoved(indexFrom, indexTo) }
-  function slot_picturesFiltered() { pictureManager.picturesFiltered() }
+  function slot_picturesMoved(indexFrom, indexTo) { pictureManager.picturesMoved(indexFrom, indexTo); mapViewer.refresh() }
+  function slot_picturesFiltered() { pictureManager.picturesFiltered(); mapViewer.refresh() }
+  function slot_picturesDiscarded() { pictureManager.picturesDiscarded(); mapViewer.refresh() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction
@@ -44,6 +45,7 @@ ApplicationWindow {
   signal sig_importPictures(variant picturesFiles)
   function slot_picturesImported(pictureModel) { 
     pictureManager.pictures = pictureModel;
+    pictureManager.picturesImported();
     mapViewer.pictures = pictureModel;
     var center = pictureModel.computeCenter();
     mapViewer.centerLatitude = center.latitude;
@@ -66,6 +68,10 @@ ApplicationWindow {
   signal sig_newScene(string name)
   signal sig_changeScene(string path)
   signal sig_deleteScene(string path)
+  signal sig_importThumbnails()
+
+  /* CAMERAINFO SIGNALS/SLOTS */
+  function slot_cameraConnection(cameraConnected) { cameraInfo.isConnected = cameraConnected; }
 
   /* The menubar should rather be exported as a proper component */
   menuBar: Menu {
@@ -83,6 +89,8 @@ ApplicationWindow {
     onSig_menu_deleteScene:     {deleteSceneDialog.open()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
     onSig_menu_launchReconstruction:  {sig_launchReconstruction()}
+    onSig_menu_importPictures:  { pictureFetcher.open() }
+    onSig_menu_importThumbnails: sig_importThumbnails()
   }
 
   FolderAndNameDialog { // create a new workspace
@@ -150,17 +158,26 @@ ApplicationWindow {
     width: parent.width
     height: parent.height
     columns: 3
-    rows: 3
+    rows: 4
     columnSpacing: 0
 
     PictureManager {
       id: pictureManager
-      Layout.rowSpan: 3
+      Layout.rowSpan: 4
       Layout.fillHeight: true
       Layout.minimumWidth: 300
-      onMovePictures: sig_movePictures(indexes, indexTo)
-      onFilterPictures: sig_filterPictures(status)
-      onDiscardPicture: sig_discardPicture(indexDelete)
+      onMovePictures: {
+        mapViewer.reset();
+        sig_movePictures(indexes, indexTo);
+      }
+      onFilterPictures: {
+        mapViewer.reset();
+        sig_filterPictures(status);
+      }
+      onDiscardPictures: {
+        mapViewer.reset();
+        sig_discardPictures(indexes);
+      }
       onFocusOnPicture: {
         mapViewer.centerLatitude = latitude
         mapViewer.centerLongitude = longitude
@@ -170,7 +187,6 @@ ApplicationWindow {
       id: configBar
       Layout.columnSpan: 2
       Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-      Layout.minimumHeight: 40
       onChangeShowMap: {
         sig_changeShowMap(checked)
         mapViewer.visible = checked
@@ -178,6 +194,29 @@ ApplicationWindow {
       onChangeQuickConfig: sig_changeQuickConfig(checked)
       onChangeActiveMode: sig_changeActiveMode(checked)
       showMapDefault: mapViewerDefaultVisible
+    }
+
+    Item {
+      id: cameraInfo
+      property alias isConnected: textCameraInfo.isConnected
+      Layout.columnSpan: 2
+      Layout.fillWidth: true
+      height: textCameraInfo.height
+      RowLayout {
+        anchors.centerIn: parent
+        spacing: 10
+        Text {
+          color: "#ffffff"
+          text: "Camera connected : "
+        }
+        Text {
+          id: textCameraInfo
+          property bool isConnected: false
+          color: isConnected ? "#98cd00" : "#ff3237"
+          text: isConnected ? "Yes :)" : "No :'("
+          font.bold: true
+        }
+      }
     }
 
     Rectangle {

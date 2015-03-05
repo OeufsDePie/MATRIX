@@ -17,6 +17,7 @@ MenuBar {
   signal sig_menu_deleteScene()
   signal sig_menu_importPictures()
   signal sig_menu_launchReconstruction()
+  signal sig_menu_importThumbnails()
 
   style: MenuBarStyle{
     background: Rectangle {
@@ -41,7 +42,11 @@ MenuBar {
     MenuItem { text: "New scene";    shortcut: "Ctrl+N"; onTriggered: sig_menu_newScene() }
     MenuItem { text: "Change scene";                     onTriggered: sig_menu_changeScene() }
     MenuItem { text: "Delete scene"; shortcut: "Ctrl+D"; onTriggered: sig_menu_deleteScene() }
-    MenuItem { text: "Import pictures";                  onTriggered: sig_menu_importPictures() }
+    Menu { 
+      title: "Import Pictures"
+      MenuItem { text: "From computer...";  onTriggered: sig_menu_importPictures()  }
+      MenuItem { text: "From camera..."; onTriggered: sig_menu_importThumbnails() }
+    }
     MenuItem { text: "Launch 3D reconstruction";         onTriggered: sig_menu_launchReconstruction()}
   }
 

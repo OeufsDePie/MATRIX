@@ -4,8 +4,11 @@ import subprocess
 import os
 import threading
 import sys
-from PyQt5.QtCore import QObject, QThread, QTimer, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSlot
 
 class Pygphoto(QObject):
     """Allows simple operations on a USB connected camera by interfacing
@@ -48,8 +51,10 @@ class Pygphoto(QObject):
         # _files_index is an internal dictionnary that associate all the
         # files present on the camera, along with their gphoto index
         self._files_index = dict()
+        # Create mutex for the camera
+        self._camera_lock = threading.Lock()
         # Create an internal CameraWatcher
-        self._camera_watcher = Pygphoto.CameraWatcher(watch_camera, watch_files)
+        self._camera_watcher = Pygphoto.CameraWatcher(self, watch_camera, watch_files)
         # Connect watch file and watch camera signals
         self._onWatchFile.connect(self._camera_watcher.set_watching_files)
         self._onWatchCamera.connect(self._camera_watcher.set_watching_camera)
@@ -63,14 +68,15 @@ class Pygphoto(QObject):
         self._watcher_thread.started.connect(self._camera_watcher._watch_events)
         self._watcher_thread.start()
 
-    def check_camera_connected():
+    def check_camera_connected(self):
         """Check if a camera is connected.
 
         Raises a CalledProcessError when gphoto2 raised an error.
         """
         # Try an auto-detect and see if there are results
         command = [Pygphoto._GPHOTO, "--auto-detect"]
-        output = subprocess.check_output(command).decode("utf-8")
+        with self._camera_lock:
+            output = subprocess.check_output(command).decode("utf-8")
         lines = output.splitlines()
         # The first two lines are 
         # Model                          Port                                            
@@ -78,7 +84,7 @@ class Pygphoto(QObject):
         # Then comes the list of connected camera (that can be empty)
         return (len(lines) > 2)
 
-    def query_storage_info():
+    def query_storage_info(self):
         """Return a dict of values concerny memory usage {free, occupied,
         total} containing values in KB.
 
@@ -91,7 +97,8 @@ class Pygphoto(QObject):
 
         result = dict()
         command = [Pygphoto._GPHOTO, "--storage-info"]
-        output = subprocess.check_output(command).decode("utf_8")
+        with self._camera_lock:
+            output = subprocess.check_output(command).decode("utf_8")
         output = output.splitlines()
         # Scan output for relevant information
         for line in output:
@@ -111,7 +118,7 @@ class Pygphoto(QObject):
         # Number each files, starting with 1
         return dict(zip(filenames_list, range(1, len(filenames_list) + 1)))
         
-    def _query_filename(index):
+    def _query_filename(self, index):
         """Return the filename of the file indexed "index" when listing all
         the files present on the camera
 
@@ -120,14 +127,15 @@ class Pygphoto(QObject):
         """
         # Show info on the file indexed "index"
         command = [Pygphoto._GPHOTO, "--show-info", str(index)]
-        output = subprocess.check_output(command).decode("utf-8")
+        with self._camera_lock:
+            output = subprocess.check_output(command).decode("utf-8")
 
         # The filename is the fourth word
         filename = output.split()[3]
         # We remove the trailing simple quotes ("'")
         return filename.strip("'")
 
-    def query_file_list():
+    def query_file_list(self):
         """Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
@@ -138,7 +146,8 @@ class Pygphoto(QObject):
 
         # Grab the output of the list file command
         command = [Pygphoto._GPHOTO,"--list-files"]
-        output = subprocess.check_output(command).decode("utf-8")
+        with self._camera_lock:
+            output = subprocess.check_output(command).decode("utf-8")
 
         # Parse the output for "#" lines
         for line in iter(output.splitlines()):
@@ -160,13 +169,13 @@ class Pygphoto(QObject):
         # Check that the output dir is a valid directory
         assert(os.path.isdir(output_dir))
 
-        with self.__lock__:
-            # Get the gphoto index of the file and check it is up to date
-            index = self._files_index[filename]
-            if (not self._query_filename(index) == filename):
-                # Update the files dictionnary
-                self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
-                index = self._files_index[filename]
+        # Get the gphoto index of the file and check it is up to date
+        if(not filename in self._files_index
+           or not self._query_filename(self._files_index[filename]) == filename):
+            # Update the files dictionnary
+            self._files_index = Pygphoto._filelist_to_dict(self.query_file_list())
+
+        index = self._files_index[filename]
 
         # The destination is "output_dir/filename
         destination_path = os.path.normpath(os.path.join(output_dir, filename))
@@ -188,21 +197,23 @@ class Pygphoto(QObject):
         command_line = [Pygphoto._GPHOTO,
                    command, str(index),
                    "--filename", destination_path]
-        return subprocess.call(command_line)
+        with self._camera_lock:
+            return_code = subprocess.call(command_line)
+        return return_code
 
     def download_files(self, filename_list, output_dir, overwrite=True, thumbnail=False):
         """Download the whole list of files to the ouput directory
 
-        Return 0 if all the files were downloaded, 1 if
-        there was a problem for one of the files.
-
-        This is equivalent to calling download_file on every file in
-        the "filename_list", but should be faster for a large number
-        of files.
+        Return the paths list of downloaded files. This is equivalent
+        to calling download_file on every file in the "filename_list",
+        but should be faster for a large number of files.
 
         """
         # Check that the output dir is a valid directory
         assert(os.path.isdir(output_dir))
+
+        # Init the result list
+        result = []
 
         # Determine the command name
         if(thumbnail):
@@ -211,34 +222,35 @@ class Pygphoto(QObject):
             command = "--get-file"
 
         # Update the files dictionnary
-        self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
+        self._files_index = Pygphoto._filelist_to_dict(self.query_file_list())
 
-        with self.__lock__:
-            # Download each file
-            for filename in filename_list:
-                index = self._files_index[filename]
-                # The destination is "output_dir/filename
-                destination_path = os.path.normpath(os.path.join(output_dir, filename))
-                command_line = [Pygphoto._GPHOTO,
-                           command, str(index),
-                           "--filename", destination_path]
-                # Check that the file does not already exist
-                if(os.path.exists(destination_path)):
-                    if(overwrite):
-                        # First remove the file
-                        os.remove(destination_path)
-                    else:
-                        # Do nothing
-                        continue
+        # Download each file
+        for filename in filename_list:
+            index = self._files_index[filename]
+            # The destination is "output_dir/filename
+            destination_path = os.path.normpath(os.path.join(output_dir, filename))
+            command_line = [Pygphoto._GPHOTO,
+                            command, str(index),
+                            "--filename", destination_path]
+            # Check that the file does not already exist
+            if(os.path.exists(destination_path)):
+                if(overwrite):
+                    # First remove the file
+                    os.remove(destination_path)
+                else:
+                    # Do nothing
+                    continue
+            with self._camera_lock:
                 return_code = subprocess.call(command_line)
-                if(return_code != 0):
-                    return return_code
-        return 0
+            if(return_code == 0):
+                result.append(destination_path)
+        return result
 
-    def download_all(output_dir, overwrite=True, thumbnail=False):
+    def download_all(self, output_dir, overwrite=True, thumbnail=False):
         """Download all the files present on the camera.
 
         Overwrites preexisting files. Faster than 'download_files()'.
+        Return the return code returned by the gphoto call
 
         """
         # Check that the output dir is a valid directory
@@ -256,7 +268,9 @@ class Pygphoto(QObject):
                    destination_path]
         if(overwrite):
             command_line.append("--force-overwrite")
-        return subprocess.call(command_line)
+        with self._camera_lock:
+            return_code = subprocess.call(command_line)
+        return return_code
 
     ###############################
     #  Watching functionality     #
@@ -300,9 +314,11 @@ class Pygphoto(QObject):
 
         """
 
-        def __init__(self, watch_camera, watch_files):
+        def __init__(self, pygphoto, watch_camera, watch_files):
             # Super constructor
             QObject.__init__(self)
+            # The reference to the gphoto instance to use
+            self.__pygph = pygphoto
             # _files_index is an internal dictionnary that associate
             # all the files present on the camera, along with their
             # gphoto index
@@ -372,7 +388,7 @@ class Pygphoto(QObject):
             onCameraConnection signal.
 
             """
-            new_camera_connection = Pygphoto.check_camera_connected()
+            new_camera_connection = self.__pygph.check_camera_connected()
             if(new_camera_connection != self._camera_connection):
                 # Raise a signal
                 self.onCameraConnection.emit(new_camera_connection)
@@ -385,7 +401,7 @@ class Pygphoto(QObject):
 
             """
             try:
-                new_occupied_space = Pygphoto.query_storage_info()
+                new_occupied_space = self.__pygph.query_storage_info()
                 if(new_occupied_space != self._camera_occupied_space):
                     # Search for new and deleted files
                     diff = self._diff_files()
@@ -408,7 +424,7 @@ class Pygphoto(QObject):
             # Copy last index
             last_files_index = self._files_index.copy()
             # Update index
-            self._files_index = Pygphoto._filelist_to_dict(Pygphoto.query_file_list())
+            self._files_index = Pygphoto._filelist_to_dict(self.__pygph.query_file_list())
 
             # Check for new files
             for recent_file in self._files_index:
@@ -425,6 +441,8 @@ class Pygphoto(QObject):
 
 if __name__ == "__main__":
     # TESTINGS
+    from PyQt5.QtWidgets import QApplication
+
     class TestPygphoto(QObject):
         def __init__(self):
             QObject.__init__(self)
@@ -445,23 +463,23 @@ if __name__ == "__main__":
     print("Instantiated")
     pygph.onCameraConnection.connect(testpygph.connectCamera)
     pygph.onContentChanged.connect(testpygph.newFiles)
-    # print("\n~~~~~~~~ _query_filename")
-    # filename = pygph._query_filename(1)
-    # print(filename)
-    # print("\n~~~~~~~~ _query_file_list")
-    # filelist = pygph.query_file_list()
-    # print("\n~~~~~~~~ download_file False")
-    # print(pygph.download_file(filename, "test", overwrite=False))
-    # print("\n~~~~~~~~ download_file False")
-    # print(pygph.download_file(filename, "test", overwrite=False))
-    # print("\n~~~~~~~~ download_file True")
-    # print(pygph.download_file(filename, "test", overwrite=True))
-    # print("\n~~~~~~~~ download_all_thumbnails")
-    # print(pygph.download_all("thumbnails", thumbnail=True))
-    # print("\n~~~~~~~~ download_files False")
-    # print(pygph.download_files(filelist, "test", overwrite=False))
-    # print("\n~~~~~~~~ download_all")
-    # print(pygph.download_all("test"))
+    print("\n~~~~~~~~ _query_filename")
+    filename = pygph._query_filename(1)
+    print(filename)
+    print("\n~~~~~~~~ _query_file_list")
+    filelist = pygph.query_file_list()
+    print("\n~~~~~~~~ download_file False")
+    print(pygph.download_file(filename, "test", overwrite=False))
+    print("\n~~~~~~~~ download_file False")
+    print(pygph.download_file(filename, "test", overwrite=False))
+    print("\n~~~~~~~~ download_file True")
+    print(pygph.download_file(filename, "test", overwrite=True))
+    print("\n~~~~~~~~ download_all_thumbnails")
+    print(pygph.download_all("thumbnails", thumbnail=True))
+    print("\n~~~~~~~~ download_files False")
+    print(pygph.download_files(filelist, "test", overwrite=False))
+    print("\n~~~~~~~~ download_all")
+    print(pygph.download_all("test"))
 
     input("Waiting for events now. Press Return to disable watching.\n\n")
     pygph.set_watching_camera(False)

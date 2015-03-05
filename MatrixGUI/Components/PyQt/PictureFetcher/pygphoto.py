@@ -4,7 +4,9 @@ import subprocess
 import os
 import time
 import threading
-from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
+import sys
+from PyQt5.QtCore import QObject, QThread, QTimer, pyqtSignal, pyqtSlot
+from PyQt5.QtWidgets import QApplication
 
 class Pygphoto(QObject):
     """Allows simple operations on a USB connected camera by interfacing
@@ -12,7 +14,8 @@ class Pygphoto(QObject):
 
     This class allows to interact with a USB camera. List the names of
     the photos present in the camera, watch for new files, and
-    eventually download the photos individually.
+    eventually download the photos individually.  Needs a QApplication
+    to be instantiated in order to watch properly for events.
 
     """
     # Constants
@@ -20,7 +23,7 @@ class Pygphoto(QObject):
     _GPHOTO = "gphoto2"
 
     # Camera events check period in seconds
-    _EVENTS_PERIOD = 1
+    _EVENTS_PERIOD = 0
 
     # Signals
     onCameraConnection = pyqtSignal(bool)
@@ -62,7 +65,9 @@ class Pygphoto(QObject):
         self._watcher_thread.start()
 
     def check_camera_connected():
-        """Check if a camera is connected
+        """Check if a camera is connected.
+
+        Raises a CalledProcessError when gphoto2 raised an error.
         """
         # Try an auto-detect and see if there are results
         command = [Pygphoto._GPHOTO, "--auto-detect"]
@@ -76,7 +81,9 @@ class Pygphoto(QObject):
 
     def query_storage_info():
         """Return a dict of values concerny memory usage {free, occupied,
-        total} containing values in KB
+        total} containing values in KB.
+
+        Raises a CalledProcessError when gphoto2 raised an error.
 
         """
         def first_int(string):
@@ -258,11 +265,11 @@ class Pygphoto(QObject):
 
     # If we want to forward signals
     @pyqtSlot(bool)
-    def __forward_onCameraConnection(boolean):
+    def __forward_onCameraConnection(self, boolean):
         self.onCameraConnection.emit(boolean)
 
     @pyqtSlot(list, list)
-    def __forward_onContentChanged(newfiles, delfiles):
+    def __forward_onContentChanged(self, newfiles, delfiles):
         self.onContentChanged.emit(newfiles, delfiles)
 
     @pyqtSlot(bool)
@@ -294,10 +301,6 @@ class Pygphoto(QObject):
 
         """
 
-        _onWatchEvents = pyqtSignal()
-        """Internal signals for active watching
-        """
-
         def __init__(self, watch_camera, watch_files):
             # Super constructor
             QObject.__init__(self)
@@ -315,8 +318,6 @@ class Pygphoto(QObject):
             self._camera_connection = False
             # The memorized occupied space on camera
             self._camera_occupied_space = 0
-            # Connect watch event signal to itself
-            self._onWatchEvents.connect(self._watch_events)
 
         @pyqtSlot(bool)
         def set_watching_files(self, value):
@@ -324,6 +325,7 @@ class Pygphoto(QObject):
             filesystem.
 
             """
+            print("Set watching files: " + str(value))
             with self.__lock__:
                 self._watching_files = value
 
@@ -356,7 +358,6 @@ class Pygphoto(QObject):
         def _watch_events(self):
             """Executed by the watching thread : checks for every events.
             """
-            time.sleep(Pygphoto._EVENTS_PERIOD)
             # Check for the different events
             with self.__lock__:
                 if self._watching_camera:
@@ -364,8 +365,8 @@ class Pygphoto(QObject):
                 if (self._watching_files 
                     and self._camera_connection):
                     self._watch_files()
-            # Recursive call through Qt signals
-            self._onWatchEvents.emit()
+            # Non blocking 'recursive' call
+            QTimer.singleShot(Pygphoto._EVENTS_PERIOD, self._watch_events)
 
         def _watch_camera(self):
             """Check for a change in camera connection, possibly raising a
@@ -384,15 +385,19 @@ class Pygphoto(QObject):
             onContentChanged signal.
 
             """
-            new_occupied_space = Pygphoto.query_storage_info()
-            if(new_occupied_space != self._camera_occupied_space):
-                # Search for new and deleted files
-                diff = self._diff_files()
-                print(str(diff))
-                # Raise a signal
-                self.onContentChanged.emit(diff[0], diff[1])
-            # Set new state
-            self._camera_occupied_space = new_occupied_space
+            try:
+                new_occupied_space = Pygphoto.query_storage_info()
+                if(new_occupied_space != self._camera_occupied_space):
+                    # Search for new and deleted files
+                    diff = self._diff_files()
+                    # Check there are actually some changes
+                    if(diff[0] or diff[1]):
+                        # Raise a signal
+                        self.onContentChanged.emit(diff[0], diff[1])
+                # Set new state
+                self._camera_occupied_space = new_occupied_space
+            except subprocess.CalledProcessError:
+                pass
 
         def _diff_files(self):
             """Query the camera and return the couple of lists (new_files,
@@ -426,13 +431,15 @@ if __name__ == "__main__":
             QObject.__init__(self)
 
         @pyqtSlot(bool)
-        def connectCamera(boolean):
+        def connectCamera(self, boolean):
             print("Camera connected : " + str(boolean))
 
         @pyqtSlot(list, list)
-        def newFiles(new, deleted):
+        def newFiles(self, new, deleted):
             print("New files : " + str(new))
             print("Deleted files : " + str(deleted))
+
+    app = QApplication(sys.argv)
 
     testpygph = TestPygphoto()
     pygph = Pygphoto(watch_camera=True, watch_files=True)
@@ -462,8 +469,8 @@ if __name__ == "__main__":
     # print("\n~~~~~~~~ download_all")
     # print(pygph.download_all("test"))
 
-    input("\n~~~~~~~~ Waiting for events now. Press Return to disable watching.")
+    input("Waiting for events now. Press Return to disable watching.\n\n")
     pygph.set_watching_camera(False)
     pygph.set_watching_files(False)
-    input("\n~~~~~~~~ Watching disabled. Press Return to end.")
+    input("Watching disabled. Press Return to end.\n\n")
     

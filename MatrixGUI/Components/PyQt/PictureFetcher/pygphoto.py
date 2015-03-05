@@ -84,6 +84,24 @@ class Pygphoto(QObject):
         # Then comes the list of connected camera (that can be empty)
         return (len(lines) > 2)
 
+    def query_camera_name(self):
+        """Return the camera name, or unknown.
+        """
+        result = "Unknown"
+        model_string = "Model: "
+        command = [Pygphoto._GPHOTO, "--summary"]
+        try:
+            with self._camera_lock:
+                output = subprocess.check_output(command).decode("utf-8")
+            lines = output.splitlines()
+            for line in lines:
+                if line.startswith(model_string):
+                    # The name follows the model_string
+                    result = line[len(model_string):] 
+        except subprocess.CalledProcessError:
+            pass
+        return result
+
     def query_storage_info(self):
         """Return a dict of values concerny memory usage {free, occupied,
         total} containing values in KB.
@@ -460,9 +478,10 @@ if __name__ == "__main__":
 
     testpygph = TestPygphoto()
     pygph = Pygphoto(watch_camera=True, watch_files=True)
-    print("Instantiated")
     pygph.onCameraConnection.connect(testpygph.connectCamera)
     pygph.onContentChanged.connect(testpygph.newFiles)
+    print("\n~~~~~~~~ query_camera_name")
+    print(pygph.query_camera_name())
     print("\n~~~~~~~~ _query_filename")
     filename = pygph._query_filename(1)
     print(filename)

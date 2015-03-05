@@ -9,7 +9,7 @@ from PyQt5.QtQml import *
 from Components.PyQt.PictureManager.pictureManager import *
 from Components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 from Components.PyQt.PictureFetcher.pygphoto import *
-from Components.PyQt.ReconstructionManager import ReconstructionManager
+from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
 
 class Orchestrator(QObject):
     MAIN_VIEW = os.path.join(os.getcwd(), "MainWindow.qml")

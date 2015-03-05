@@ -5,3 +5,7 @@
 	path = MatrixGUI/Components/QML/3dRendering
 	url = https://github.com/OeufsDePie/3dRenderingTool.git
 	branch = develop
+[submodule "MatrixGUI/Components/PyQt/ReconstructionManager"]
+	path = MatrixGUI/Components/PyQt/ReconstructionManager
+	url = git@github.com:OeufsDePie/OpenMVGFeeder.git
+	branch = develop

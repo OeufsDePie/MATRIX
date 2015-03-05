@@ -9,12 +9,14 @@ from PyQt5.QtQml import *
 from Components.PyQt.PictureManager.pictureManager import *
 from Components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 from Components.PyQt.PictureFetcher.pygphoto import *
+from Components.PyQt.ReconstructionManager import ReconstructionManager
 
 class Orchestrator(QObject):
     MAIN_VIEW = os.path.join(os.getcwd(), "MainWindow.qml")
     QML_PACKAGE = os.path.join(os.getcwd(), "Components", "QML")
     QML_PLUGIN = os.path.join(os.getcwd(),"Components", "QML", "3dRendering")
     RESOURCES = os.path.join(os.getcwd(), "Resources")
+    OPENMVG_BUILD_DIR = os.path.join(os.getcwd(),"Components","PyQt","ReconstructionManager","openMVG_Build")
 
     # Define all sendable signals
     # Send to inform view that picture has been moved  
@@ -129,6 +131,13 @@ class Orchestrator(QObject):
     @pyqtSlot("QString")
     def delete_scene(self, path):
         self.workspaceManager.delete_scene(path)
+    @pyqtSlot()
+    def launchReconstruction():
+        outDir = self.workspaceManager.get_scene_temp_output_dir()
+        method = "long"
+        imDir = self.workspaceManager.get_selected_picture_folder()
+        pointcloudDir = self.workspaceManager.get_scene_output_dir()
+        self.reconstructionManager.launchReconstruction(imDir,method,OPENMVG_BUILD_DIR,outDir,pointCloudDir)
 
     def __init__(self): 
         super(Orchestrator, self).__init__()
@@ -137,6 +146,7 @@ class Orchestrator(QObject):
         self.workspaceManager = WorkspaceManager()
         self.pictureModel = PictureModel(self.RESOURCES)
         self.pictureFetcher = Pygphoto()
+        self.reconstructionManager = ReconstructionManager()
         #self.pictureFetcher.setActiveMode(True) # Default, watch for new files
         #self.pictureFetcher.setWatchCamera(True) 
 
@@ -172,6 +182,8 @@ class Orchestrator(QObject):
         self.root.sig_filterPictures.connect(self.filterPictures)
         self.root.sig_movePictures.connect(self.movePictures)
         self.root.sig_importPictures.connect(self.importPictures)
+        
+        self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
 
         self.picturesMoved.connect(self.root.slot_picturesMoved)
         self.picturesFiltered.connect(self.root.slot_picturesFiltered)

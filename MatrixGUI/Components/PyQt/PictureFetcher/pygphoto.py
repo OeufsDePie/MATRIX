@@ -2,7 +2,6 @@
 import re
 import subprocess
 import os
-import time
 import threading
 import sys
 from PyQt5.QtCore import QObject, QThread, QTimer, pyqtSignal, pyqtSlot

@@ -13,6 +13,7 @@ from Components.PyQt.PictureFetcher.pygphoto import *
 class Orchestrator(QObject):
     MAIN_VIEW = os.path.join(os.getcwd(), "MainWindow.qml")
     QML_PACKAGE = os.path.join(os.getcwd(), "Components", "QML")
+    QML_PLUGIN = os.path.join(os.getcwd(),"Components", "QML", "3dRendering")
     RESOURCES = os.path.join(os.getcwd(), "Resources")
 
     # Define all sendable signals
@@ -146,6 +147,7 @@ class Orchestrator(QObject):
         # Instantiate the view
         engine = QQmlApplicationEngine()
         engine.addImportPath(self.QML_PACKAGE)
+        engine.addImportPath(self.QML_PLUGIN)
 
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
 

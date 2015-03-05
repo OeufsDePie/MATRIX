@@ -1,3 +1,7 @@
 [submodule "ImageDataset_SceauxCastle"]
 	path = ImageDataset_SceauxCastle
 	url = https://github.com/openMVG/ImageDataset_SceauxCastle.git
+[submodule "MatrixGUI/Components/QML/3dRendering"]
+	path = MatrixGUI/Components/QML/3dRendering
+	url = https://github.com/OeufsDePie/3dRenderingTool.git
+	branch = develop

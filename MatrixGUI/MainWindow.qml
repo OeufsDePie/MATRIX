@@ -15,6 +15,8 @@ import TextFieldDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
 
+import PointCloud 1.0
+
 ApplicationWindow {
   id: root
 
@@ -192,15 +194,13 @@ ApplicationWindow {
 
     Rectangle {
       id: renderer
-      color: "#020202"
+      color: "transparent"
       Layout.fillHeight: true
       Layout.fillWidth: true
       Layout.minimumWidth: 300
       Layout.columnSpan: mapViewer.visible ? 1 : 2
-      Text {
-        anchors.centerIn: parent
-        color: "#ffffff"
-        text: "TODO Renderer"
+      PointCloud{
+        pathPly: "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_ref/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
       }
     }
 

@@ -62,6 +62,8 @@ class WorkspaceManager():
 
 
 
+##############################   WORKSPACE   ###################################
+
     def new_workspace(self, name="", base_path=""):
         """ Create a new workspace.
 
@@ -173,6 +175,10 @@ class WorkspaceManager():
         self.current_workspace = workspace_path
         self.update_scenes_model()
 
+#=============================   end workspace   ===========================
+
+##############################   SCENE   ###################################
+
     def new_scene(self, name="", path=""):
         """ Create a new scene in the current workspace.
 
@@ -213,6 +219,9 @@ class WorkspaceManager():
         ws.delete_scene(scene_path)
         self.update_scenes_model()
 
+    def get_current_scene(self):
+        return self.get_current_workspace().get_current_scene()
+
     def set_current_scene(self, scene_path):
         """ Change the current scene identified by its path in the current workspace.
 
@@ -229,3 +238,29 @@ class WorkspaceManager():
         """ Updates the attribute scenes_model.
         """
         self.scenes_model.setStringList(list(self.get_current_workspace().scenes.keys()))
+
+    def get_scene_output_dir(self):
+        """ Returns the absolute path of the output directory for ply files.
+
+        Returns:
+            str: The absolute path of directory.
+        """
+        return self.get_current_scene().get_reconstruction_out_dir()
+
+    def get_scene_temp_output_dir(self):
+        """ Returns the temporary output directory for scene reconstructions.
+
+        Returns:
+            str: The absolute path of the temporary directory.
+        """
+        return self.get_current_scene().get_reconstruction_temp_dir()
+
+    def get_selected_picture_dir(self):
+        """ Returns the absolute path of the directory containing the pictures used for reconstruction.
+
+        Returns:
+            str: The absolute path of the picture directory.
+        """
+        return self.get_current_scene().get_reconstruction_picture_dir()
+
+#=============================   end scene   ===========================

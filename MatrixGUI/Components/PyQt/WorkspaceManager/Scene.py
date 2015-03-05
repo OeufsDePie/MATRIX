@@ -5,13 +5,22 @@ import os
 class Scene(DirectorySpace):
     """ A scene containing all its images.
 
+    Class Attributes:
+        RECONSTRUCTION_OUTPUT_DIR
+        RECONSTRUCTION_TEMP_DIR
+        RECONSTRUCTION_PICTURE_DIR
+
     Attributes:
         name (str): The name of the scene. It must be unique in the workspace.
             For example : "Shooting ENSEEIHT".
             Default is "scene_n" where n is the current number of scenes in workspace.
         base_path (str): The path of the scene's workspace.
         relative_path (str): The path of the scene relatively to base_path.
+        subdirs (dict(str,str)): The useful subdirectories (path,name).
     """
+    RECONSTRUCTION_OUTPUT_DIR  = "reconstruction_output"
+    RECONSTRUCTION_TEMP_DIR    = "reconstruction_temp"
+    RECONSTRUCTION_PICTURE_DIR = "reconstruction_pictures"
 
     def __init__(self, name, base_path, relative_path=""):
         """ Initialize a scene in a workspace.
@@ -22,6 +31,12 @@ class Scene(DirectorySpace):
             relative_path (str): The path relatively to the workspace.
         """
         super().__init__(name,base_path,relative_path)
+        self.subdirs[Scene.RECONSTRUCTION_OUTPUT_DIR] =\
+                "The output directory for reconstruction"
+        self.subdirs[Scene.RECONSTRUCTION_TEMP_DIR] =\
+                "The temporary output directory for reconstruction"
+        self.subdirs[Scene.RECONSTRUCTION_PICTURE_DIR] =\
+                "The directory directory containing the pictures used for reconstruction"
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.
@@ -51,3 +66,17 @@ class Scene(DirectorySpace):
         scene = DirectorySpace.deserialize(serial)
         scene.__class__ = Scene
         return scene
+
+
+##############################   RECONSTRUCTION   ###################################
+
+    def get_reconstruction_out_dir(self):
+        return self.RECONSTRUCTION_OUTPUT_DIR
+
+    def get_reconstruction_temp_dir(self):
+        return self.RECONSTRUCTION_TEMP_DIR
+
+    def get_reconstruction_picture_dir(self):
+        return self.RECONSTRUCTION_PICTURE_DIR
+
+#=============================   end reconstruction   ===============================

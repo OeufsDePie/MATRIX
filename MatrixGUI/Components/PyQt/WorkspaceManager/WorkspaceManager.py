@@ -237,7 +237,11 @@ class WorkspaceManager():
     def update_scenes_model(self):
         """ Updates the attribute scenes_model.
         """
-        self.scenes_model.setStringList(list(self.get_current_workspace().scenes.keys()))
+        if not self.current_workspace:
+            scenes_list = list()
+        else:
+            scenes_list = list(self.get_current_workspace().scenes.keys())
+        self.scenes_model.setStringList(scenes_list)
 
     def get_scene_output_dir(self):
         """ Returns the absolute path of the output directory for ply files.

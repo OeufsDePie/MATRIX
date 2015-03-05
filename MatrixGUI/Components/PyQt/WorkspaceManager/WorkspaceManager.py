@@ -249,7 +249,9 @@ class WorkspaceManager():
         Returns:
             str: The absolute path of directory.
         """
-        return self.get_current_scene().get_reconstruction_out_dir()
+        return os.path.join(\
+                self.get_current_scene().full_path(),\
+                self.get_current_scene().get_reconstruction_out_dir())
 
     def get_scene_temp_output_dir(self):
         """ Returns the temporary output directory for scene reconstructions.
@@ -257,7 +259,9 @@ class WorkspaceManager():
         Returns:
             str: The absolute path of the temporary directory.
         """
-        return self.get_current_scene().get_reconstruction_temp_dir()
+        return os.path.join(\
+                self.get_current_scene().full_path(),\
+                self.get_current_scene().get_reconstruction_temp_dir())
 
     def get_selected_picture_dir(self):
         """ Returns the absolute path of the directory containing the pictures used for reconstruction.
@@ -265,6 +269,8 @@ class WorkspaceManager():
         Returns:
             str: The absolute path of the picture directory.
         """
-        return self.get_current_scene().get_reconstruction_picture_dir()
+        return os.path.join(\
+                self.get_current_scene().full_path(),\
+                self.get_current_scene().get_reconstruction_picture_dir())
 
 #=============================   end scene   ===========================

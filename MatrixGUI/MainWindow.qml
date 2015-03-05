@@ -14,8 +14,7 @@ import ModelAndNameDialog 0.1
 import TextFieldDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
-
-import PointCloud 1.0
+//import PointCloud 1.0
 
 ApplicationWindow {
   id: root
@@ -31,11 +30,13 @@ ApplicationWindow {
 
   /* PICTURE COMPONENT SIGNALS/SLOTS */
   signal sig_movePictures(variant indexes, int indexTo)
+  signal sig_deletePictures(variant indexes)
   signal sig_discardPictures(variant indexes)
   signal sig_filterPictures(int status)
   function slot_picturesMoved(indexFrom, indexTo) { pictureManager.picturesMoved(indexFrom, indexTo); mapViewer.refresh() }
   function slot_picturesFiltered() { pictureManager.picturesFiltered(); mapViewer.refresh() }
   function slot_picturesDiscarded() { pictureManager.picturesDiscarded(); mapViewer.refresh() }
+  function slot_picturesDeleted() { pictureManager.picturesDeleted(); mapViewer.refresh() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction
@@ -50,6 +51,7 @@ ApplicationWindow {
     var center = pictureModel.computeCenter();
     mapViewer.centerLatitude = center.latitude;
     mapViewer.centerLongitude = center.longitude;
+    mapViewer.refresh()
   }
 
   /* CONFIGBAR SIGNALS/SLOTS */
@@ -88,8 +90,6 @@ ApplicationWindow {
     onSig_menu_changeScene:     {changeSceneDialog.open()}
     onSig_menu_deleteScene:     {deleteSceneDialog.open()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
-    onSig_menu_launchReconstruction:  {sig_launchReconstruction()}
-    onSig_menu_importPictures:  { pictureFetcher.open() }
     onSig_menu_importThumbnails: sig_importThumbnails()
   }
 
@@ -178,6 +178,10 @@ ApplicationWindow {
         mapViewer.reset();
         sig_discardPictures(indexes);
       }
+      onDeletePictures: {
+        mapViewer.reset();
+        sig_deletePictures(indexes);
+      }
       onFocusOnPicture: {
         mapViewer.centerLatitude = latitude
         mapViewer.centerLongitude = longitude
@@ -239,9 +243,9 @@ ApplicationWindow {
       Layout.fillWidth: true
       Layout.minimumWidth: 300
       Layout.columnSpan: mapViewer.visible ? 1 : 2
-      PointCloud{
-        pathPly: "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_ref/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
-      }
+      // PointCloud{
+      //   pathPly: "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_ref/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
+      // }
     }
 
     MapViewer {

@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.2
 
 import "Utils.js" as Utils
 
@@ -14,10 +15,11 @@ Rectangle {
   property string selectionColor: "#1db7ff"
   property string textColor: "#000000"
 
-  signal discardPictures(variant indexes) /* Raised when a picture is deleted/discarded */
+  signal deletePictures(variant indexes) /* Raised when picture are deleted */
+  signal discardPictures(variant indexes) /* Raised when a picture is discarded */
   signal filterPictures(int status) /* Raised when ordering a filter */
-  signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
   signal focusOnPicture(real latitude, real longitude) /* Raised when clicking on a picture */
+  signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
 
   /* First element is only a little picture viewer, as a box that contains an image  */
   Viewer {
@@ -35,7 +37,7 @@ Rectangle {
   RowLayout {
     id: toolbar
 
-    property int buttonWidth: (pictureWidget.width - 2 * toolbar.spacing) / 3 
+    property int buttonWidth: (pictureWidget.width - toolbar.spacing) / 2
     property int buttonHeight: 25
 
     anchors.top: separator1.bottom
@@ -50,16 +52,6 @@ Rectangle {
       text: "Unselect All"
       width: toolbar.buttonWidth
       onClicked: selectedPictures.model.clear();
-    }
-
-    /* Discard a picture from the model */
-    Button {
-      id: discardButton
-      height: toolbar.buttonHeight
-      style: MyButtonStyle {}
-      text: "Discard"
-      width: toolbar.buttonWidth
-      onClicked: discardPictures(Utils.selectedIndexes());
     }
 
     /* Filtering button, to manage pictures visualisation easily */
@@ -88,7 +80,8 @@ Rectangle {
 
   /* Then is the complete list of pictures, only names are displayed */
   Item {
-    anchors {top: separator2.bottom; bottom: parent.bottom }
+    id: listWrapper
+    anchors {top: separator2.bottom; bottom: separator3.top }
     width: parent.width
 
     /* ScrollView will easily handle the data overflow */
@@ -111,6 +104,49 @@ Rectangle {
         model: pictures
       }
     }
+  }
+
+  /* Just another separator */
+  Separator { id: separator3; anchors.bottom: toolbar2.top }
+
+  /* Little toolbar */
+  RowLayout {
+    id: toolbar2
+
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    spacing: 10
+  
+    /* Discard a picture from the model */
+    Button {
+      id: discardButton
+      height: toolbar.buttonHeight
+      style: MyButtonStyle {}
+      text: "Discard"
+      width: toolbar.buttonWidth
+      onClicked: discardPictures(Utils.selectedIndexes());
+    }
+
+    /* Discard a picture from the model */
+    Button {
+      id: deleteButton
+      height: toolbar.buttonHeight
+      style: MyButtonStyle {}
+      text: "Delete"
+      width: toolbar.buttonWidth
+      onClicked: confirmDelete.open()
+    }
+  }
+
+  MessageDialog {
+    id: confirmDelete
+    informativeText: "This action will delete selected pictures files from the workspace."
+    modality: Qt.ApplicationModal
+    standardButtons: StandardButton.Yes | StandardButton.No
+    title: "Take a time to breath"
+    text: "Continue ?"
+    onYes: deletePictures(Utils.selectedIndexes())
   }
 
   Component {
@@ -299,12 +335,7 @@ Rectangle {
       viewerWrapper.viewer.source = "";
     }
   }
-
-  function picturesDiscarded(indexes){
-    picturesMoved(0, 0);
-  }
-
-  function picturesImported(){
-    Utils.refreshModel();
-  }
+  function picturesDiscarded(indexes){ picturesMoved(0, 0); }
+  function picturesDeleted(indexes){ picturesMoved(0, 0); }
+  function picturesImported(){ Utils.refreshModel(); }
 }

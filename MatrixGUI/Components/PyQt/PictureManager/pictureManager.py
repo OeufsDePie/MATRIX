@@ -77,6 +77,24 @@ class PictureManager(QSortFilterProxyModel):
         #Else, throw an error to inform the user ?
         return coords
 
+    def _iterateOverRows(self, rows):
+        """
+        Iterate over rows in the model that may change during the iteration
+
+        Args:
+            rows (list<QModelIndex>): The related rows in the proxy model
+        """
+        processed = [] # Holds all rows already been processed
+        previousSize = self.count()
+        for row in rows:
+            if row.isValid(): 
+                processed.append(row.row())
+                if previousSize != self.count():
+                    previouslyProcessed = [ p for p in processed if p < row.row() ]
+                    row = self.index(row.row() - len(previouslyProcessed), 0)
+                    previousSize = self.count()
+                yield row
+
     def discardAll(self, rows):
         """
         Change the status of pictures to DISCARDED or THUMBNAIL_DISCARDED
@@ -84,22 +102,24 @@ class PictureManager(QSortFilterProxyModel):
         Args:
             rows (list<QModelIndex>): The related rows in the proxy model
         """
-        discarded = [] # Holds all rows already discarded
-        previousSize = self.count()
         state = True
-        for row in rows:
-            if state and row.isValid(): 
-                if previousSize != self.count():
-                    previouslyDiscarded = [ d for d in discarded if d < row.row() ]
-                    row = self.index(row.row() - len(previouslyDiscarded), 0)
-                    previousSize = self.count()
-                currentStatus = self.data(row, PictureModel.STATUS_ROLE)
-                newStatus = currentStatus == PictureState.THUMBNAIL and PictureState.THUMBNAIL_DISCARDED\
-                    or PictureState.DISCARDED
-                state = state and self.setData(row, newStatus, PictureModel.STATUS_ROLE)
-                discarded.append(row.row())
-            else: 
-                state = False
+        for row in self._iterateOverRows(rows):
+            currentStatus = self.data(row, PictureModel.STATUS_ROLE)
+            newStatus = currentStatus == PictureState.THUMBNAIL and PictureState.THUMBNAIL_DISCARDED\
+                or PictureState.DISCARDED
+            state = state and self.setData(row, newStatus, PictureModel.STATUS_ROLE)
+        return state
+
+    def deleteAll(self, rows):
+        """
+        Remove pictures from the model
+
+        Args:
+            rows (list<QModelIndex>): The related rows in the proxy model
+        """
+        state = True
+        for row in self._iterateOverRows(rows):
+            state = state and self.removeRow(row.row())
         return state
 
     def move(self, initRow, finalRow):
@@ -288,24 +308,36 @@ class PictureModel(QAbstractListModel):
                 self.endInsertRows()
         return True
 
+    def removeRows(self, row, count, parent = QModelIndex()):
+        """
+        Remove contiguous pictures from the model
+
+        Args
+            row     (int)           : The first picture's index
+            count   (int)           : Number of picture to remove
+            parent  (QModelIndex)   : The parent row
+        """
+        # Ensure the index is correct
+        if len(self._data) <= 0:
+            return False
+
+        if row < 0 or count < 1 or row + count - 1 >= self.rowCount():
+            return False
+
+        self.beginRemoveRows(QModelIndex(), row, row + count - 1)
+        #Deleting row starting by the latest index
+        for i in range(0, count):
+            del self._data[row + count - i - 1]
+        self.endRemoveRows()
+        return True
+
     def removeRow(self, row, parent = QModelIndex()):
         """
           Remove a picture from the model
 
           row -- The picture"s index
         """
-        # Ensure the index is correct
-        if len(self._data) <= 0:
-            return False
-
-        if row < 0 or row >= self.rowCount():
-            return False
-
-        # Annihilate the item
-        self.beginRemoveRows(QModelIndex(), row, row)
-        del self._data[row]
-        self.endRemoveRows()
-        return True
+        self.removeRows(row, 1, parent)
 
     def rowCount(self, parent = QModelIndex()):
         """

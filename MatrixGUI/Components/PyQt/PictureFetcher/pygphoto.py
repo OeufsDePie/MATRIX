@@ -22,8 +22,8 @@ class Pygphoto(QObject):
     # Command lines string value
     _GPHOTO = "gphoto2"
 
-    # Camera events check period in seconds
-    _EVENTS_PERIOD = 0
+    # Camera events check period in milliseconds
+    _EVENTS_PERIOD = 500
 
     # Signals
     onCameraConnection = pyqtSignal(bool)
@@ -446,11 +446,6 @@ if __name__ == "__main__":
     print("Instantiated")
     pygph.onCameraConnection.connect(testpygph.connectCamera)
     pygph.onContentChanged.connect(testpygph.newFiles)
-    # Wait for a camera to connect
-    print("Waiting for connected camera...")
-    while not Pygphoto.check_camera_connected():
-        time.sleep(0.5)
-
     # print("\n~~~~~~~~ _query_filename")
     # filename = pygph._query_filename(1)
     # print(filename)

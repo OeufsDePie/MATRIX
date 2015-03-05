@@ -39,8 +39,6 @@ ApplicationWindow {
   function slot_picturesDeleted() { pictureManager.picturesDeleted(); mapViewer.refresh() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
-  signal sig_launchReconstruction
-  function slot_addLog(logDate, logMessage) { reconstruction.addLog(logDate, logMessage) }
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
@@ -215,7 +213,7 @@ ApplicationWindow {
         }
         Text {
           id: textCameraInfo
-          property bool isConnected: false
+          property bool isConnected: cameraDefaultConnected
           color: isConnected ? "#98cd00" : "#ff3237"
           text: isConnected ? "Yes :)" : "No :'("
           font.bold: true

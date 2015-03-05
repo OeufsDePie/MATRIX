@@ -47,7 +47,9 @@ class Orchestrator(OrchestratorSlots):
         engine.addImportPath(self.QML_PACKAGE)
         engine.addImportPath(self.QML_PLUGIN)
 
+        # Initialization of some parameters in the view
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
+        engine.rootContext().setContextProperty("cameraDefaultConnected", self.pictureFetcher.check_camera_connected())
 
         # The list model of opened workspaces and scenes
         engine.rootContext().setContextProperty("workspacesModel",self.workspaceManager.workspaces_model)
@@ -67,23 +69,24 @@ class Orchestrator(OrchestratorSlots):
         """
         Every connections between slots and signals are done here
         """
+        ######## Picture Widget Signals/Orders
         self.root.sig_filterPictures.connect(self.filterPictures)
         self.root.sig_movePictures.connect(self.movePictures)
         self.root.sig_importPictures.connect(self.importPictures)
         self.root.sig_discardPictures.connect(self.discardPictures)
         self.root.sig_deletePictures.connect(self.deletePictures)
 
+        ######## Picture Widget Callbacks/Infos
         self.picturesMoved.connect(self.root.slot_picturesMoved)
         self.picturesFiltered.connect(self.root.slot_picturesFiltered)
         self.picturesImported.connect(self.root.slot_picturesImported)
         self.picturesDiscarded.connect(self.root.slot_picturesDiscarded)
         self.picturesDeleted.connect(self.root.slot_picturesDeleted)
 
-        #self.pictureFetcher.cameraUpdated(self.root.slot_cameraUpdated)
-        #self.pictureFetcher.newPictures(self.newPictures)
-
-        self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
-
+        ######## Picture Fetcher Signals
+        self.pictureFetcher.onCameraConnection.connect(self.root.slot_cameraConnection)
+        
+		self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
         self.root.sig_openWorkspace.connect(self.open_workspace)

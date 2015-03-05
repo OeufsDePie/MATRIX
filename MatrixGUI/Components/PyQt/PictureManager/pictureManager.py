@@ -1,4 +1,5 @@
 from PyQt5.QtCore import *
+from Components.Python.Persistence.Savable import Savable
 import xml.etree.ElementTree as ET
 import os
 class PictureState():

@@ -132,12 +132,12 @@ class Orchestrator(QObject):
     def delete_scene(self, path):
         self.workspaceManager.delete_scene(path)
     @pyqtSlot()
-    def launchReconstruction():
+    def launchReconstruction(self):
         outDir = self.workspaceManager.get_scene_temp_output_dir()
         method = "long"
-        imDir = self.workspaceManager.get_selected_picture_folder()
-        pointcloudDir = self.workspaceManager.get_scene_output_dir()
-        self.reconstructionManager.launchReconstruction(imDir,method,OPENMVG_BUILD_DIR,outDir,pointCloudDir)
+        imDir = self.workspaceManager.get_selected_picture_dir()
+        pointCloudDir = self.workspaceManager.get_scene_output_dir()
+        self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)
 
     def __init__(self): 
         super(Orchestrator, self).__init__()

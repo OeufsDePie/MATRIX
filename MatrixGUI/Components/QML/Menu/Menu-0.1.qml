@@ -16,6 +16,7 @@ MenuBar {
   signal sig_menu_changeScene()
   signal sig_menu_deleteScene()
   signal sig_menu_importPictures()
+  signal sig_menu_launchReconstruction()
 
   style: MenuBarStyle{
     background: Rectangle {
@@ -41,6 +42,7 @@ MenuBar {
     MenuItem { text: "Change scene";                     onTriggered: sig_menu_changeScene() }
     MenuItem { text: "Delete scene"; shortcut: "Ctrl+D"; onTriggered: sig_menu_deleteScene() }
     MenuItem { text: "Import pictures";                  onTriggered: sig_menu_importPictures() }
+    MenuItem { text: "Launch 3D reconstruction";         onTriggered: sig_menu_launchReconstruction()}
   }
 
 } 

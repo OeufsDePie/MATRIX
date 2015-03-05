@@ -82,6 +82,7 @@ ApplicationWindow {
     onSig_menu_changeScene:     {changeSceneDialog.open()}
     onSig_menu_deleteScene:     {deleteSceneDialog.open()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
+    onSig_menu_launchReconstruction:  {sig_launchReconstruction()}
   }
 
   FolderAndNameDialog { // create a new workspace

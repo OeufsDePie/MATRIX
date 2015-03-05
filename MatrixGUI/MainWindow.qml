@@ -71,7 +71,10 @@ ApplicationWindow {
   signal sig_importThumbnails()
 
   /* CAMERAINFO SIGNALS/SLOTS */
-  function slot_cameraConnection(cameraConnected) { cameraInfo.isConnected = cameraConnected; }
+  function slot_cameraConnection(cameraConnected, name) { 
+    cameraInfo.isConnected = cameraConnected; 
+    cameraInfo.name = name;
+  }
 
   /* The menubar should rather be exported as a proper component */
   menuBar: Menu {
@@ -201,6 +204,8 @@ ApplicationWindow {
     Item {
       id: cameraInfo
       property alias isConnected: textCameraInfo.isConnected
+      property alias name: textCameraName.text
+
       Layout.columnSpan: 2
       Layout.fillWidth: true
       height: textCameraInfo.height
@@ -216,6 +221,17 @@ ApplicationWindow {
           property bool isConnected: cameraDefaultConnected
           color: isConnected ? "#98cd00" : "#ff3237"
           text: isConnected ? "Yes :)" : "No :'("
+          font.bold: true
+        }
+        Item { width: 100 }
+        Text {
+          color: "#ffffff"
+          text: "Camera : "
+        }
+        Text {
+          id: textCameraName
+          color: "#ffffff"
+          text: cameraDefaultName
           font.bold: true
         }
       }

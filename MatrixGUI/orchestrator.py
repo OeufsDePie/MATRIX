@@ -9,7 +9,7 @@ from PyQt5.QtQml import *
 from Components.PyQt.PictureManager.pictureManager import *
 from Components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 from Components.PyQt.PictureFetcher.pygphoto import *
-from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
+#from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
 from orchestratorSlots import OrchestratorSlots
 
 class Orchestrator(OrchestratorSlots):
@@ -19,24 +19,14 @@ class Orchestrator(OrchestratorSlots):
     RESOURCES = os.path.join(os.getcwd(), "Resources")
     OPENMVG_BUILD_DIR = os.path.join(os.getcwd(),"Components","PyQt","ReconstructionManager","openMVG_Build")
 
-	@pyqtSlot()
-    def launchReconstruction(self):
-        outDir = self.workspaceManager.get_scene_temp_output_dir()
-        method = "long"
-        imDir = self.workspaceManager.get_selected_picture_dir()
-        pointCloudDir = self.workspaceManager.get_scene_output_dir()
-        self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)
-
     def __init__(self): 
         super(Orchestrator, self).__init__()
         # Instantiate the app, and all attached logic modules
         self.app = QGuiApplication(sys.argv)
         self.workspaceManager = WorkspaceManager()
         self.pictureModel = PictureModel(self.RESOURCES)
-        self.pictureFetcher = Pygphoto()
-        self.reconstructionManager = ReconstructionManager()
-        #self.pictureFetcher.setActiveMode(True) # Default, watch for new files
-        #self.pictureFetcher.setWatchCamera(True) 
+        self.pictureFetcher = Pygphoto(watch_camera=True)
+        #self.reconstructionManager = ReconstructionManager()
 
         # Initialize and configure all modules
         # Temporary, photos will be added by signals
@@ -50,6 +40,7 @@ class Orchestrator(OrchestratorSlots):
         # Initialization of some parameters in the view
         engine.rootContext().setContextProperty("mapViewerDefaultVisible", False)
         engine.rootContext().setContextProperty("cameraDefaultConnected", self.pictureFetcher.check_camera_connected())
+        engine.rootContext().setContextProperty("cameraDefaultName", self.pictureFetcher.query_camera_name())
 
         # The list model of opened workspaces and scenes
         engine.rootContext().setContextProperty("workspacesModel",self.workspaceManager.workspaces_model)
@@ -84,9 +75,12 @@ class Orchestrator(OrchestratorSlots):
         self.picturesDeleted.connect(self.root.slot_picturesDeleted)
 
         ######## Picture Fetcher Signals
-        self.pictureFetcher.onCameraConnection.connect(self.root.slot_cameraConnection)
+        self.pictureFetcher.onCameraConnection.connect(self.cameraConnection)
+        self.onCameraConnection.connect(self.root.slot_cameraConnection)
         
-		self.root.sig_launchReconstruction.connect(self.launchReconstruction)        
+        ######## Reconstruction Signals
+        # self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
+
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
         self.root.sig_openWorkspace.connect(self.open_workspace)

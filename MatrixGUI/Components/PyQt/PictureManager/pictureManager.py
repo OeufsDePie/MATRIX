@@ -41,9 +41,28 @@ class Picture(object):
         Retrieve the icon corresponding to the picture's status
 
         Returns: 
-        str: The path to the icon file. 
+            str: The path to the icon file. 
         """
         return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
+
+    @pyqtProperty(str)
+    def color(self):
+        """
+        Retrieve a color to display on the map widget, depending on the status
+
+        Return:
+            str: The desired color
+        """
+        colors = {
+            PictureState.NEW: "#1db7ff",
+            PictureState.PROCESSED: "#98cd00",
+            PictureState.RECONSTRUCTION: "#505050",
+            PictureState.REJECTED: "#ff3237",
+            PictureState.DISCARDED: "#ff3237",
+            PictureState.THUMBNAIL: "#ff3237",
+            PictureState.THUMBNAIL_DISCARDED: "#ff3237",
+        }
+        return colors[self.status]
 
     def serialize(self):
         """ Serialize a Picture object.
@@ -108,7 +127,7 @@ class PictureManager(QSortFilterProxyModel):
                     previouslyProcessed = [ p for p in processed if p < row.row() ]
                     row = self.index(row.row() - len(previouslyProcessed), 0)
                     previousSize = self.count()
-                yield row
+                yield row #YoloSwagg
 
     def discardAll(self, rows):
         """
@@ -209,12 +228,15 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
     QAbstractListModel.
 
     Attributes:
-      PATH_ROLE     (int): Role that handle the picture's path name of an item
-      NAME_ROLE     (int): Role that handle the picture's name of an item
-      DATE_ROLE     (int): Role that handle the picture's date of creation 
-      STATUS_ROLE   (int): Role that handle the picture's status of an item
-      ICON_ROLE     (int): Role that handle the picture's icon of an item
-      ITEM_ROLE     (int): Role related to the whole item / picture 
+      PATH_ROLE      (int): Role that handle the picture's path name of an item
+      NAME_ROLE      (int): Role that handle the picture's name of an item
+      DATE_ROLE      (int): Role that handle the picture's date of creation 
+      STATUS_ROLE    (int): Role that handle the picture's status of an item
+      ICON_ROLE      (int): Role that handle the picture's icon of an item
+      ITEM_ROLE      (int): Role related to the whole item / picture 
+      LATITUDE_ROLE  (int): Role related to the latitude of an item
+      LONGITUDE_ROLE (int): Roled related to the longitude of an item
+      COLOR_ROLE     (int): Role that handle the color of an item on the map
     """
 
     #Roles of our model, used in QML side to retrieve data from our model
@@ -225,6 +247,7 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
     ICON_ROLE = Qt.UserRole + 5
     LATITUDE_ROLE = Qt.UserRole + 6
     LONGITUDE_ROLE = Qt.UserRole + 7
+    COLOR_ROLE = Qt.UserRole + 8
     ITEM_ROLE = Qt.UserRole + 50
     _roles = {
         PATH_ROLE: "path", 
@@ -234,7 +257,8 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         ICON_ROLE: "icon",
         ITEM_ROLE: "item",
         LATITUDE_ROLE: "latitude",
-        LONGITUDE_ROLE: "longitude"
+        LONGITUDE_ROLE: "longitude",
+        COLOR_ROLE: "color"
     }
 
     def __init__(self, resourcesPath, listPictures = [], parent = None):
@@ -412,7 +436,6 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
             picturesFiles   (list<str>) : List of path to the different pictures
             status          (int) : The initial status to assign to the item
         """
-        print(status)
         with exiftool.ExifTool() as exifparser:
             for url in picturesFiles:
                 # Get EXIF data
@@ -426,6 +449,16 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
                 self.add(Picture(self._resourcesPath, url, \
                     str(exifData['EXIF:GPSLatitude']), str(exifData['EXIF:GPSLongitude']), \
                         status = status))
+
+    def validFiles(self):
+        """
+        Retrieve all files that may be used for the reconstruction; i.e. with status :
+        NEW or PROCESSED
+
+        Returns:
+            list<Picture>: The list of all valid pictures in that model
+        """
+        return [ p for p in self._data if p.status in [PictureState.NEW, PictureState.PROCESSED] ]
 
     def serialize(self):
         """ Serialize a pictureModel object.

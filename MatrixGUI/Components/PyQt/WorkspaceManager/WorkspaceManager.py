@@ -254,7 +254,6 @@ class WorkspaceManager():
         return picturesFiles
 
     def get_thumbnails_dir(self):
-        #Temporary, waiting for you matpiz <3
         return os.path.join(\
             self.get_current_scene().full_path(),\
             self.get_current_scene().get_thumbnails_dir())

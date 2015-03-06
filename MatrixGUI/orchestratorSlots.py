@@ -10,6 +10,8 @@ class OrchestratorSlots(QObject):
     onCameraConnection = pyqtSignal(bool, str) 
     # Send when the workspace become available or unavailable
     workspaceAvailable = pyqtSignal(bool)
+    # Send when a new reconstruction is available
+    reconstructionChanged = pyqtSignal(str)
 
     # Define All Usable Slots
     @pyqtSlot(QVariant, int)
@@ -194,9 +196,17 @@ class OrchestratorSlots(QObject):
 
     @pyqtSlot()
     def launchReconstruction(self):
-        print("Launch Recon")
-        # outDir = self.workspaceManager.get_scene_temp_output_dir()
-        # method = "long"
-        # imDir = self.workspaceManager.get_selected_picture_dir()
-        # pointCloudDir = self.workspaceManager.get_scene_output_dir()
-        # self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)
+        validFiles = self.pictureModel.validFiles()
+        crapDir = self.workspaceManager.get_scene_temp_output_dir()
+        inDir = self.workspaceManager.get_selected_picture_dir()
+        outDir = self.workspaceManager.get_scene_output_dir()
+        method = "FlawlessVictory"
+        self.reconstructionManager.launchReconstruction(inDir,\
+            method,\
+            self.OPENMVG_BUILD_DIR,\
+            crapDir,\
+            outDir)
+        self.reconstructionChanged.emit(os.path.join(\
+            self.workspaceManager.get_current_scene().full_path(),\
+            self.workspaceManager.get_current_scene().get_reconstruction_temp_dir(),\
+            "FinalColorized.ply"))

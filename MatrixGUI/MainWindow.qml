@@ -46,6 +46,13 @@ ApplicationWindow {
   }
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction()
+  function slot_reconstructionChanged(plyPath) {
+    Qt.createQmlObject("import QtQuick 2.0; import PointCloud 1.0; 
+      PointCloud {
+        pathPly: '" + plyPath + "'
+      }"
+    , renderer);
+  }
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
@@ -89,7 +96,6 @@ ApplicationWindow {
     onSig_menu_saveWorkspace:   sig_saveWorkspace()
     onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
 
-    //Qt.createQmlObject("import QtQuick 2.0; import PointCloud 1.0; PointCloud {}", renderer)
     // scene signals
     onSig_menu_newScene:        {newSceneDialog.open()}
     onSig_menu_changeScene:     {changeSceneDialog.open()}

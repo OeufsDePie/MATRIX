@@ -228,6 +228,7 @@ ApplicationWindow {
       onFocusOnPicture: {
         mapViewer.centerLatitude = latitude
         mapViewer.centerLongitude = longitude
+        mapViewer.focused = index
       }
     } 
     ConfigBar {
@@ -307,6 +308,7 @@ ApplicationWindow {
       Layout.fillHeight: true
       Layout.minimumWidth: root.width / 3
       Layout.maximumWidth: root.width / 3
+      onFocusOnPicture: pictureManager.focusOnPictureMap(index);
     }
   }
 

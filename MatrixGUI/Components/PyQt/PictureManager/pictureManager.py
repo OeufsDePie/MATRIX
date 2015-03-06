@@ -46,7 +46,7 @@ class Picture(object):
         return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
 
     @pyqtProperty(str)
-    def color(self):
+    def circleColor(self):
         """
         Retrieve a color to display on the map widget, depending on the status
 
@@ -258,7 +258,7 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         ITEM_ROLE: "item",
         LATITUDE_ROLE: "latitude",
         LONGITUDE_ROLE: "longitude",
-        COLOR_ROLE: "color"
+        COLOR_ROLE: "circleColor"
     }
 
     def __init__(self, resourcesPath, listPictures = [], parent = None):

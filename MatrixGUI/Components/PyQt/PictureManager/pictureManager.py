@@ -1,5 +1,5 @@
 from PyQt5.QtCore import *
-from Components.Python.Persistence.Savable import Savable
+from Savable import Savable # Need __init__
 import xml.etree.ElementTree as ET
 import os, exiftool
 
@@ -186,7 +186,10 @@ class PictureManager(QSortFilterProxyModel):
 
         return state
 
-class PictureModel(QAbstractListModel):#, Savable):
+class MetaPictureModel(pyqtWrapperType, Savable):
+    pass
+
+class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
     """
     Represent and handle a list of pictures as a ListModel. Directly implements 
     QAbstractListModel.
@@ -392,22 +395,23 @@ class PictureModel(QAbstractListModel):#, Savable):
         with the status "NEW"
 
         Args:
-            picturesFiles   (list<QUrl>) : List of path to the different pictures
+            picturesFiles   (list<str>) : List of path to the different pictures
             status          (int) : The initial status to assign to the item
         """
+        print(status)
         with exiftool.ExifTool() as exifparser:
             for url in picturesFiles:
                 # Get EXIF data
                 exifData = exifparser.get_tags(\
-                    ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url.path())
+                    ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url)
                 if not ('EXIF:GPSLatitude' in exifData):
                     #May raise an error if no GPS data ?
                     exifData['EXIF:GPSLatitude'] = "0.0"
                     exifData['EXIF:GPSLongitude'] = "0.0"
 
-                self.add(Picture(self._resourcesPath, url.path(), \
+                self.add(Picture(self._resourcesPath, url, \
                     str(exifData['EXIF:GPSLatitude']), str(exifData['EXIF:GPSLongitude']), \
-                        status))
+                        status = status))
 
     def serialize(self):
         """ Serialize a pictureModel object.
@@ -436,7 +440,7 @@ class PictureModel(QAbstractListModel):#, Savable):
     def save(self, base_path, file_name):
         """ Save the object in the file system.
         """
-        super().save(base_path, file_name)
+        Savable.save(self, base_path, file_name)
 
     @classmethod
     def load(cls, base_path, file_name, object_class=None):

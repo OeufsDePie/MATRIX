@@ -23,9 +23,9 @@ class Orchestrator(OrchestratorSlots):
         super(Orchestrator, self).__init__()
         # Instantiate the app, and all attached logic modules
         self.app = QGuiApplication(sys.argv)
-        self.workspaceManager = WorkspaceManager()
         self.pictureModel = PictureModel(self.RESOURCES)
         self.pictureFetcher = Pygphoto(watch_camera=True)
+        self.workspaceManager = WorkspaceManager(self.pictureModel)
         #self.reconstructionManager = ReconstructionManager()
 
         # Initialize and configure all modules

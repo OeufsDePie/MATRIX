@@ -22,6 +22,7 @@ class Scene(DirectorySpace):
     RECONSTRUCTION_TEMP_DIR    = "reconstruction_temp"
     RECONSTRUCTION_PICTURE_DIR = "reconstruction_pictures"
     THUMBNAILS_DIR             = "thumbnails"
+
     def __init__(self, name, base_path, relative_path=""):
         """ Initialize a scene in a workspace.
 

@@ -2,6 +2,7 @@ import os, random, math
 import xml.etree.cElementTree as ET
 from Workspace import Workspace
 from PyQt5.QtCore import QStringListModel
+from pictureManager import PictureModel
 
 class WorkspaceManager():
     """ Manages the workspace.
@@ -15,14 +16,16 @@ class WorkspaceManager():
         current_workspace (str): The current workspace.
         workspaces_model (QStringListModel): The list model (for qml) of the workspaces.
         scenes_model (QStringListModel): The list model (for qml) of the scenes in the current workspace.
+        pictureModel (PictureModel): The picture model
     """
-    def __init__(self):
+    def __init__(self, pictureModel):
         """Initialize a workspace manager.
         """
         self.workspaces = dict()
         self.current_workspace = "" 
         self.workspaces_model = QStringListModel()
         self.scenes_model = QStringListModel()
+        self.pictureModel = pictureModel
 
     def setProjectPath(self, projectPath):
         '''
@@ -40,6 +43,11 @@ class WorkspaceManager():
         return os.path.join(self.projectPath, "pictures.xml")
 
 ##############################   WORKSPACE   ###################################
+    def getPictureModel(self):
+        return self.pictureModel
+
+    def setPictureModel(self, pictureModel):
+        self.pictureModel = pictureModel
 
     def new_workspace(self, name="", base_path=""):
         """ Create a new workspace.
@@ -50,6 +58,7 @@ class WorkspaceManager():
         """
         ws = Workspace(name,base_path)
         ws.create_directory()
+        ws.setPictureModel(self.pictureModel)
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
         self.update_workspaces_model()
@@ -66,6 +75,7 @@ class WorkspaceManager():
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
         self.update_workspaces_model()
+        self.setPictureModel(ws.getPictureModel())
         print("Workspace "+ws.full_path()+" successfully opened.")
 
     def close_workspace(self, workspace_path):
@@ -87,6 +97,7 @@ class WorkspaceManager():
             workspace_path (str): The absolute path of the workspace to select.
         """
         self.set_current_workspace(workspace_path)
+        self.setPictureModel(workspace.getPictureModel())
         self.update_scenes_model()
 
     def save_workspace(self, workspace_path, file_name):
@@ -99,6 +110,7 @@ class WorkspaceManager():
         assert (workspace_path in self.workspaces),\
                 "The workspace "+ workspace_path +" does not exist in the workspace manager."
         self.workspaces[workspace_path].save(file_name)
+        self.pictureModel.save(self.get_current_scene().full_path(), "pictures")
 
     def delete_workspace(self, workspace_path):
         """ Delete the workspace identified by its abolute path.

@@ -1,6 +1,7 @@
 from DirectorySpace import DirectorySpace
 from Scene import Scene
 from Utils import Utils                     # need the package import in __init__.py
+from pictureManager import PictureModel
 
 class Workspace(DirectorySpace):
     """ A workspace containing its own configuration and scenes.
@@ -31,6 +32,7 @@ class Workspace(DirectorySpace):
         self.subdirs["Configs"] = "Configuration folder"
         self.scenes = dict()
         self.current_scene = ""
+        self.pictureModel = None
 
     def delete(self):
         """ Delete the workspace (and its contents).
@@ -104,6 +106,12 @@ class Workspace(DirectorySpace):
         assert (scene_path in self.scenes), "That scene "+scene_path+" does not exist in this workspace."
         self.current_scene = scene_path
 
+    def getPictureModel(self):
+        return self.pictureModel
+
+    def setPictureModel(self, pictureModel):
+        self.pictureModel = pictureModel
+
     def __str__(self):
         """ Change displaying of a workspace.
 
@@ -141,4 +149,6 @@ class Workspace(DirectorySpace):
         for scene in serial["scenes"]:
             workspace.scenes[scene] = Scene.deserialize(serial["scenes"][scene])
         workspace.current_scene = serial["current_scene"]
+        workspace.pictureModel = PictureModel.load(\
+            workspace.get_current_scene().full_path(), "pictures")
         return workspace

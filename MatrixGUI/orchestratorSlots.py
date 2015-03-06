@@ -1,4 +1,6 @@
+import sys, signal, os
 from PyQt5.QtCore import *
+from Components.PyQt.PictureManager.pictureManager import PictureState
 
 class OrchestratorSlots(QObject):
     # Define all sendable signals
@@ -101,7 +103,7 @@ class OrchestratorSlots(QObject):
         Args:
         picturesFiles (list<QUrl>): The list of pictures to be imported
         """
-        newPaths = self.workspaceManager.import_pictures(picturesFiles)
+        newPaths = self.workspaceManager.import_pictures([ p.path() for p in picturesFiles ])
         self.pictureModel.populate(newPaths)
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
@@ -115,6 +117,9 @@ class OrchestratorSlots(QObject):
     def open_workspace(self, path):
         (directory_path,file_name) = os.path.split(path)
         self.workspaceManager.open_workspace(directory_path, file_name)
+        self.pictureModel = self.workspaceManager.getPictureModel()
+        self.pictureManager = self.pictureModel.instantiateManager()
+        self.picturesImported.emit(self.pictureManager)
 
     @pyqtSlot("QString")
     def close_workspace(self, path):
@@ -123,6 +128,9 @@ class OrchestratorSlots(QObject):
     @pyqtSlot("QString")
     def change_workspace(self, path):
         self.workspaceManager.change_workspace(path)
+        self.pictureModel = self.workspaceManager.getPictureModel()
+        self.pictureManager = self.pictureModel.instantiateManager()
+        self.picturesImported.emit(self.pictureManager)
 
     @pyqtSlot("QString", "QString")
     def save_workspace(self, name, path):
@@ -139,7 +147,10 @@ class OrchestratorSlots(QObject):
     @pyqtSlot("QString")
     def change_scene(self, path):
         self.workspaceManager.change_scene(path)
-
+        self.pictureModel = self.workspaceManager.getPictureModel()
+        self.pictureManager = self.pictureModel.instantiateManager()
+        self.picturesImported.emit(self.pictureManager)
+        
     @pyqtSlot("QString")
     def delete_scene(self, path):
         self.workspaceManager.delete_scene(path)
@@ -156,7 +167,7 @@ class OrchestratorSlots(QObject):
         thumbnailsNames = self.pictureFetcher.query_file_list()
         thumbnailsNames = self.pictureFetcher.download_files(thumbnailsNames, \
             thumbnailsDir, thumbnail=True)
-        self.pictureFetcher.populate([ os.path.join(thumbnailsDir, n) for n in thumbnailsNames ])
+        self.pictureModel.populate([ os.path.join(thumbnailsDir, n) for n in thumbnailsNames ], PictureState.THUMBNAIL)
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
 

@@ -8,7 +8,6 @@ import "Utils.js" as Utils
 
 Rectangle {
   id: pictureWidget
-  property variant pictures
 
   /* Make it easier to configure */
   property string borderColor: "#76d2fe"
@@ -20,6 +19,7 @@ Rectangle {
   signal filterPictures(int status) /* Raised when ordering a filter */
   signal focusOnPicture(real latitude, real longitude) /* Raised when clicking on a picture */
   signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
+  signal renewPictures(variant indexes /* Raised each time a picture is renewed */)
 
   /* First element is only a little picture viewer, as a box that contains an image  */
   Viewer {
@@ -101,7 +101,7 @@ Rectangle {
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: 0
         delegate: pictureDelegate
-        model: pictures
+        model: []
       }
     }
   }
@@ -113,6 +113,9 @@ Rectangle {
   RowLayout {
     id: toolbar2
 
+    property int buttonWidth: (pictureWidget.width - 2*toolbar.spacing) / 3
+    property int buttonHeight: toolbar.buttonHeight
+
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
 
@@ -121,20 +124,30 @@ Rectangle {
     /* Discard a picture from the model */
     Button {
       id: discardButton
-      height: toolbar.buttonHeight
+      height: toolbar2.buttonHeight
       style: MyButtonStyle {}
       text: "Discard"
-      width: toolbar.buttonWidth
+      width: toolbar2.buttonWidth
       onClicked: discardPictures(Utils.selectedIndexes());
     }
 
-    /* Discard a picture from the model */
+    /* Renew a picture in the model */
+    Button {
+      id: renewButton
+      height: toolbar2.buttonHeight
+      style: MyButtonStyle {}
+      text: "Renew"
+      width: toolbar2.buttonWidth
+      onClicked: renewPictures(Utils.selectedIndexes());
+    }
+
+    /* Delete a picture from the model */
     Button {
       id: deleteButton
-      height: toolbar.buttonHeight
+      height: toolbar2.buttonHeight
       style: MyButtonStyle {}
       text: "Delete"
-      width: toolbar.buttonWidth
+      width: toolbar2.buttonWidth + 1
       onClicked: confirmDelete.open()
     }
   }
@@ -318,24 +331,15 @@ Rectangle {
   }
 
   /* Slots */
-  function picturesMoved(indexFrom, indexTo){
-    Utils.refreshModel();
-    listView.currentIndex = indexTo;
-    listView.currentItem.isFocused = true;
-    viewerWrapper.viewer.source = listView.currentItem.imagePath
+  function picturesUpdated(pictures){
     selectedPictures.model.clear();
-  }
-
-  function picturesFiltered(){
-    Utils.refreshModel();
-    /* Repaint the viewer if needed */
+    listView.model = []; // Force a repaint
+    listView.model = pictures;
+    listView.currentIndex = 0;
     if(listView.currentItem){ 
       listView.currentItem.Component.completed();
     } else {
       viewerWrapper.viewer.source = "";
     }
   }
-  function picturesDiscarded(indexes){ picturesMoved(0, 0); }
-  function picturesDeleted(indexes){ picturesMoved(0, 0); }
-  function picturesImported(){ Utils.refreshModel(); }
 }

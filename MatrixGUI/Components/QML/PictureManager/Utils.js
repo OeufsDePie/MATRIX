@@ -33,8 +33,3 @@ function togglePictureSelection(name, index){
     selectedPictures.model.append({"idSelected": name, "index": index});
   }
 }
-
-function refreshModel() {
-  listView.model = [];
-  listView.model = pictures;
-}

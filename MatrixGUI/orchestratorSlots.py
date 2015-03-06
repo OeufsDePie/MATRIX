@@ -4,18 +4,14 @@ from Components.PyQt.PictureManager.pictureManager import PictureState
 
 class OrchestratorSlots(QObject):
     # Define all sendable signals
-    # Send to inform view that picture has been moved  
-    picturesMoved = pyqtSignal(QVariant, int)
-    # Send to inform that pictures have been filtered
-    picturesFiltered = pyqtSignal()
-    # Send to inform that picture have been imported. 
-    picturesImported = pyqtSignal(QVariant)
-    # Send to inform that pictures have been discarded
-    picturesDiscarded = pyqtSignal(QVariant)
-    # Send to inform that pictures have been deleted
-    picturesDeleted = pyqtSignal(QVariant)
-
+    # Send to inform view that picture model has been moved  
+    picturesUpdated = pyqtSignal(QVariant)
+    # Send when an update about the status of the camera is available
     onCameraConnection = pyqtSignal(bool, str) 
+    # Send when the workspace become available or unavailable
+    workspaceAvailable = pyqtSignal(bool)
+    # Send when a new reconstruction is available
+    reconstructionChanged = pyqtSignal(str)
 
     # Define All Usable Slots
     @pyqtSlot(QVariant, int)
@@ -41,7 +37,8 @@ class OrchestratorSlots(QObject):
                 self.pictureManager.index(indexTo, 0))
             if(indexFrom < indexTo): offsetDown += 1
             if(indexFrom > indexTo): offsetUp += 1
-        if state: self.picturesMoved.emit(indexes, startIndexTo)
+        self.pictureManager.sourceModel().printData()
+        if state: self.picturesUpdated.emit(self.pictureManager)
 
     @pyqtSlot(int)
     def filterPictures(self, status):
@@ -51,10 +48,19 @@ class OrchestratorSlots(QObject):
         Args:
           status  (int):  The status that should be filtered, according to PictureState
         """
-        regExp = QRegExp(status != -1 and str(status) or "")
+        regStr = str(status)
+        if(status > 100):
+            specials = {
+                101: "",
+                102: "5|6",
+                103: "0|1|3"
+            }
+            regStr = specials[status]
+
+        regExp = QRegExp(regStr)
         #TODO handle non discarded status
         self.pictureManager.setFilterRegExp(regExp)
-        self.picturesFiltered.emit()
+        self.picturesUpdated.emit(self.pictureManager)
 
     @pyqtSlot(QVariant)
     def discardPictures(self, indexes):
@@ -66,7 +72,20 @@ class OrchestratorSlots(QObject):
         """
         state = self.pictureManager.discardAll(\
           [ self.pictureManager.index(i, 0) for i in indexes.toVariant() ])
-        if(state): self.picturesDiscarded.emit(indexes)
+        if(state): self.picturesUpdated.emit(self.pictureManager)
+
+    @pyqtSlot(QVariant)
+    def renewPictures(self, indexes):
+        """
+        A slot that handle picture renewing, i.e, that allow rejected or
+        discarded pictures to be used again
+
+        Args: 
+          indexes (list<QVariant>): Indexes of pictures to renew
+        """
+        state = self.pictureManager.renewAll(\
+          [ self.pictureManager.index(i, 0) for i in indexes.toVariant() ])
+        if(state): self.picturesUpdated.emit(self.pictureManager)
 
     @pyqtSlot(QVariant)
     def deletePictures(self, indexes):
@@ -78,7 +97,7 @@ class OrchestratorSlots(QObject):
         """
         state = self.pictureManager.deleteAll(\
           [ self.pictureManager.index(i, 0) for i in indexes.toVariant() ])
-        if(state): self.picturesDeleted.emit(indexes)
+        if(state): self.picturesUpdated.emit(self.pictureManager)
 
 
     @pyqtSlot(QVariant, QVariant)
@@ -105,36 +124,40 @@ class OrchestratorSlots(QObject):
         """
         newPaths = self.workspaceManager.import_pictures([ p.path() for p in picturesFiles ])
         self.pictureModel.populate(newPaths)
-        self.pictureManager = self.pictureModel.instantiateManager()
-        self.picturesImported.emit(self.pictureManager)
+        self.pictureManager.setSourceModel(self.pictureModel)
+        self.picturesUpdated.emit(self.pictureManager)
 
     #### WORKSPACE MANAGER SLOTS
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
         self.workspaceManager.new_workspace(name, path)
+        self.workspaceAvailable.emit(True)
 
     @pyqtSlot("QString")
     def open_workspace(self, path):
         (directory_path,file_name) = os.path.split(path)
         self.workspaceManager.open_workspace(directory_path, file_name)
         self.pictureModel = self.workspaceManager.getPictureModel()
-        self.pictureManager = self.pictureModel.instantiateManager()
-        self.picturesImported.emit(self.pictureManager)
+        self.pictureManager.setSourceModel(self.pictureModel)
+        self.picturesUpdated.emit(self.pictureManager)
+        self.workspaceAvailable.emit(True)
 
     @pyqtSlot("QString")
     def close_workspace(self, path):
         self.workspaceManager.close_workspace(path)
+        self.workspaceAvailable.emit(False)
 
     @pyqtSlot("QString")
     def change_workspace(self, path):
         self.workspaceManager.change_workspace(path)
         self.pictureModel = self.workspaceManager.getPictureModel()
-        self.pictureManager = self.pictureModel.instantiateManager()
-        self.picturesImported.emit(self.pictureManager)
+        self.pictureManager.setSourceModel(self.pictureModel)
+        self.picturesUpdated.emit(self.pictureManager)
 
-    @pyqtSlot("QString", "QString")
-    def save_workspace(self, name, path):
-        self.workspaceManager.save_workspace(path, name)
+    @pyqtSlot()
+    def save_workspace(self):
+        ws = self.workspaceManager.get_current_workspace()
+        self.workspaceManager.save_workspace(ws.full_path())
 
     @pyqtSlot("QString")
     def delete_workspace(self, path):
@@ -149,7 +172,7 @@ class OrchestratorSlots(QObject):
         self.workspaceManager.change_scene(path)
         self.pictureModel = self.workspaceManager.getPictureModel()
         self.pictureManager = self.pictureModel.instantiateManager()
-        self.picturesImported.emit(self.pictureManager)
+        self.picturesUpdated.emit(self.pictureManager)
         
     @pyqtSlot("QString")
     def delete_scene(self, path):
@@ -168,13 +191,22 @@ class OrchestratorSlots(QObject):
         thumbnailsNames = self.pictureFetcher.download_files(thumbnailsNames, \
             thumbnailsDir, thumbnail=True)
         self.pictureModel.populate([ os.path.join(thumbnailsDir, n) for n in thumbnailsNames ], PictureState.THUMBNAIL)
-        self.pictureManager = self.pictureModel.instantiateManager()
-        self.picturesImported.emit(self.pictureManager)
+        self.pictureManager.setSourceModel(self.pictureModel)
+        self.picturesUpdated.emit(self.pictureManager)
 
     @pyqtSlot()
     def launchReconstruction(self):
-        outDir = self.workspaceManager.get_scene_temp_output_dir()
-        method = "long"
-        imDir = self.workspaceManager.get_selected_picture_dir()
-        pointCloudDir = self.workspaceManager.get_scene_output_dir()
-        self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)
+        validFiles = self.pictureModel.validFiles()
+        crapDir = self.workspaceManager.get_scene_temp_output_dir()
+        inDir = self.workspaceManager.get_selected_picture_dir()
+        outDir = self.workspaceManager.get_scene_output_dir()
+        method = "FlawlessVictory"
+        self.reconstructionManager.launchReconstruction(inDir,\
+            method,\
+            self.OPENMVG_BUILD_DIR,\
+            crapDir,\
+            outDir)
+        self.reconstructionChanged.emit(os.path.join(\
+            self.workspaceManager.get_current_scene().full_path(),\
+            self.workspaceManager.get_current_scene().get_reconstruction_temp_dir(),\
+            "FinalColorized.ply"))

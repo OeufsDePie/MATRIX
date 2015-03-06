@@ -24,13 +24,10 @@ class Orchestrator(OrchestratorSlots):
         # Instantiate the app, and all attached logic modules
         self.app = QGuiApplication(sys.argv)
         self.pictureModel = PictureModel(self.RESOURCES)
+        self.pictureManager = self.pictureModel.instantiateManager()
         self.pictureFetcher = Pygphoto(watch_camera=True)
         self.workspaceManager = WorkspaceManager(self.pictureModel)
         self.reconstructionManager = ReconstructionManager()
-
-        # Initialize and configure all modules
-        # Temporary, photos will be added by signals
-        self.workspaceManager.setProjectPath("Workspace/project1/")
 
         # Instantiate the view
         engine = QQmlApplicationEngine()
@@ -66,13 +63,10 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_importPictures.connect(self.importPictures)
         self.root.sig_discardPictures.connect(self.discardPictures)
         self.root.sig_deletePictures.connect(self.deletePictures)
+        self.root.sig_renewPictures.connect(self.renewPictures)
 
         ######## Picture Widget Callbacks/Infos
-        self.picturesMoved.connect(self.root.slot_picturesMoved)
-        self.picturesFiltered.connect(self.root.slot_picturesFiltered)
-        self.picturesImported.connect(self.root.slot_picturesImported)
-        self.picturesDiscarded.connect(self.root.slot_picturesDiscarded)
-        self.picturesDeleted.connect(self.root.slot_picturesDeleted)
+        self.picturesUpdated.connect(self.root.slot_picturesUpdated)
 
         ######## Picture Fetcher Signals
         self.pictureFetcher.onCameraConnection.connect(self.cameraConnection)
@@ -80,7 +74,8 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_importThumbnails.connect(self.importThumbnails)
         
         ######## Reconstruction Signals
-        # self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
+        self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
+        self.reconstructionChanged.connect(self.root.slot_reconstructionChanged)
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
@@ -92,6 +87,7 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_newScene.connect(self.new_scene)
         self.root.sig_changeScene.connect(self.change_scene)
         self.root.sig_deleteScene.connect(self.delete_scene)
+        self.workspaceAvailable.connect(self.root.slot_workspaceAvailable)
 
 if __name__ == "__main__":
     matrix = Orchestrator()

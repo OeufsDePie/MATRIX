@@ -27,21 +27,6 @@ class WorkspaceManager():
         self.scenes_model = QStringListModel()
         self.pictureModel = pictureModel
 
-    def setProjectPath(self, projectPath):
-        '''
-        Define the root path of the project
-
-        projectPath -- The path
-        '''
-        self.projectPath = projectPath
-
-    def pictureModelPath(self):
-        '''
-        Retrieve the model file that sums up every piece of information about 
-        pictures on the project.
-        '''
-        return os.path.join(self.projectPath, "pictures.xml")
-
 ##############################   WORKSPACE   ###################################
     def getPictureModel(self):
         return self.pictureModel
@@ -62,6 +47,8 @@ class WorkspaceManager():
         self.workspaces[ws.full_path()] = ws
         self.current_workspace = ws.full_path()
         self.update_workspaces_model()
+        ws.new_scene("default")
+        self.update_scenes_model()
         print(ws)
 
     def open_workspace(self, directory_path, file_name):
@@ -100,7 +87,7 @@ class WorkspaceManager():
         self.setPictureModel(workspace.getPictureModel())
         self.update_scenes_model()
 
-    def save_workspace(self, workspace_path, file_name):
+    def save_workspace(self, workspace_path, file_name = "workspaceSettings"):
         """Save the workspace in a file.
 
         Args:
@@ -267,7 +254,6 @@ class WorkspaceManager():
         return picturesFiles
 
     def get_thumbnails_dir(self):
-        #Temporary, waiting for you matpiz <3
         return os.path.join(\
             self.get_current_scene().full_path(),\
             self.get_current_scene().get_thumbnails_dir())

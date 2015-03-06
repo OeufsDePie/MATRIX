@@ -1,4 +1,4 @@
-import os, random, math, exiftool
+import os, random, math
 import xml.etree.cElementTree as ET
 from Workspace import Workspace
 from PyQt5.QtCore import QStringListModel
@@ -38,29 +38,6 @@ class WorkspaceManager():
         pictures on the project.
         '''
         return os.path.join(self.projectPath, "pictures.xml")
-
-    def generateModel(self, picturesFiles):
-        root = ET.Element("pictures")
-        with exiftool.ExifTool() as exifparser:
-            for url in picturesFiles:
-                elem = ET.SubElement(root, "picture", status="0")
-                elem.text = url.path()
-
-                # Get EXIF data
-                exifData = exifparser.get_tags(\
-                    ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url.path())
-                if not ('EXIF:GPSLatitude' in exifData):
-                    #May raise an error if no GPS data ?
-                    exifData['EXIF:GPSLatitude'] = "0.0"
-                    exifData['EXIF:GPSLongitude'] = "0.0"
-
-                elem.set('latitude', str(exifData['EXIF:GPSLatitude']))
-                elem.set('longitude', str(exifData['EXIF:GPSLongitude']))
-        
-        tree = ET.ElementTree(root)
-        tree.write(self.pictureModelPath())
-
-
 
 ##############################   WORKSPACE   ###################################
 
@@ -272,5 +249,15 @@ class WorkspaceManager():
         return os.path.join(\
                 self.get_current_scene().full_path(),\
                 self.get_current_scene().get_reconstruction_picture_dir())
+
+    def import_pictures(self, picturesFiles):
+        #Temporary, waiting for you matpiz <3
+        return picturesFiles
+
+    def get_thumbnails_dir(self):
+        #Temporary, waiting for you matpiz <3
+        return os.path.join(\
+            self.get_current_scene().full_path(),\
+            self.get_current_scene().get_thumbnails_dir())
 
 #=============================   end scene   ===========================

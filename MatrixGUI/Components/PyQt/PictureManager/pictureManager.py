@@ -1,7 +1,8 @@
 from PyQt5.QtCore import *
 from Components.Python.Persistence.Savable import Savable
 import xml.etree.ElementTree as ET
-import os
+import os, exiftool
+
 class PictureState():
     """
     An Enumeration to handle all different state in which a picture may be
@@ -43,6 +44,19 @@ class Picture(object):
         str: The path to the icon file. 
         """
         return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
+
+    def serialize(self):
+        """ Serialize a Picture object.
+        """
+        serial = dict()
+        serial['path'] = self.path
+        serial['latitude'] = self.latitude
+        serial['longitude'] = self.longitude
+        serial['status'] = self.status
+        serial['date'] = self.date
+        return serial
+
+
 
 class PictureManager(QSortFilterProxyModel):
     @pyqtSlot(result=int)
@@ -172,7 +186,7 @@ class PictureManager(QSortFilterProxyModel):
 
         return state
 
-class PictureModel(QAbstractListModel):
+class PictureModel(QAbstractListModel):#, Savable):
     """
     Represent and handle a list of pictures as a ListModel. Directly implements 
     QAbstractListModel.
@@ -185,6 +199,7 @@ class PictureModel(QAbstractListModel):
       ICON_ROLE     (int): Role that handle the picture's icon of an item
       ITEM_ROLE     (int): Role related to the whole item / picture 
     """
+
     #Roles of our model, used in QML side to retrieve data from our model
     PATH_ROLE = Qt.UserRole + 1
     NAME_ROLE = Qt.UserRole + 2
@@ -371,18 +386,67 @@ class PictureModel(QAbstractListModel):
         for picture in self._data:
             print (picture == None and "-----" or str(picture.status) + " - " + picture.name)
     
-    def addFromXML(self, xmlPath):
+    def populate(self, picturesFiles, status = PictureState.NEW):
         """
-          Add picture from a xml model file
+        Populate the model, i.e. add instance of pictures element. Element are added
+        with the status "NEW"
 
-          xmlPath -- The path to the XML model file
+        Args:
+            picturesFiles   (list<QUrl>) : List of path to the different pictures
+            status          (int) : The initial status to assign to the item
         """
-        root = ET.parse(xmlPath).getroot()     
-        listPictures = []
-        for child in root:
-            #name = child.attrib["name"]
-            path = child.text
-            status = child.attrib["status"]
-            latitude = child.attrib["latitude"]
-            longitude = child.attrib["longitude"]
-            self.add(Picture(self._resourcesPath, path, latitude, longitude, status = status))
+        with exiftool.ExifTool() as exifparser:
+            for url in picturesFiles:
+                # Get EXIF data
+                exifData = exifparser.get_tags(\
+                    ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url.path())
+                if not ('EXIF:GPSLatitude' in exifData):
+                    #May raise an error if no GPS data ?
+                    exifData['EXIF:GPSLatitude'] = "0.0"
+                    exifData['EXIF:GPSLongitude'] = "0.0"
+
+                self.add(Picture(self._resourcesPath, url.path(), \
+                    str(exifData['EXIF:GPSLatitude']), str(exifData['EXIF:GPSLongitude']), \
+                        status))
+
+    def serialize(self):
+        """ Serialize a pictureModel object.
+        """
+        serial = dict()
+        serial['pictures'] = []
+        for picture in self._data:
+            serial['pictures'].append(picture.serialize())
+        serial['resourcesPath'] = self._resourcesPath
+        return serial
+
+    @staticmethod
+    def deserialize(serial):
+        """ Recreate a pictureModel object from its serialization.
+
+        Args:
+            serial (dict()): The serialized version of a pictureModel object.
+        """
+        pictureModel = PictureModel(serial['resourcesPath'])
+        for picture in serial['pictures']:
+            pictureModel.add(Picture(serial['resourcesPath'], picture['path'],\
+                picture['latitude'], picture['longitude'], picture['date'], picture['status']))
+
+        return pictureModel
+
+    def save(self, base_path, file_name):
+        """ Save the object in the file system.
+        """
+        super().save(base_path, file_name)
+
+    @classmethod
+    def load(cls, base_path, file_name, object_class=None):
+        """ Recreate a pictureModel object from a file.
+
+        Args:
+            base_path (str): The path of the directory containing the file.
+            file_name (str): The name of the file to load.
+            object_class (class): The class of the object to recreate.
+        """
+        if object_class == None:
+            object_class = cls
+        return Savable.load(base_path, file_name, object_class)

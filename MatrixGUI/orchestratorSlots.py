@@ -101,8 +101,8 @@ class OrchestratorSlots(QObject):
         Args:
         picturesFiles (list<QUrl>): The list of pictures to be imported
         """
-        self.workspaceManager.generateModel(picturesFiles)
-        self.pictureModel.addFromXML(self.workspaceManager.pictureModelPath())
+        newPaths = self.workspaceManager.import_pictures(picturesFiles)
+        self.pictureModel.populate(newPaths)
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
 
@@ -144,10 +144,21 @@ class OrchestratorSlots(QObject):
     def delete_scene(self, path):
         self.workspaceManager.delete_scene(path)
 
+    #### PICTURE FETCHER SLOTS
     @pyqtSlot(bool)
     def cameraConnection(self, isConnected):
         name = self.pictureFetcher.query_camera_name()
         self.onCameraConnection.emit(isConnected, name)
+
+    @pyqtSlot()
+    def importThumbnails(self):
+        thumbnailsDir = self.workspaceManager.get_thumbnails_dir()
+        thumbnailsNames = self.pictureFetcher.query_file_list()
+        thumbnailsNames = self.pictureFetcher.download_files(thumbnailsNames, \
+            thumbnailsDir, thumbnail=True)
+        self.pictureFetcher.populate([ os.path.join(thumbnailsDir, n) for n in thumbnailsNames ])
+        self.pictureManager = self.pictureModel.instantiateManager()
+        self.picturesImported.emit(self.pictureManager)
 
     @pyqtSlot()
     def launchReconstruction(self):

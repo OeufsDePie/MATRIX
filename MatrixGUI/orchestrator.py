@@ -6,7 +6,7 @@ from PyQt5.QtQuick import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtQml import *
-from Components.PyQt.PictureManager.pictureManager import *
+from Components.PyQt.PictureManager.pictureManager import PictureModel
 from Components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 from Components.PyQt.PictureFetcher.pygphoto import *
 #from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
@@ -77,6 +77,7 @@ class Orchestrator(OrchestratorSlots):
         ######## Picture Fetcher Signals
         self.pictureFetcher.onCameraConnection.connect(self.cameraConnection)
         self.onCameraConnection.connect(self.root.slot_cameraConnection)
+        self.root.sig_importThumbnails.connect(self.importThumbnails)
         
         ######## Reconstruction Signals
         # self.root.sig_launchReconstruction.connect(self.launchReconstruction)  

@@ -21,7 +21,7 @@ class Scene(DirectorySpace):
     RECONSTRUCTION_OUTPUT_DIR  = "reconstruction_output"
     RECONSTRUCTION_TEMP_DIR    = "reconstruction_temp"
     RECONSTRUCTION_PICTURE_DIR = "reconstruction_pictures"
-
+    THUMBNAILS_DIR             = "thumbnails"
     def __init__(self, name, base_path, relative_path=""):
         """ Initialize a scene in a workspace.
 
@@ -36,7 +36,9 @@ class Scene(DirectorySpace):
         self.subdirs[Scene.RECONSTRUCTION_TEMP_DIR] =\
                 "The temporary output directory for reconstruction"
         self.subdirs[Scene.RECONSTRUCTION_PICTURE_DIR] =\
-                "The directory directory containing the pictures used for reconstruction"
+                "The directory containing the pictures used for reconstruction"
+        self.subdirs[Scene.THUMBNAILS_DIR] =\
+                "The directorr containing the thumbnails temporary stored when importing pictures"
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.
@@ -80,3 +82,8 @@ class Scene(DirectorySpace):
         return self.RECONSTRUCTION_PICTURE_DIR
 
 #=============================   end reconstruction   ===============================
+
+##############################   THUMBNAILS   ###################################
+    def get_thumbnails_dir(self):
+        return self.THUMBNAILS_DIR
+#=============================   end thumbnails   ===============================

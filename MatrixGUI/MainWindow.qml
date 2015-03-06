@@ -34,26 +34,21 @@ ApplicationWindow {
   signal sig_movePictures(variant indexes, int indexTo)
   signal sig_deletePictures(variant indexes)
   signal sig_discardPictures(variant indexes)
+  signal sig_renewPictures(variant indexes)
   signal sig_filterPictures(int status)
-  function slot_picturesMoved(indexFrom, indexTo) { pictureManager.picturesMoved(indexFrom, indexTo); mapViewer.refresh() }
-  function slot_picturesFiltered() { pictureManager.picturesFiltered(); mapViewer.refresh() }
-  function slot_picturesDiscarded() { pictureManager.picturesDiscarded(); mapViewer.refresh() }
-  function slot_picturesDeleted() { pictureManager.picturesDeleted(); mapViewer.refresh() }
-
+  function slot_picturesUpdated(pictures) { 
+    pictureManager.picturesUpdated(pictures);
+    mapViewer.pictures = pictures;
+    var center = pictures.computeCenter();
+    mapViewer.centerLatitude = center.latitude;
+    mapViewer.centerLongitude = center.longitude;
+    mapViewer.refresh()
+  }
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
   signal sig_launchReconstruction()
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
-  function slot_picturesImported(pictureModel) { 
-    pictureManager.pictures = pictureModel;
-    pictureManager.picturesImported();
-    mapViewer.pictures = pictureModel;
-    var center = pictureModel.computeCenter();
-    mapViewer.centerLatitude = center.latitude;
-    mapViewer.centerLongitude = center.longitude;
-    mapViewer.refresh()
-  }
 
   /* CONFIGBAR SIGNALS/SLOTS */
   signal sig_changeShowMap(bool checked)
@@ -67,10 +62,7 @@ ApplicationWindow {
   signal sig_changeWorkspace(string path)
   signal sig_saveWorkspace()
   signal sig_deleteWorkspace(string path)
-  function slot_workspaceAvailable(status) { 
-    console.log(status)
-    root.workspaceAvailable = status 
-  }
+  function slot_workspaceAvailable(status) { root.workspaceAvailable = status }
 
   signal sig_newScene(string name)
   signal sig_changeScene(string path)
@@ -223,6 +215,10 @@ ApplicationWindow {
         mapViewer.reset();
         sig_deletePictures(indexes);
       }
+      onRenewPictures: {
+        mapViewer.reset();
+        sig_renewPictures(indexes);
+      }
       onFocusOnPicture: {
         mapViewer.centerLatitude = latitude
         mapViewer.centerLongitude = longitude
@@ -301,7 +297,7 @@ ApplicationWindow {
 
     MapViewer {
       id: mapViewer
-      visible: mapViewerDefaultVisible
+      visible: false
       Layout.fillHeight: true
       Layout.minimumWidth: root.width / 3
       Layout.maximumWidth: root.width / 3

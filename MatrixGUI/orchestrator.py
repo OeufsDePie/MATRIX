@@ -24,6 +24,7 @@ class Orchestrator(OrchestratorSlots):
         # Instantiate the app, and all attached logic modules
         self.app = QGuiApplication(sys.argv)
         self.pictureModel = PictureModel(self.RESOURCES)
+        self.pictureManager = self.pictureModel.instantiateManager()
         self.pictureFetcher = Pygphoto(watch_camera=True)
         self.workspaceManager = WorkspaceManager(self.pictureModel)
         self.reconstructionManager = ReconstructionManager()
@@ -62,13 +63,10 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_importPictures.connect(self.importPictures)
         self.root.sig_discardPictures.connect(self.discardPictures)
         self.root.sig_deletePictures.connect(self.deletePictures)
+        self.root.sig_renewPictures.connect(self.renewPictures)
 
         ######## Picture Widget Callbacks/Infos
-        self.picturesMoved.connect(self.root.slot_picturesMoved)
-        self.picturesFiltered.connect(self.root.slot_picturesFiltered)
-        self.picturesImported.connect(self.root.slot_picturesImported)
-        self.picturesDiscarded.connect(self.root.slot_picturesDiscarded)
-        self.picturesDeleted.connect(self.root.slot_picturesDeleted)
+        self.picturesUpdated.connect(self.root.slot_picturesUpdated)
 
         ######## Picture Fetcher Signals
         self.pictureFetcher.onCameraConnection.connect(self.cameraConnection)

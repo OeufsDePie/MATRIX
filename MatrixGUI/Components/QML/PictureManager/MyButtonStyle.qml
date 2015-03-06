@@ -5,8 +5,8 @@ Component {
   id: buttonStyle
   ButtonStyle {
     background: Rectangle {
-        implicitWidth: toolbar.buttonWidth
-        implicitHeight: toolbar.buttonHeight
+        implicitWidth: control.width
+        implicitHeight: control.height
         gradient: Gradient {
             GradientStop { position: 0 ; color: control.pressed ? borderColor : selectionColor }
             GradientStop { position: 1 ; color: selectionColor }

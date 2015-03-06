@@ -125,6 +125,20 @@ class PictureManager(QSortFilterProxyModel):
             state = state and self.setData(row, newStatus, PictureModel.STATUS_ROLE)
         return state
 
+    def renewAll(self, rows):
+        """
+        Change the status of pictures DISCARDED, THUMBNAIL_DISCARDED or REJECTED to NEW
+
+        Args:
+            rows (list<QModelIndex>): The related rows in the proxy model
+        """
+        state = True
+        for row in self._iterateOverRows(rows):
+            currentStatus = self.data(row, PictureModel.STATUS_ROLE)
+            if currentStatus in [PictureState.REJECTED, PictureState.DISCARDED, PictureState.THUMBNAIL_DISCARDED]:
+                state = state and self.setData(row, PictureState.NEW, PictureModel.STATUS_ROLE)
+        return state
+
     def deleteAll(self, rows):
         """
         Remove pictures from the model

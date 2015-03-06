@@ -37,7 +37,6 @@ class OrchestratorSlots(QObject):
                 self.pictureManager.index(indexTo, 0))
             if(indexFrom < indexTo): offsetDown += 1
             if(indexFrom > indexTo): offsetUp += 1
-        self.pictureManager.sourceModel().printData()
         if state: self.picturesUpdated.emit(self.pictureManager)
 
     @pyqtSlot(int)

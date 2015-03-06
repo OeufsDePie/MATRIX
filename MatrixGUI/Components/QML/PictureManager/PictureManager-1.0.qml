@@ -13,11 +13,12 @@ Rectangle {
   property string borderColor: "#76d2fe"
   property string selectionColor: "#1db7ff"
   property string textColor: "#000000"
+  property bool isDragging: false
 
   signal deletePictures(variant indexes) /* Raised when picture are deleted */
   signal discardPictures(variant indexes) /* Raised when a picture is discarded */
   signal filterPictures(int status) /* Raised when ordering a filter */
-  signal focusOnPicture(real latitude, real longitude) /* Raised when clicking on a picture */
+  signal focusOnPicture(int index, real latitude, real longitude) /* Raised when clicking on a picture */
   signal movePictures(variant indexes, int indexTo) /* Raised each time a picture is re-ordered */
   signal renewPictures(variant indexes /* Raised each time a picture is renewed */)
 
@@ -166,8 +167,8 @@ Rectangle {
     id: pictureDelegate
     Rectangle {
       id: pictureWrapper
-
-      property bool isFocused: false // Focused means that the element is the one we are seeing
+      /* Focused means that the element is the one we are seeing */
+      property bool isFocused: listView.currentIndex == index 
       property bool isSelected: Utils.isSelected(name)
       property bool isHovered: false // Hovered means that the cursor is under this element
 
@@ -214,6 +215,8 @@ Rectangle {
       MouseArea {
         id: dragArea
 
+
+
         /* Properties use to handle the drag and drop */
         property int positionStarted  // At which position (y value, relative to parent) did we start ?
         property int positionEnded    // At which position (y value, relative to parent) did we end ?
@@ -224,6 +227,8 @@ Rectangle {
         //acceptedButtons: Qt.LeftButton | Qt.RightButton
 
         anchors.fill: parent
+        /* Need to be global to each mouseArea */
+        cursorShape: pictureWidget.isDragging ? Qt.ClosedHandCursor : Qt.ArrowCursor
         drag.axis: Drag.YAxis
         drag.minimumY: 0
         drag.maximumY: listView.model.count() * pictureWrapper.height
@@ -250,6 +255,7 @@ Rectangle {
             positionEnded = pictureWrapper.y
             dragIndicator.visible = true
             dragIndicator.anchors.topMargin = newIndex * pictureWrapper.height
+            pictureWidget.isDragging = true
             if(indexMoved > 0) dragIndicator.anchors.topMargin += pictureWrapper.height
           }
         }
@@ -260,6 +266,7 @@ Rectangle {
           dragArea.drag.target = null
           pictureWrapper.y = positionStarted
           dragIndicator.visible = false
+          pictureWidget.isDragging = false
 
           /* indexMoved != 0 means that the item wasn't drag, so it's considered as a click */
           if (indexMoved != 0) {
@@ -301,17 +308,14 @@ Rectangle {
 
           /* Only a simple click, so select the element in the viewer */
           viewerWrapper.viewer.source = path;
-          listView.currentItem.isFocused = false;
           listView.currentIndex = index;
-          focusOnPicture(latitude, longitude);
-          isFocused = true;
+          focusOnPicture(index, latitude, longitude);
         }
       }
       Component.onCompleted: {
         /* Initialize the viewer with the first loaded element of the model */
         if(index == listView.currentIndex) {
           viewerWrapper.viewer.source = path;
-          isFocused = true;
           /* This may only occur when complete() is manually called : after a filtering */
           if(isSelected) selectedPictures.model.setProperty(name, "index", index);
         }
@@ -331,6 +335,10 @@ Rectangle {
   }
 
   /* Slots */
+  function focusOnPictureMap(index) {
+    listView.currentIndex = index
+  }
+
   function picturesUpdated(pictures){
     selectedPictures.model.clear();
     listView.model = []; // Force a repaint

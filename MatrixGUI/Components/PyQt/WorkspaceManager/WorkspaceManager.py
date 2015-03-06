@@ -1,4 +1,4 @@
-import os, random, math
+import os, random, math, shutil
 import xml.etree.cElementTree as ET
 from Workspace import Workspace
 from PyQt5.QtCore import QStringListModel
@@ -249,9 +249,38 @@ class WorkspaceManager():
                 self.get_current_scene().full_path(),\
                 self.get_current_scene().get_reconstruction_picture_dir())
 
-    def import_pictures(self, picturesFiles):
-        #Temporary, waiting for you matpiz <3
-        return picturesFiles
+    def get_picture_dir(self):
+        """
+        Retrieve the folder where all pictures are stored
+
+        Return:
+          str: The absolute path to the folder
+        """
+        return os.path.join(self.get_current_scene().full_path(), Scene.PICTURES)
+
+    def prepare_reconstruction(self, picturesList):
+        """
+        Copy all file describe in picturesList inside the temporary reconstruction folder
+
+        Args:
+            picturesList (list<Picture>): The list of pictures that should be copied
+        """
+        for picture in picturesList:
+            shutil.copy(picture.path, self.get_selected_picture_dir())
+
+    def import_pictures(self, picturesPath):
+        """
+        Import pictures from an external location into the workspace
+
+        Args:
+          picturesPath (list<str>): The list of path to import
+        """
+        newPaths = []
+        for path in picturesPath:
+            newDir = self.get_picture_dir() 
+            shutil.copy(path, newDir) 
+            newPaths.append(os.path.join(newDir, os.path.filename(path)))
+        return newPaths
 
     def get_thumbnails_dir(self):
         return os.path.join(\

@@ -75,6 +75,7 @@ ApplicationWindow {
   signal sig_changeScene(string path)
   signal sig_deleteScene(string path)
   signal sig_importThumbnails()
+  signal sig_confirmThumbnails()
 
   /* CAMERAINFO SIGNALS/SLOTS */
   function slot_cameraConnection(cameraConnected, name) { 
@@ -103,6 +104,7 @@ ApplicationWindow {
     onSig_menu_importPictures:  {pictureFetcher.open()}
     onSig_menu_importThumbnails: sig_importThumbnails()
     onSig_menu_launchReconstruction: sig_launchReconstruction()
+    onSig_menu_confirmThumbnails: sig_confirmThumbnails()
   }
 
   FolderAndNameDialog { // create a new workspace

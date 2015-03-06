@@ -193,18 +193,33 @@ class OrchestratorSlots(QObject):
         self.pictureManager.setSourceModel(self.pictureModel)
         self.picturesUpdated.emit(self.pictureManager)
 
+    @pyqlSlot()
+    def confirmThumbnails(self):
+        destDir = self.workspaceManager.get_picture_dir()
+        for picture in self.pictureModel.thumbnails():
+            filename = os.path.filename(picture.path)
+            error = self.pictureFetcher.download_file(filename, destDir)
+            if(error == 0):
+                picture.path = os.path.join(destDir, filename)
+                picture.status = PictureState.NEW
+        self.pictureModel.removeDiscardedThumbnails()
+        self.picturesUpdated.emit(self.pictureManager)
+
     @pyqtSlot()
     def launchReconstruction(self):
         validFiles = self.pictureModel.validFiles()
+        self.workspaceManager.prepare_reconstruction(validFiles)
+        [ picture.status = PictureState.RECONSTRUCTION for picture in validFiles ]
         crapDir = self.workspaceManager.get_scene_temp_output_dir()
         inDir = self.workspaceManager.get_selected_picture_dir()
         outDir = self.workspaceManager.get_scene_output_dir()
-        method = "FlawlessVictory"
+        method = "long"
         self.reconstructionManager.launchReconstruction(inDir,\
             method,\
             self.OPENMVG_BUILD_DIR,\
             crapDir,\
             outDir)
+        [ picture.status = PictureState.PROCESSED for picture in validFiles ]
         self.reconstructionChanged.emit(os.path.join(\
             self.workspaceManager.get_current_scene().full_path(),\
             self.workspaceManager.get_current_scene().get_reconstruction_temp_dir(),\

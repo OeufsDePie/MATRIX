@@ -14,7 +14,7 @@ import ModelAndNameDialog 0.1
 import TextFieldDialog 0.1
 import ConfigBar 0.1
 import MapViewer 0.1
-//import PointCloud 1.0
+import PointCloud 1.0
 
 ApplicationWindow {
   id: root
@@ -257,9 +257,9 @@ ApplicationWindow {
       Layout.fillWidth: true
       Layout.minimumWidth: 300
       Layout.columnSpan: mapViewer.visible ? 1 : 2
-      // PointCloud{
-      //   pathPly: "/home/matthieu/GIT/ENSEEIHT/3A/PL_POPART/MATRIX_ref/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
-      // }
+      PointCloud{
+        pathPly: "/home/ktorz/Documents/projeylong/MATRIX/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
+      }
     }
 
     MapViewer {

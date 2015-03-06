@@ -9,7 +9,7 @@ from PyQt5.QtQml import *
 from Components.PyQt.PictureManager.pictureManager import PictureModel
 from Components.PyQt.WorkspaceManager.WorkspaceManager import WorkspaceManager
 from Components.PyQt.PictureFetcher.pygphoto import *
-#from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
+from Components.PyQt.ReconstructionManager.ReconstructionManager import ReconstructionManager
 from orchestratorSlots import OrchestratorSlots
 
 class Orchestrator(OrchestratorSlots):
@@ -26,7 +26,7 @@ class Orchestrator(OrchestratorSlots):
         self.pictureModel = PictureModel(self.RESOURCES)
         self.pictureFetcher = Pygphoto(watch_camera=True)
         self.workspaceManager = WorkspaceManager(self.pictureModel)
-        #self.reconstructionManager = ReconstructionManager()
+        self.reconstructionManager = ReconstructionManager()
 
         # Initialize and configure all modules
         # Temporary, photos will be added by signals

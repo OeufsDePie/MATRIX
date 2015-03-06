@@ -1,11 +1,11 @@
 [submodule "ImageDataset_SceauxCastle"]
 	path = ImageDataset_SceauxCastle
 	url = https://github.com/openMVG/ImageDataset_SceauxCastle.git
+[submodule "MatrixGUI/Components/PyQt/ReconstructionManager"]
+	path = MatrixGUI/Components/PyQt/ReconstructionManager
+	url = https://github.com/OeufsDePie/OpenMVGFeeder.git
+	branch = develop
 [submodule "MatrixGUI/Components/QML/3dRendering"]
 	path = MatrixGUI/Components/QML/3dRendering
 	url = https://github.com/OeufsDePie/3dRenderingTool.git
-	branch = develop
-[submodule "MatrixGUI/Components/PyQt/ReconstructionManager"]
-	path = MatrixGUI/Components/PyQt/ReconstructionManager
-	url = git@github.com:OeufsDePie/OpenMVGFeeder.git
 	branch = develop

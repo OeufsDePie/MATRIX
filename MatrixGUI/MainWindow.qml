@@ -19,10 +19,12 @@ import PointCloud 1.0
 ApplicationWindow {
   id: root
 
+  property bool workspaceAvailable: false
+
   color: "#161616"
   width: Screen.desktopAvailableWidth - 300
   height: 600 //Screen.desktopAvailableHeight
-
+  title: "MATRIX"
   /*
    * All signals and slot are aliased here. Thus, they are easier to catch in PyQt, and are gather 
    * for reading purpose 
@@ -39,6 +41,7 @@ ApplicationWindow {
   function slot_picturesDeleted() { pictureManager.picturesDeleted(); mapViewer.refresh() }
 
   /* RECONSTRUCTION COMPONENT SIGNALS/SLOTS */
+  signal sig_launchReconstruction()
 
   /* FETCHER COMPONENT SIGNALS/SLOTS */
   signal sig_importPictures(variant picturesFiles)
@@ -62,8 +65,12 @@ ApplicationWindow {
   signal sig_openWorkspace(string path)
   signal sig_closeWorkspace(string path)
   signal sig_changeWorkspace(string path)
-  signal sig_saveWorkspace(string name, string path)
+  signal sig_saveWorkspace()
   signal sig_deleteWorkspace(string path)
+  function slot_workspaceAvailable(status) { 
+    console.log(status)
+    root.workspaceAvailable = status 
+  }
 
   signal sig_newScene(string name)
   signal sig_changeScene(string path)
@@ -79,19 +86,25 @@ ApplicationWindow {
   /* The menubar should rather be exported as a proper component */
   menuBar: Menu {
     id: menu
+
+    workspaceAvailable: root.workspaceAvailable
+
     // workspace signals
     onSig_menu_newWorkspace:    {newWorkspaceDialog.open()}
     onSig_menu_openWorkspace:   {openWorkspaceDialog.open()}
     onSig_menu_closeWorkspace:  {closeWorkspaceDialog.open()}
     onSig_menu_changeWorkspace: {changeWorkspaceDialog.open()}
-    onSig_menu_saveWorkspace:   {saveWorkspaceDialog.open()}
+    onSig_menu_saveWorkspace:   sig_saveWorkspace()
     onSig_menu_deleteWorkspace: {deleteWorkspaceDialog.open()}
+
+    //Qt.createQmlObject("import QtQuick 2.0; import PointCloud 1.0; PointCloud {}", renderer)
     // scene signals
     onSig_menu_newScene:        {newSceneDialog.open()}
     onSig_menu_changeScene:     {changeSceneDialog.open()}
     onSig_menu_deleteScene:     {deleteSceneDialog.open()}
     onSig_menu_importPictures:  {pictureFetcher.open()}
     onSig_menu_importThumbnails: sig_importThumbnails()
+    onSig_menu_launchReconstruction: sig_launchReconstruction()
   }
 
   FolderAndNameDialog { // create a new workspace
@@ -155,12 +168,39 @@ ApplicationWindow {
     onAccepted: {sig_deleteScene(deleteSceneDialog.selected)}
   }
 
+  Text {
+    id: textWelcome1
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    anchors.topMargin: root.height / 4
+    text: "Welcome in MATRIX\nan MVG Assitant Tool for Reconstruction from Images eXtraction"
+    font.pixelSize: 17
+    font.bold: true
+    horizontalAlignment: Text.AlignHCenter
+    color: "#ffffff"
+    visible: !root.workspaceAvailable
+  }
+
+  Text {
+    id: textWelcome2
+    anchors.top: textWelcome1.top
+    anchors.topMargin: root.height / 3
+    anchors.horizontalCenter: parent.horizontalCenter
+    text: "Please, create a workspace or select an existing one to start working."
+    font.pixelSize: 14
+    horizontalAlignment: Text.AlignHCenter
+    color: "#ffffff"
+    visible: !root.workspaceAvailable
+  }
+
   GridLayout {
-    width: parent.width
-    height: parent.height
+    id: appContent
     columns: 3
-    rows: 4
     columnSpacing: 0
+    height: parent.height
+    rows: 4
+    visible: root.workspaceAvailable
+    width: parent.width
 
     PictureManager {
       id: pictureManager
@@ -198,7 +238,7 @@ ApplicationWindow {
       }
       onChangeQuickConfig: sig_changeQuickConfig(checked)
       onChangeActiveMode: sig_changeActiveMode(checked)
-      showMapDefault: mapViewerDefaultVisible
+      showMapDefault: false
     }
 
     Item {
@@ -218,7 +258,7 @@ ApplicationWindow {
         }
         Text {
           id: textCameraInfo
-          property bool isConnected: cameraDefaultConnected
+          property bool isConnected: false
           color: isConnected ? "#98cd00" : "#ff3237"
           text: isConnected ? "Yes :)" : "No :'("
           font.bold: true
@@ -231,7 +271,7 @@ ApplicationWindow {
         Text {
           id: textCameraName
           color: "#ffffff"
-          text: cameraDefaultName
+          text: "Unknown"
           font.bold: true
         }
       }
@@ -257,9 +297,6 @@ ApplicationWindow {
       Layout.fillWidth: true
       Layout.minimumWidth: 300
       Layout.columnSpan: mapViewer.visible ? 1 : 2
-      PointCloud{
-        pathPly: "/home/ktorz/Documents/projeylong/MATRIX/MatrixGUI/Components/QML/3dRendering/testOpenGLUnderQML/ply/castle.ply"
-      }
     }
 
     MapViewer {

@@ -14,8 +14,10 @@ class OrchestratorSlots(QObject):
     picturesDiscarded = pyqtSignal(QVariant)
     # Send to inform that pictures have been deleted
     picturesDeleted = pyqtSignal(QVariant)
-
+    # Send when an update about the status of the camera is available
     onCameraConnection = pyqtSignal(bool, str) 
+    # Send when the workspace become available or unavailable
+    workspaceAvailable = pyqtSignal(bool)
 
     # Define All Usable Slots
     @pyqtSlot(QVariant, int)
@@ -112,6 +114,7 @@ class OrchestratorSlots(QObject):
     @pyqtSlot("QString", "QString")
     def new_workspace(self,name, path):
         self.workspaceManager.new_workspace(name, path)
+        self.workspaceAvailable.emit(True)
 
     @pyqtSlot("QString")
     def open_workspace(self, path):
@@ -120,10 +123,12 @@ class OrchestratorSlots(QObject):
         self.pictureModel = self.workspaceManager.getPictureModel()
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
+        self.workspaceAvailable.emit(True)
 
     @pyqtSlot("QString")
     def close_workspace(self, path):
         self.workspaceManager.close_workspace(path)
+        self.workspaceAvailable.emit(False)
 
     @pyqtSlot("QString")
     def change_workspace(self, path):
@@ -132,9 +137,10 @@ class OrchestratorSlots(QObject):
         self.pictureManager = self.pictureModel.instantiateManager()
         self.picturesImported.emit(self.pictureManager)
 
-    @pyqtSlot("QString", "QString")
-    def save_workspace(self, name, path):
-        self.workspaceManager.save_workspace(path, name)
+    @pyqtSlot()
+    def save_workspace(self):
+        ws = self.workspaceManager.get_current_workspace()
+        self.workspaceManager.save_workspace(ws.full_path())
 
     @pyqtSlot("QString")
     def delete_workspace(self, path):
@@ -173,8 +179,9 @@ class OrchestratorSlots(QObject):
 
     @pyqtSlot()
     def launchReconstruction(self):
-        outDir = self.workspaceManager.get_scene_temp_output_dir()
-        method = "long"
-        imDir = self.workspaceManager.get_selected_picture_dir()
-        pointCloudDir = self.workspaceManager.get_scene_output_dir()
-        self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)
+        print("Launch Recon")
+        # outDir = self.workspaceManager.get_scene_temp_output_dir()
+        # method = "long"
+        # imDir = self.workspaceManager.get_selected_picture_dir()
+        # pointCloudDir = self.workspaceManager.get_scene_output_dir()
+        # self.reconstructionManager.launchReconstruction(imDir,method,self.OPENMVG_BUILD_DIR,outDir,pointCloudDir)

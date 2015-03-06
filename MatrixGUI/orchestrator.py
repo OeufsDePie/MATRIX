@@ -28,10 +28,6 @@ class Orchestrator(OrchestratorSlots):
         self.workspaceManager = WorkspaceManager(self.pictureModel)
         self.reconstructionManager = ReconstructionManager()
 
-        # Initialize and configure all modules
-        # Temporary, photos will be added by signals
-        self.workspaceManager.setProjectPath("Workspace/project1/")
-
         # Instantiate the view
         engine = QQmlApplicationEngine()
         engine.addImportPath(self.QML_PACKAGE)
@@ -80,7 +76,7 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_importThumbnails.connect(self.importThumbnails)
         
         ######## Reconstruction Signals
-        # self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
+        self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)
@@ -92,6 +88,7 @@ class Orchestrator(OrchestratorSlots):
         self.root.sig_newScene.connect(self.new_scene)
         self.root.sig_changeScene.connect(self.change_scene)
         self.root.sig_deleteScene.connect(self.delete_scene)
+        self.workspaceAvailable.connect(self.root.slot_workspaceAvailable)
 
 if __name__ == "__main__":
     matrix = Orchestrator()

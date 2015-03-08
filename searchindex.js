@@ -1,0 +1,1 @@
+Search.setIndex({objtypes:{},titleterms:{matrix:0,tabl:0,indic:0,document:0,welcom:0},titles:["Welcome to MATRIX&#8217;s documentation!"],objects:{},filenames:["index"],terms:{content:0,search:0,modul:0,index:0,page:0},objnames:{},envversion:43})

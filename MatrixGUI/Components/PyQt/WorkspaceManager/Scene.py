@@ -21,7 +21,7 @@ class Scene(DirectorySpace):
     RECONSTRUCTION_OUTPUT_DIR  = "reconstruction_output"
     RECONSTRUCTION_TEMP_DIR    = "reconstruction_temp"
     RECONSTRUCTION_PICTURE_DIR = "reconstruction_pictures"
-    PICTURES_DIR               = "pictures"
+    PICTURES_DIR               = "pictures_set"
     THUMBNAILS_DIR             = "thumbnails"
 
     def __init__(self, name, base_path, relative_path=""):

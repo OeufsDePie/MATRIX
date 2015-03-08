@@ -291,7 +291,7 @@ ApplicationWindow {
       Text {
         anchors.centerIn: parent
         color: "#ffffff"
-        text: "TODO Timeline"
+        text: ""
       }
     }
 

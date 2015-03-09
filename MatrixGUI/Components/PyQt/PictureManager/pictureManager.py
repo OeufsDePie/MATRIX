@@ -293,7 +293,8 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
           An implementation of the parent method insertRow. It add an empty row at the given index
           See Qt Documentation for more details <3. 
           Args:
-            row     (int):  The index of the future row. If superior to model size, the row will be appended. 
+            row     (int):  The index of tization between pictures. If more than one
+        index are supplied, the first he future row. If superior to model size, the row will be appended. 
             parent  (QModelIndex):  The parent index, always default in our case.
           Returns:
             bool: Return True if the row have been successfully inserted.
@@ -427,6 +428,14 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         for picture in self._data:
             print (picture == None and "-----" or str(picture.status) + " - " + picture.name)
     
+    def thumbnails(self):
+        return [p for p in self._data if p.status==PictureState.THUMBNAIL]
+    
+    def removeDiscardedThumbnails(self):
+        for i in range(0,self.rowCount()):
+            if self._data[self.rowCount()-i-1].status == PictureState.THUMBNAIL_DISCARDED :
+                del self._data[self.rowCount()-i-1]
+
     def populate(self, picturesFiles, status = PictureState.NEW):
         """
         Populate the model, i.e. add instance of pictures element. Element are added
@@ -438,6 +447,7 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         """
         with exiftool.ExifTool() as exifparser:
             for url in picturesFiles:
+                print(url)
                 # Get EXIF data
                 exifData = exifparser.get_tags(\
                     ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url)

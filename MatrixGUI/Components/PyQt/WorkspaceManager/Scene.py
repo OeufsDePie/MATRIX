@@ -21,6 +21,7 @@ class Scene(DirectorySpace):
     RECONSTRUCTION_OUTPUT_DIR  = "reconstruction_output"
     RECONSTRUCTION_TEMP_DIR    = "reconstruction_temp"
     RECONSTRUCTION_PICTURE_DIR = "reconstruction_pictures"
+    PICTURES_DIR               = "pictures_set"
     THUMBNAILS_DIR             = "thumbnails"
 
     def __init__(self, name, base_path, relative_path=""):
@@ -39,7 +40,9 @@ class Scene(DirectorySpace):
         self.subdirs[Scene.RECONSTRUCTION_PICTURE_DIR] =\
                 "The directory containing the pictures used for reconstruction"
         self.subdirs[Scene.THUMBNAILS_DIR] =\
-                "The directorr containing the thumbnails temporary stored when importing pictures"
+                "The directory containing the thumbnails temporary stored when importing pictures"
+        self.subdirs[Scene.PICTURES_DIR] =\
+            "The directory holding all pictures files of the scene"
 
     def delete(self):
         """ Delete the scene and remove its access from the workspace.

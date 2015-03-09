@@ -19,7 +19,8 @@ MenuBar {
   signal sig_menu_importPictures()
   signal sig_menu_launchReconstruction()
   signal sig_menu_importThumbnails()
-
+  signal sig_menu_confirmThumbnails()
+  
   style: MenuBarStyle{
     background: Rectangle {
       color: "#cccccc"
@@ -46,7 +47,11 @@ MenuBar {
       MenuItem { text: "From computer...";  onTriggered: sig_menu_importPictures()  }
       MenuItem { text: "From camera..."; onTriggered: sig_menu_importThumbnails() }
     }
+  }
+  Menu {
+    title: "Tools"
+    enabled: workspaceAvailable
+    MenuItem { text: "Confirm thumbnails"; onTriggered: sig_menu_confirmThumbnails() }
     MenuItem { text: "Launch 3D reconstruction"; onTriggered: sig_menu_launchReconstruction()}
   }
-
 } 

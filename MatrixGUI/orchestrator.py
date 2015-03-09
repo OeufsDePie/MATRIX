@@ -76,6 +76,7 @@ class Orchestrator(OrchestratorSlots):
         ######## Reconstruction Signals
         self.root.sig_launchReconstruction.connect(self.launchReconstruction)  
         self.reconstructionChanged.connect(self.root.slot_reconstructionChanged)
+        self.root.sig_confirmThumbnails.connect(self.confirmThumbnails)
 
         ######## workspace manager signals
         self.root.sig_newWorkspace.connect(self.new_workspace)

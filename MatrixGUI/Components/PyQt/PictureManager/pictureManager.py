@@ -46,7 +46,7 @@ class Picture(object):
         return os.path.join(self._resourcesPath, "Icons", str(self.status) + ".png")
 
     @pyqtProperty(str)
-    def color(self):
+    def circleColor(self):
         """
         Retrieve a color to display on the map widget, depending on the status
 
@@ -258,7 +258,7 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         ITEM_ROLE: "item",
         LATITUDE_ROLE: "latitude",
         LONGITUDE_ROLE: "longitude",
-        COLOR_ROLE: "color"
+        COLOR_ROLE: "circleColor"
     }
 
     def __init__(self, resourcesPath, listPictures = [], parent = None):
@@ -293,7 +293,8 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
           An implementation of the parent method insertRow. It add an empty row at the given index
           See Qt Documentation for more details <3. 
           Args:
-            row     (int):  The index of the future row. If superior to model size, the row will be appended. 
+            row     (int):  The index of tization between pictures. If more than one
+        index are supplied, the first he future row. If superior to model size, the row will be appended. 
             parent  (QModelIndex):  The parent index, always default in our case.
           Returns:
             bool: Return True if the row have been successfully inserted.
@@ -427,6 +428,14 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         for picture in self._data:
             print (picture == None and "-----" or str(picture.status) + " - " + picture.name)
     
+    def thumbnails(self):
+        return [p for p in self._data if p.status==PictureState.THUMBNAIL]
+    
+    def removeDiscardedThumbnails(self):
+        for i in range(0,self.rowCount()):
+            if self._data[self.rowCount()-i-1].status == PictureState.THUMBNAIL_DISCARDED :
+                del self._data[self.rowCount()-i-1]
+
     def populate(self, picturesFiles, status = PictureState.NEW):
         """
         Populate the model, i.e. add instance of pictures element. Element are added
@@ -438,6 +447,7 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
         """
         with exiftool.ExifTool() as exifparser:
             for url in picturesFiles:
+                print(url)
                 # Get EXIF data
                 exifData = exifparser.get_tags(\
                     ['EXIF:GPSLatitude', 'EXIF:GPSLongitude'], url)

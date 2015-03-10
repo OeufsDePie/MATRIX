@@ -18,6 +18,11 @@ that will later be used for real­time camera localization purpose.
 
 ## About us
 
+You will find the documentation of the project on that page :
+http://oeufsdepie.github.io/MATRIX/index.html
+
+## About us
+
 We are a group of students from [ENSEEIHT](http://www.enseeiht.fr/fr/index.html) (N7)
 engineering school, specialized in Computer Science and Applied Mathematics :
 

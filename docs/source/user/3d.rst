@@ -1,0 +1,6 @@
+*******************************
+3D Reconstruction and Rendering
+*******************************
+
+Explain here how to start a 3D reconstruction and how to navigate
+(if/when implemented) into the 3D rendering.

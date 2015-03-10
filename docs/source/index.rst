@@ -14,7 +14,7 @@ Contents:
 
    context
    user
-   architecure
+   architecture
    code
    doc
 

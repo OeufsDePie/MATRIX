@@ -1,6 +1,6 @@
-===========================
+=============================
 Managing the photo selection
-===========================
+=============================
 
 Once photos have been imported in your scene, you will be able to manipulate them. But first, you have to know the different states a photo can have. It can either be:
 

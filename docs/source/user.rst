@@ -1,6 +1,6 @@
-######################
+########################
 Use of the Application
-######################
+########################
 
 Here we will describ how to use the application. At the end of this chapter, you will know how to import pictures, launch a 3D reconstruction and see the results on the map and the 3D renderer.
 
@@ -8,14 +8,8 @@ Here is a video demo of our application which shows you quickly how to use it :
 
 .. raw:: html
 
-        <object width="480" height="385"><param name="movie"
-        value="https://www.youtube.com/watch?v=uqd6v_LBcAs&feature=em-share_video_user"></param><param
-        name="allowFullScreen" value="true"></param><param
-        name="allowscriptaccess" value="always"></param><embed
-        src="https://www.youtube.com/watch?v=uqd6v_LBcAs&feature=em-share_video_user"
-        type="application/x-shockwave-flash" allowscriptaccess="always"
-        allowfullscreen="true" width="480"
-        height="385"></embed></object>
+   <iframe width="640" height="360" src="https://www.youtube.com/embed/uqd6v_LBcAs?feature=player_detailpage" frameborder="0" allowfullscreen>
+   </iframe>
 
 .. toctree::
    :hidden:

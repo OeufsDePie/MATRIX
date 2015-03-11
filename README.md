@@ -21,6 +21,10 @@ that will later be used for real­time camera localization purpose.
 You will find the documentation of the project on that page :
 http://oeufsdepie.github.io/MATRIX/index.html
 
+## Installation
+
+See [the installation details](INSTALL.md) for the application installation
+
 ## About us
 
 We are a group of students from [ENSEEIHT](http://www.enseeiht.fr/fr/index.html) (N7)

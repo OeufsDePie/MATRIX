@@ -16,7 +16,7 @@ In such context, the preliminary task is to collect a dataset of images of the s
 where the movie will take place and perform an accurate 3D reconstruction of the scene,
 that will later be used for real­time camera localization purpose.
 
-## About us
+## Documentation
 
 You will find the documentation of the project on that page :
 http://oeufsdepie.github.io/MATRIX/index.html

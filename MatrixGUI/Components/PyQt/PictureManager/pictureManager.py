@@ -155,7 +155,8 @@ class PictureManager(QSortFilterProxyModel):
         for row in self._iterateOverRows(rows):
             currentStatus = self.data(row, PictureModel.STATUS_ROLE)
             if currentStatus in [PictureState.REJECTED, PictureState.DISCARDED, PictureState.THUMBNAIL_DISCARDED]:
-                state = state and self.setData(row, PictureState.NEW, PictureModel.STATUS_ROLE)
+                newStatus = currentStatus == PictureState.THUMBNAIL_DISCARDED and PictureState.THUMBNAIL or PictureState.NEW
+                state = state and self.setData(row, newStatus, PictureModel.STATUS_ROLE)
         return state
 
     def deleteAll(self, rows):

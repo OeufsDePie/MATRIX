@@ -22,7 +22,7 @@ ApplicationWindow {
   property bool workspaceAvailable: false
 
   color: "#161616"
-  width: Screen.desktopAvailableWidth - 300
+  width: 1000
   height: 600 //Screen.desktopAvailableHeight
   title: "MATRIX"
   /*

@@ -34,17 +34,10 @@ Make sure you have clone every submodule of our application when cloning the mai
 git submodule update --init --recursive
 ```
 
-Go to the 3D rendering module foler and compile it :
+Go to the 3D rendering module folder and compile it :
 
 ```
 cd MATRIX/MatrixGUI/Components/QML/3dRendering/
-qmake && make
-```
-
-Go to the 3D rendering module foler and compile it :
-
-```
-cd MATRIX/MatrixGUI/Components/QML/3dRendering/
-qmake && make
+qmake && make && make clean
 ```
 

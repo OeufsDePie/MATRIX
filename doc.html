@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Building that Documentation &mdash; MATRIX 0.1 documentation</title>
+  <title>5. Building that Documentation &mdash; MATRIX 0.1 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
 
   
     <link rel="top" title="MATRIX 0.1 documentation" href="index.html"/>
-        <link rel="prev" title="Code Documentation" href="code.html"/> 
+        <link rel="prev" title="4. Code Documentation" href="code.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -57,28 +57,33 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="context.html">Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="context.html#on-set-special-effects">On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="context.html#current-solution">Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="context.html#objectives-of-the-application">Objectives of the application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="user.html">Use of the Application</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user/workspaces.html">Managing workspaces and scenes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user/photos.html">Managing the photo selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user/camera.html">Camera connection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user/3d.html">3D Reconstruction and Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user/map.html">Map localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/map.html">2.5. Map localization</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture of the Application</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html">Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html">The Model/View pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail.html">Components implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="code.html">Code Documentation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Building that Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">4. Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -102,7 +107,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Building that Documentation</li>
+    <li>5. Building that Documentation</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="_sources/doc.txt" rel="nofollow"> View page source</a>
@@ -114,9 +119,126 @@
           <div role="main">
             
   <div class="section" id="building-that-documentation">
-<h1>Building that Documentation<a class="headerlink" href="#building-that-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Encore pour bibi ^^.</p>
-<p>Here comes the explanations on how to create that documentation</p>
+<h1>5. Building that Documentation<a class="headerlink" href="#building-that-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The objective is to have an easily maintainable and yet simple and powerful documentation.
+For all these reasons we chose <a class="reference external" href="http://sphinx-doc.org/index.html">Sphinx</a>.
+Sphinx has many benefits :</p>
+<ul class="simple">
+<li>A simple syntax (<a class="reference external" href="http://fr.wikipedia.org/wiki/ReStructuredText">rST</a>)</li>
+<li>Provides a simple navigation</li>
+<li>Manages source code blocks</li>
+<li>Manages source code doc comments</li>
+<li>Manages images</li>
+<li>Manages mathematics</li>
+<li>Manages LaTeX compilation</li>
+</ul>
+<p>You will find an introduction to rST syntaxe here :
+<a class="reference external" href="http://sphinx-doc.org/rest.html">http://sphinx-doc.org/rest.html</a></p>
+<div class="section" id="sphinx-installation">
+<h2>5.1. Sphinx Installation<a class="headerlink" href="#sphinx-installation" title="Permalink to this headline">¶</a></h2>
+<p>You can find all the details here : <a class="reference external" href="http://sphinx-doc.org/install.html">http://sphinx-doc.org/install.html</a>.
+The simplest way is to use Python package manager (<a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>) :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install sphinx
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">If you use some Ubuntu derived distribution,
+you might need to use <tt class="docutils literal"><span class="pre">pip3</span></tt> instead of <tt class="docutils literal"><span class="pre">pip</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="initialize-the-documentation">
+<h2>5.2. Initialize the documentation<a class="headerlink" href="#initialize-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Sources of the documentation will reside in the <tt class="docutils literal"><span class="pre">docs</span></tt> folder.
+Use the <tt class="docutils literal"><span class="pre">sphinx-quickstart</span></tt> command to start the documentation :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mkdir docs
+<span class="nv">$ </span><span class="nb">cd </span>docs/
+<span class="nv">$ </span>sphinx-quickstart
+</pre></div>
+</div>
+<p>The default configuration is almost ok but we need to change some answers :</p>
+<div class="highlight-rst"><div class="highlight"><pre>&gt; Separate source and build directories (y/n) [n]: y
+&gt; autodoc: automatically insert docstrings from modules (y/n) [n]: y
+&gt; mathjax: include math, rendered in the browser by MathJax (y/n) [n]: y
+</pre></div>
+</div>
+<p>At the end of the script, Sphinx configuration has been initialized.
+It has setup 2 folders : <tt class="docutils literal"><span class="pre">build</span></tt> and <tt class="docutils literal"><span class="pre">source</span></tt>.
+It also created a <tt class="docutils literal"><span class="pre">Makefile</span></tt> allowing to easily build the doc with commands such as :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>make html
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-of-sphinx-documentation">
+<h2>5.3. Configuration of Sphinx documentation<a class="headerlink" href="#configuration-of-sphinx-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">sphinx-quickstart</span></tt> script generated files allowing us to configure Sphinx.
+Here are some additional information to setup your documentation.</p>
+<div class="section" id="host-your-documentation-on-github">
+<h3>5.3.1. Host your documentation on Github<a class="headerlink" href="#host-your-documentation-on-github" title="Permalink to this headline">¶</a></h3>
+<p>If you have a <a class="reference external" href="https://github.com/">Github</a> repository you can host your documentation
+on the Github pages of your repository.
+See <a class="reference external" href="https://help.github.com/articles/what-are-github-pages/">https://help.github.com/articles/what-are-github-pages/</a>
+for more explanations on it.</p>
+<p>To activate the Github pages of your repository you only have to
+create a new branch called <tt class="docutils literal"><span class="pre">gh-pages</span></tt> and to push it on origin.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span>git checkout --orphan gh-pages
+<span class="nv">$ </span>git rm -rf .
+<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;My page&quot;</span> &gt; index.html
+<span class="nv">$ </span>git add index.html
+<span class="nv">$ </span>git commit -am <span class="s2">&quot;Premier commit sur les pages Github&quot;</span>
+<span class="nv">$ </span>git push origin gh-pages -u
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-html-build">
+<h3>5.3.2. Configure HTML build<a class="headerlink" href="#configure-html-build" title="Permalink to this headline">¶</a></h3>
+<p>In practice we need to build into the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.
+But it is not immediatly possible since we are not <tt class="docutils literal"><span class="pre">gh-pages</span></tt>
+branch when compiling.</p>
+<p>The easiest solution according to me is to have 2 folders.
+One with the standard repository,
+and the other one with only the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch
+(so it is lightweight) of the same repository.
+Then you only have to configure your Sphinx build so that
+it builds into the folder containing the repository
+on the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.</p>
+<p>Example for creating the second folder :</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">pwd</span>
+/home/......../MATRIX
+<span class="nv">$ </span><span class="nb">cd</span> ../
+<span class="nv">$ </span>mkdir MATRIX_gh-pages
+<span class="nv">$ </span><span class="nb">cd </span>MATRIX_gh-pages/
+<span class="nv">$ </span>git clone -b gh-pages --single-branch git@github.com:mpizenberg/MATRIX.git .
+</pre></div>
+</div>
+<p>Now we just need to modify the make file <tt class="docutils literal"><span class="pre">MATRIX/docs/Makefile</span></tt> :</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="nv">BUILDDIR</span> <span class="o">=</span> ../../MATRIX_gh-pages
+
+<span class="nf">html</span><span class="o">:</span>
+   <span class="k">$(</span>SPHINXBUILD<span class="k">)</span> -b html <span class="k">$(</span>ALLSPHINXOPTS<span class="k">)</span> <span class="k">$(</span>BUILDDIR<span class="k">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-the-theme-rtd-readthedocs">
+<h3>5.3.3. Use the theme rTD (readTheDocs)<a class="headerlink" href="#use-the-theme-rtd-readthedocs" title="Permalink to this headline">¶</a></h3>
+<p>You only need to install the theme with pip.</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install sphinx_rtd_theme
+</pre></div>
+</div>
+<p>Then in the file <tt class="docutils literal"><span class="pre">conf.py</span></tt> :</p>
+<div class="highlight-guess"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sphinx_rtd_theme</span>
+<span class="n">html_theme</span> <span class="o">=</span> <span class="s">&quot;sphinx_rtd_theme&quot;</span>
+<span class="n">html_theme_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">sphinx_rtd_theme</span><span class="o">.</span><span class="n">get_html_theme_path</span><span class="p">()]</span>
+</pre></div>
+</div>
+<p>Once it is installed, there is one last manipulation.
+You have to add an empty file entitled <tt class="docutils literal"><span class="pre">.nojekyll</span></tt>
+in the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.
+Otherwise Github will ignore folders starting with <cite>_</cite>.
+It would be a problem since the folder <tt class="docutils literal"><span class="pre">_static</span></tt> contains
+CSS styles and images needed for the theme.</p>
+</div>
+</div>
 </div>
 
 
@@ -126,7 +248,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="code.html" class="btn btn-neutral" title="Code Documentation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="code.html" class="btn btn-neutral" title="4. Code Documentation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

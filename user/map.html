@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Map localization &mdash; MATRIX 0.1 documentation</title>
+  <title>2.5. Map localization &mdash; MATRIX 0.1 documentation</title>
   
 
   
@@ -29,9 +29,9 @@
 
   
     <link rel="top" title="MATRIX 0.1 documentation" href="../index.html"/>
-        <link rel="up" title="Use of the Application" href="../user.html"/>
-        <link rel="next" title="Architecture of the Application" href="../architecure.html"/>
-        <link rel="prev" title="3D Reconstruction and Rendering" href="3d.html"/> 
+        <link rel="up" title="2. Use of the Application" href="../user.html"/>
+        <link rel="next" title="3. Architecture of the Application" href="../architecture.html"/>
+        <link rel="prev" title="2.4. 3D Reconstruction and Rendering" href="3d.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -59,23 +59,33 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../context.html">Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#objectives-of-the-application">Objectives of the application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="../user.html">Use of the Application</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="workspaces.html">Managing workspaces and scenes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="photos.html">Managing the photo selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="camera.html">Camera connection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3d.html">3D Reconstruction and Rendering</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Map localization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user.html">2. Use of the Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">2.5. Map localization</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../architecure.html">Architecture of the Application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../code.html">Code Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../doc.html">Building that Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">4. Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -99,9 +109,9 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../user.html">Use of the Application</a> &raquo;</li>
+          <li><a href="../user.html">2. Use of the Application</a> &raquo;</li>
       
-    <li>Map localization</li>
+    <li>2.5. Map localization</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="../_sources/user/map.txt" rel="nofollow"> View page source</a>
@@ -113,8 +123,20 @@
           <div role="main">
             
   <div class="section" id="map-localization">
-<h1>Map localization<a class="headerlink" href="#map-localization" title="Permalink to this headline">¶</a></h1>
-<p>Explain how the map works, its limits, ...</p>
+<h1>2.5. Map localization<a class="headerlink" href="#map-localization" title="Permalink to this headline">¶</a></h1>
+<p>Once you have a workspace and a scene with your pictures, our application extract the GPS data from the exif data in the photos. If a photo doesn&#8217;t have exif data, then the
+GPS default value will be 0.</p>
+<p>Then you have two options :</p>
+<ul class="simple">
+<li>If you switch off the map, then you will only see the renderer in the center of the screen once a reconstruction has been done.</li>
+<li>If you switch on the map, you will see some blue points on a map corresponding to the location where you take your pictures. If you click on a picture in the list, then the map will be centered on the point corresponding to this picture.</li>
+</ul>
+<p>Points in the map can have different colors corresponding to their state :</p>
+<ul class="simple">
+<li>Blue : the picture is in state <em>New</em></li>
+<li>Green : the picture is in state <em>Processed</em></li>
+<li>Red : the picture is either in state <em>Rejected</em>, <em>Discarded</em> or <em>Thumbnail</em></li>
+</ul>
 </div>
 
 
@@ -123,10 +145,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../architecure.html" class="btn btn-neutral float-right" title="Architecture of the Application"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="3. Architecture of the Application"/>Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="3d.html" class="btn btn-neutral" title="3D Reconstruction and Rendering"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="3d.html" class="btn btn-neutral" title="2.4. 3D Reconstruction and Rendering"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

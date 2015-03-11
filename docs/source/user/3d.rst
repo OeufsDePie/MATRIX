@@ -2,5 +2,11 @@
 3D Reconstruction and Rendering
 *******************************
 
-Explain here how to start a 3D reconstruction and how to navigate
-(if/when implemented) into the 3D rendering.
+Once you have selected the photos you want in your next reconstruction (state *New* and *Processed*), you can launch the 3D reconstruction by :
+
+- Clicking on *Tools* and then *Launch 3D reconstruction*
+
+For the moment, the reconstruction will freeze the application and you might have to select a pair of photos in the terminal at a certain point of the reconstruction to feed openMVG.
+The application will then display the final point cloud result. You will see the point cloud from the point of view of one of the camera but you cannot in this version choose and switch camera. 
+Note that somme function are ready to be used in the code to switch camera and change the point of view.
+

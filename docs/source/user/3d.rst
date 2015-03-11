@@ -9,13 +9,13 @@ Once you have selected the photos you want in your next reconstruction (state *N
 For the moment, the reconstruction will freeze the application and you might have to select a pair of photos in the terminal at a certain point of the reconstruction to feed openMVG.
 The application will then display the final point cloud result.
 
-What we would have wanted and what is perfectly possible is :
+..What we would have wanted and what is perfectly possible is :
 
-- To launch the reconstruction in another thread to not block the application. The code is actually somewhere on one of our github repository but hasn't been included in
-our latest version. 
-- Since openMVG is doing an incremental reconstruction, it creates new point cloud until it is done. So we would have like to visualize those new point clouds when they are 
-created. We are now (again, in one of our repository) able to detect and copy those new point clouds, but not to display them.  
-- To navigate in the 3D rendering with the keyboard. The C++ plugin actually has functions to, for exemple, change the current camera from where you see the point cloud, but 
-we haven't implemented it in the view code. 
-- To be able to identify cameras inside the point cloud so that we could link cameras in the point cloud with pictures : a click on a picture in the list previously described would 
+..- To launch the reconstruction in another thread to not block the application. The code is actually somewhere on one of our github repository but hasn't been included in
+..our latest version. 
+..- Since openMVG is doing an incremental reconstruction, it creates new point cloud until it is done. So we would have like to visualize those new point clouds when they are 
+..created. We are now (again, in one of our repository) able to detect and copy those new point clouds, but not to display them.  
+..- To navigate in the 3D rendering with the keyboard. The C++ plugin actually has functions to, for exemple, change the current camera from where you see the point cloud, but 
+..we haven't implemented it in the view code. 
+..- To be able to identify cameras inside the point cloud so that we could link cameras in the point cloud with pictures : a click on a picture in the list previously described would 
 change the current used camera in the rendering. 

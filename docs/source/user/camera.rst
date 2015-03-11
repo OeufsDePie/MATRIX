@@ -13,3 +13,4 @@ Note that this will import every pictures on your camera as thumbnails. This can
 
 Once the import is done, you can choose which thumbnail to not import as real picture by setting there state to *Discarded*. Once your selection is done,
 simple click on *Tools* and then *Confirm thumbnails*
+

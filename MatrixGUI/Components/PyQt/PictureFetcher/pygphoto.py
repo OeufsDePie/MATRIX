@@ -309,7 +309,7 @@ class Pygphoto(QObject):
         filesystem.
 
         """
-        self._onWatchCamera.emit(value)
+        self._onWatchFile.emit(value)
 
     @pyqtSlot(bool)
     def set_watching_camera(self, value):

@@ -17,6 +17,12 @@ import sys
 import os
 import sphinx_rtd_theme
 
+import site
+site.addsitedir(os.path.abspath("../../MatrixGUI"))
+site.addsitedir(os.path.abspath("../../MatrixGUI/Components/Python"))
+site.addsitedir(os.path.abspath("../../MatrixGUI/Components/PyQt"))
+print(sys.path)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -34,6 +40,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+#    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

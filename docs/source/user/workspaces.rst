@@ -25,8 +25,3 @@ To use scenes, you must be working in a specific workspace. Once the workspace i
 In a scene, you can import pictures. You can either import them from a directory, or from a camera. We will be talking about how to import pictures from a camera in another part. 
 
 
-..Current limitations and possible improvements
-..---------------------------------------------
-..Our actual implementation of the workspace is quiet functionnal but there are still a few problems with workspace that we unfortunatelly notice too late : 
-
-..- If you have multiple workspace and try to switch workspace, you will still have pictures from your last workspace.  

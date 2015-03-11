@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>orchestratorSlots &mdash; MATRIX 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="MATRIX 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../index.html" class="fa fa-home"> MATRIX</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user/map.html">2.5. Map localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">4. Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../code/modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/PyQt/modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">MATRIX</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>orchestratorSlots</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for orchestratorSlots</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">signal</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Components.PyQt.PictureManager.pictureManager</span> <span class="kn">import</span> <span class="n">PictureState</span>
+
+<div class="viewcode-block" id="OrchestratorSlots"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots">[docs]</a><span class="k">class</span> <span class="nc">OrchestratorSlots</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="c"># Define all sendable signals</span>
+    <span class="c"># Send to inform view that picture model has been moved  </span>
+    <span class="n">picturesUpdated</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="n">QVariant</span><span class="p">)</span>
+    <span class="c"># Send when an update about the status of the camera is available</span>
+    <span class="n">onCameraConnection</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> 
+    <span class="c"># Send when the workspace become available or unavailable</span>
+    <span class="n">workspaceAvailable</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="c"># Send when a new reconstruction is available</span>
+    <span class="n">reconstructionChanged</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="c"># Define All Usable Slots</span>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.movePictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.movePictures">[docs]</a>    <span class="k">def</span> <span class="nf">movePictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexes</span><span class="p">,</span> <span class="n">startIndexTo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle the reorganization between pictures. If more than one </span>
+<span class="sd">        index are supplied, the first pictures selected will be moved at indexTo, </span>
+<span class="sd">        and the other will be appended</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        indexes (list&lt;int&gt;):  Indexes to be moved</span>
+<span class="sd">        startIndexTo   (int):  The destination start index of all pictures</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">offsetDown</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">offsetUp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">indexes</span> <span class="o">=</span> <span class="n">indexes</span><span class="o">.</span><span class="n">toVariant</span><span class="p">()</span>
+        <span class="n">indexes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">indexFrom</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+            <span class="n">indexFrom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">indexFrom</span> <span class="o">-</span> <span class="n">offsetDown</span><span class="p">)</span>
+            <span class="n">indexTo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">startIndexTo</span> <span class="o">+</span> <span class="n">offsetUp</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">move</span><span class="p">(</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">indexFrom</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">indexTo</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">indexFrom</span> <span class="o">&lt;</span> <span class="n">indexTo</span><span class="p">):</span> <span class="n">offsetDown</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">indexFrom</span> <span class="o">&gt;</span> <span class="n">indexTo</span><span class="p">):</span> <span class="n">offsetUp</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">state</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.filterPictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.filterPictures">[docs]</a>    <span class="k">def</span> <span class="nf">filterPictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle filtering within pictures</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          status  (int):  The status that should be filtered, according to PictureState</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">regStr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">status</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">specials</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="mi">101</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                <span class="mi">102</span><span class="p">:</span> <span class="s">&quot;5|6&quot;</span><span class="p">,</span>
+                <span class="mi">103</span><span class="p">:</span> <span class="s">&quot;0|1|3&quot;</span>
+            <span class="p">}</span>
+            <span class="n">regStr</span> <span class="o">=</span> <span class="n">specials</span><span class="p">[</span><span class="n">status</span><span class="p">]</span>
+
+        <span class="n">regExp</span> <span class="o">=</span> <span class="n">QRegExp</span><span class="p">(</span><span class="n">regStr</span><span class="p">)</span>
+        <span class="c">#TODO handle non discarded status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">setFilterRegExp</span><span class="p">(</span><span class="n">regExp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.discardPictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.discardPictures">[docs]</a>    <span class="k">def</span> <span class="nf">discardPictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle picture discarding</span>
+
+<span class="sd">        Args: </span>
+<span class="sd">          indexes (list&lt;QVariant&gt;): Indexes of pictures to discard</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">discardAll</span><span class="p">(</span>\
+          <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="o">.</span><span class="n">toVariant</span><span class="p">()</span> <span class="p">])</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">state</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.renewPictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.renewPictures">[docs]</a>    <span class="k">def</span> <span class="nf">renewPictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle picture renewing, i.e, that allow rejected or</span>
+<span class="sd">        discarded pictures to be used again</span>
+
+<span class="sd">        Args: </span>
+<span class="sd">          indexes (list&lt;QVariant&gt;): Indexes of pictures to renew</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">renewAll</span><span class="p">(</span>\
+          <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="o">.</span><span class="n">toVariant</span><span class="p">()</span> <span class="p">])</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">state</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.deletePictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.deletePictures">[docs]</a>    <span class="k">def</span> <span class="nf">deletePictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle picture deleting</span>
+
+<span class="sd">        Args: </span>
+<span class="sd">          indexes (list&lt;QVariant&gt;): Indexes of pictures to delete</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">deleteAll</span><span class="p">(</span>\
+          <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="o">.</span><span class="n">toVariant</span><span class="p">()</span> <span class="p">])</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">state</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">,</span> <span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.newPictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.newPictures">[docs]</a>    <span class="k">def</span> <span class="nf">newPictures</span><span class="p">(</span><span class="n">newPictures</span><span class="p">,</span> <span class="n">deletedPictures</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle an update from the camera to manage new or deleted pictures.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        newPictures (list&lt;str&gt;): A list of newly found pictures</span>
+<span class="sd">        deletedPictures (list&lt;str&gt;): A list of all previously existing pictures </span>
+<span class="sd">        now deleted by user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#self.pictureModel.deleteThumbnails(deletedPictures)</span>
+        <span class="c">#self.workspaceManager.deleteThumbnails(deletedPictures)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;TODO&quot;</span><span class="p">)</span>    
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.importPictures"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.importPictures">[docs]</a>    <span class="k">def</span> <span class="nf">importPictures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picturesFiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A slot that handle the picture import from a camera</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        picturesFiles (list&lt;QUrl&gt;): The list of pictures to be imported</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">newPaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">import_pictures</span><span class="p">([</span> <span class="n">p</span><span class="o">.</span><span class="n">path</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">picturesFiles</span> <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="n">newPaths</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+
+    <span class="c">#### WORKSPACE MANAGER SLOTS</span></div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">,</span> <span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.new_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.new_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">new_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">new_workspace</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceAvailable</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.open_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.open_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">open_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">directory_path</span><span class="p">,</span><span class="n">file_name</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">open_workspace</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">getPictureModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceAvailable</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.close_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.close_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">close_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">close_workspace</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceAvailable</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.change_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.change_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">change_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">change_workspace</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">getPictureModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">()</span>
+<div class="viewcode-block" id="OrchestratorSlots.save_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.save_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">save_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_current_workspace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">save_workspace</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">full_path</span><span class="p">())</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.delete_workspace"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.delete_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">delete_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">delete_workspace</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.new_scene"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.new_scene">[docs]</a>    <span class="k">def</span> <span class="nf">new_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">new_scene</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.change_scene"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.change_scene">[docs]</a>    <span class="k">def</span> <span class="nf">change_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">change_scene</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">getPictureModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">instantiateManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+        </div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="s">&quot;QString&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.delete_scene"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.delete_scene">[docs]</a>    <span class="k">def</span> <span class="nf">delete_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">delete_scene</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="c">#### PICTURE FETCHER SLOTS</span></div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="OrchestratorSlots.cameraConnection"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.cameraConnection">[docs]</a>    <span class="k">def</span> <span class="nf">cameraConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isConnected</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureFetcher</span><span class="o">.</span><span class="n">query_camera_name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onCameraConnection</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">isConnected</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">()</span>
+<div class="viewcode-block" id="OrchestratorSlots.importThumbnails"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.importThumbnails">[docs]</a>    <span class="k">def</span> <span class="nf">importThumbnails</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">thumbnailsDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_thumbnails_dir</span><span class="p">()</span>
+        <span class="n">thumbnailsNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureFetcher</span><span class="o">.</span><span class="n">query_file_list</span><span class="p">()</span>
+        <span class="n">thumbnailsNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureFetcher</span><span class="o">.</span><span class="n">download_files</span><span class="p">(</span><span class="n">thumbnailsNames</span><span class="p">,</span> \
+            <span class="n">thumbnailsDir</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">populate</span><span class="p">([</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">thumbnailsDir</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">thumbnailsNames</span> <span class="p">],</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">()</span>
+<div class="viewcode-block" id="OrchestratorSlots.confirmThumbnails"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.confirmThumbnails">[docs]</a>    <span class="k">def</span> <span class="nf">confirmThumbnails</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">destDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_picture_dir</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">thumbnails</span><span class="p">():</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">picture</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureFetcher</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">destDir</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">picture</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">destDir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="n">picture</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">removeDiscardedThumbnails</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picturesUpdated</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pictureManager</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">()</span>
+<div class="viewcode-block" id="OrchestratorSlots.launchReconstruction"><a class="viewcode-back" href="../code/orchestratorSlots.html#orchestratorSlots.OrchestratorSlots.launchReconstruction">[docs]</a>    <span class="k">def</span> <span class="nf">launchReconstruction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">validFiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pictureModel</span><span class="o">.</span><span class="n">validFiles</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">prepare_reconstruction</span><span class="p">(</span><span class="n">validFiles</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="n">validFiles</span><span class="p">:</span>
+            <span class="n">picture</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">RECONSTRUCTION</span>
+        <span class="n">crapDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_scene_temp_output_dir</span><span class="p">()</span>
+        <span class="n">inDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_selected_picture_dir</span><span class="p">()</span>
+        <span class="n">outDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_scene_output_dir</span><span class="p">()</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="s">&quot;long&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstructionManager</span><span class="o">.</span><span class="n">launchReconstruction</span><span class="p">(</span><span class="n">inDir</span><span class="p">,</span>\
+            <span class="n">method</span><span class="p">,</span>\
+            <span class="bp">self</span><span class="o">.</span><span class="n">OPENMVG_BUILD_DIR</span><span class="p">,</span>\
+            <span class="n">crapDir</span><span class="p">,</span>\
+            <span class="n">outDir</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="n">validFiles</span><span class="p">:</span>
+            <span class="n">picture</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">PROCESSED</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstructionChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>\
+            <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_current_scene</span><span class="p">()</span><span class="o">.</span><span class="n">full_path</span><span class="p">(),</span>\
+            <span class="bp">self</span><span class="o">.</span><span class="n">workspaceManager</span><span class="o">.</span><span class="n">get_current_scene</span><span class="p">()</span><span class="o">.</span><span class="n">get_reconstruction_temp_dir</span><span class="p">(),</span>\
+            <span class="s">&quot;FinalColorized.ply&quot;</span><span class="p">))</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Matthias Benkort, Nicolas Gaborit, Arthur Manoha, Matthieu Pizenberg, Louis Viot.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

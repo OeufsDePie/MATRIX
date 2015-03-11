@@ -29,8 +29,8 @@
 
   
     <link rel="top" title="MATRIX 0.1 documentation" href="index.html"/>
-        <link rel="next" title="5. Building that Documentation" href="doc.html"/>
-        <link rel="prev" title="3.3. Components implementation" href="architecture/components_detail.html"/> 
+        <link rel="next" title="4.1. MatrixGUI" href="code/modules.html"/>
+        <link rel="prev" title="3.3.1. Picture Fetcher" href="architecture/components_detail/picture_fetcher.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -78,7 +78,12 @@
 <li class="toctree-l2"><a class="reference internal" href="architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">4. Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">4. Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/PyQt/modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="doc.html">5. Building that Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
@@ -121,8 +126,39 @@
             
   <div class="section" id="code-documentation">
 <h1>4. Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Ca c&#8217;est pour bibi (matt piz).</p>
 <p>Here comes the semi-automatically generated code documentation.</p>
+<p>For now the commands I used are :</p>
+<div class="highlight-bash"><div class="highlight"><pre>sphinx-apidoc -f -o <span class="nb">source</span>/code ../MatrixGUI
+sphinx-apidoc -f -o <span class="nb">source</span>/code/Python ../MatrixGUI/Components/Python
+sphinx-apidoc -f -o <span class="nb">source</span>/code/PyQt ../MatrixGUI/Components/PyQt
+</pre></div>
+</div>
+<p>There are still some problems since the Google docstring syntax is not recognized.
+If I try to use <tt class="docutils literal"><span class="pre">napoleon</span></tt> (see <a class="reference external" href="http://sphinx-doc.org/ext/napoleon.html#module-sphinx.ext.napoleon">http://sphinx-doc.org/ext/napoleon.html#module-sphinx.ext.napoleon</a>).
+I have that error :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Could</span> <span class="ow">not</span> <span class="kn">import</span> <span class="nn">extension</span> <span class="nn">sphinx.ext.napoleon</span> <span class="p">(</span><span class="n">exception</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s">&#39;sphinx.ext.napoleon&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code/modules.html">4.1. MatrixGUI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/orchestrator.html">4.1.1. orchestrator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/orchestratorSlots.html">4.1.2. orchestratorSlots module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/Python/modules.html">4.2. Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/Python/Persistence.html">4.2.1. Persistence package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/PyQt/modules.html">4.3. PyQt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/PyQt/PictureFetcher.html">4.3.1. PictureFetcher package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/PyQt/PictureManager.html">4.3.2. PictureManager package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/PyQt/WorkspaceManager.html">4.3.3. WorkspaceManager package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/PyQt/test_workspace.html">4.3.4. test_workspace module</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -131,10 +167,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="doc.html" class="btn btn-neutral float-right" title="5. Building that Documentation"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="code/modules.html" class="btn btn-neutral float-right" title="4.1. MatrixGUI"/>Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="architecture/components_detail.html" class="btn btn-neutral" title="3.3. Components implementation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="architecture/components_detail/picture_fetcher.html" class="btn btn-neutral" title="3.3.1. Picture Fetcher"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

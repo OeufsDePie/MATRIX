@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PictureManager.pictureManager &mdash; MATRIX 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/map.html">2.5. Map localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../code.html">4. Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../code/modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/PyQt/modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">MATRIX</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>PictureManager.pictureManager</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for PictureManager.pictureManager</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Savable</span> <span class="kn">import</span> <span class="n">Savable</span> <span class="c"># Need __init__</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">exiftool</span>
+
+<div class="viewcode-block" id="PictureState"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureState">[docs]</a><span class="k">class</span> <span class="nc">PictureState</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Enumeration to handle all different state in which a picture may be</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NEW</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># The picture is newly added to the set of pictures</span>
+    <span class="n">RECONSTRUCTION</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># A newly added picture used for a reconstruction</span>
+    <span class="n">REJECTED</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># A picture rejected after a reconstruction, will not be used for next reconstruction</span>
+    <span class="n">PROCESSED</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># A processed pictures, used for a reconstruction and not rejected</span>
+    <span class="n">THUMBNAIL</span> <span class="o">=</span> <span class="mi">4</span> <span class="c"># Only a thumbnail corresponding to an existing picture to be imported</span>
+    <span class="n">THUMBNAIL_DISCARDED</span> <span class="o">=</span> <span class="mi">5</span> <span class="c"># Discard a thumbnail in order to suppress the thumbnail on real import</span>
+    <span class="n">DISCARDED</span> <span class="o">=</span> <span class="mi">6</span> <span class="c"># Discarded pictures will not be used for the reconstruction</span>
+  </div>
+<div class="viewcode-block" id="Picture"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.Picture">[docs]</a><span class="k">class</span> <span class="nc">Picture</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A container used to store all data about a particular picture. It reflects an xml</span>
+<span class="sd">    structure and is used to manipulate photos as dataModel along the use of the application</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resourcesPath</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> \
+        <span class="n">status</span> <span class="o">=</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Initialize a picture. </span>
+<span class="sd">          </span>
+<span class="sd">          Args: </span>
+<span class="sd">            path    (str): path to the picture file</span>
+<span class="sd">            date    (str): the date the photo has been taken </span>
+<span class="sd">            status  (str): the status of the picture, see PictureState upon</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resourcesPath</span> <span class="o">=</span> <span class="n">path</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">resourcesPath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">longitude</span> <span class="o">=</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="nd">@pyqtProperty</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<div class="viewcode-block" id="Picture.icon"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.Picture.icon">[docs]</a>    <span class="k">def</span> <span class="nf">icon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the icon corresponding to the picture&#39;s status</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            str: The path to the icon file. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_resourcesPath</span><span class="p">,</span> <span class="s">&quot;Icons&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.png&quot;</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtProperty</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<div class="viewcode-block" id="Picture.circleColor"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.Picture.circleColor">[docs]</a>    <span class="k">def</span> <span class="nf">circleColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a color to display on the map widget, depending on the status</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            str: The desired color</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span><span class="p">:</span> <span class="s">&quot;#1db7ff&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">PROCESSED</span><span class="p">:</span> <span class="s">&quot;#98cd00&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">RECONSTRUCTION</span><span class="p">:</span> <span class="s">&quot;#505050&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">REJECTED</span><span class="p">:</span> <span class="s">&quot;#ff3237&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">DISCARDED</span><span class="p">:</span> <span class="s">&quot;#ff3237&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL</span><span class="p">:</span> <span class="s">&quot;#ff3237&quot;</span><span class="p">,</span>
+            <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL_DISCARDED</span><span class="p">:</span> <span class="s">&quot;#ff3237&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">colors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="Picture.serialize"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.Picture.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Serialize a Picture object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serial</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">longitude</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
+        <span class="k">return</span> <span class="n">serial</span>
+
+
+</div></div>
+<div class="viewcode-block" id="PictureManager"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager">[docs]</a><span class="k">class</span> <span class="nc">PictureManager</span><span class="p">(</span><span class="n">QSortFilterProxyModel</span><span class="p">):</span>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<div class="viewcode-block" id="PictureManager.count"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.count">[docs]</a>    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          An alias to be used in QML as a property. We can&quot;t use the rowCount method</span>
+<span class="sd">          as it should remain available inside the class.</span>
+
+<span class="sd">          Returns: </span>
+<span class="sd">            int: The number of element in the model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<div class="viewcode-block" id="PictureManager.getName"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">NAME_ROLE</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">QVariant</span><span class="p">)</span>
+<div class="viewcode-block" id="PictureManager.computeCenter"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.computeCenter">[docs]</a>    <span class="k">def</span> <span class="nf">computeCenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the coordinates of the center associated to all pictures</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list&lt;float&gt;: The coordinates, latitude then longitude</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">extract</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">coord</span><span class="p">:</span> <span class="p">[</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">coord</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span><span class="o">.</span><span class="n">_data</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">coord</span><span class="p">)</span> <span class="o">!=</span> <span class="s">&quot;0.0&quot;</span> <span class="p">]</span>
+        <span class="n">latitudes</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="s">&#39;latitude&#39;</span><span class="p">);</span> <span class="n">longitudes</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="s">&#39;longitude&#39;</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;latitude&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;longitude&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">latitudes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">longitudes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">average</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">list</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">coords</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">latitudes</span><span class="p">)</span>
+            <span class="n">coords</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">longitudes</span><span class="p">)</span>
+        <span class="c">#Else, throw an error to inform the user ?</span>
+        <span class="k">return</span> <span class="n">coords</span>
+</div>
+    <span class="k">def</span> <span class="nf">_iterateOverRows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over rows in the model that may change during the iteration</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># Holds all rows already been processed</span>
+        <span class="n">previousSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span> 
+                <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">row</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">previousSize</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
+                    <span class="n">previouslyProcessed</span> <span class="o">=</span> <span class="p">[</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processed</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">row</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="p">]</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">previouslyProcessed</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">previousSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+                <span class="k">yield</span> <span class="n">row</span> <span class="c">#YoloSwagg</span>
+
+<div class="viewcode-block" id="PictureManager.discardAll"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.discardAll">[docs]</a>    <span class="k">def</span> <span class="nf">discardAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the status of pictures to DISCARDED or THUMBNAIL_DISCARDED</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterateOverRows</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="n">currentStatus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">STATUS_ROLE</span><span class="p">)</span>
+            <span class="n">newStatus</span> <span class="o">=</span> <span class="n">currentStatus</span> <span class="o">==</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL</span> <span class="ow">and</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL_DISCARDED</span>\
+                <span class="ow">or</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">DISCARDED</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">newStatus</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">STATUS_ROLE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PictureManager.renewAll"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.renewAll">[docs]</a>    <span class="k">def</span> <span class="nf">renewAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the status of pictures DISCARDED, THUMBNAIL_DISCARDED or REJECTED to NEW</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterateOverRows</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="n">currentStatus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">STATUS_ROLE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">currentStatus</span> <span class="ow">in</span> <span class="p">[</span><span class="n">PictureState</span><span class="o">.</span><span class="n">REJECTED</span><span class="p">,</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">DISCARDED</span><span class="p">,</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL_DISCARDED</span><span class="p">]:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">STATUS_ROLE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PictureManager.deleteAll"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.deleteAll">[docs]</a>    <span class="k">def</span> <span class="nf">deleteAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove pictures from the model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterateOverRows</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">removeRow</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">row</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PictureManager.move"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureManager.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initRow</span><span class="p">,</span> <span class="n">finalRow</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Move a row from an index to another. Exactly, put initRow after </span>
+<span class="sd">          finalRow if moving up to down, and before finalRow if moving down to up</span>
+<span class="sd">          </span>
+<span class="sd">          Args:</span>
+<span class="sd">            initRow   (QModelIndex): The starting index</span>
+<span class="sd">            finalRow  (QModelIndex): The final index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Ensure the index is correct</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">initRow</span><span class="o">.</span><span class="n">isValid</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">finalRow</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">outOfBounds</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">index</span><span class="p">,</span> <span class="n">sup</span><span class="p">:</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="n">sup</span>
+        <span class="k">if</span> <span class="n">outOfBounds</span><span class="p">(</span><span class="n">initRow</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">())</span> <span class="ow">or</span> \
+            <span class="n">outOfBounds</span><span class="p">(</span><span class="n">finalRow</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()):</span> <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="c"># Find the corresponding index in the real model</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceModel</span><span class="p">()</span>
+        <span class="n">initSourceRow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">finalSourceRow</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()):</span>
+            <span class="n">srcName</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">NAME_ROLE</span><span class="p">)</span>
+            <span class="n">filterInitName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">initRow</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">NAME_ROLE</span><span class="p">)</span>
+            <span class="n">filterFinalName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">finalRow</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">NAME_ROLE</span><span class="p">)</span>
+            <span class="n">initSourceRow</span> <span class="o">=</span> <span class="n">srcName</span> <span class="o">==</span> <span class="n">filterInitName</span> <span class="ow">and</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">initSourceRow</span>
+            <span class="n">finalSourceRow</span> <span class="o">=</span> <span class="n">srcName</span> <span class="o">==</span> <span class="n">filterFinalName</span> <span class="ow">and</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">finalSourceRow</span>
+
+        <span class="n">initIndex</span> <span class="o">=</span> <span class="n">initRow</span><span class="o">.</span><span class="n">row</span><span class="p">();</span> <span class="n">finalIndex</span> <span class="o">=</span> <span class="n">finalRow</span><span class="o">.</span><span class="n">row</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">initIndex</span> <span class="o">&lt;</span> <span class="n">finalIndex</span><span class="p">):</span>
+            <span class="c"># Moving downside. FinalIndex should be the index of initRow new child. </span>
+            <span class="n">finalIndex</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">finalSourceRow</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">initIndex</span> <span class="o">&gt;</span> <span class="n">finalIndex</span><span class="p">):</span>
+            <span class="c">#Moving upside. We will insert a row before, so the index will be displaced</span>
+            <span class="n">initSourceRow</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Both index are equal, do nothing, there is no move</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="c"># Move picture from source model and notify the proxy</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beginMoveRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">initIndex</span><span class="p">,</span> <span class="n">initIndex</span><span class="p">,</span> <span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">finalIndex</span><span class="p">)</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">insertRow</span><span class="p">(</span><span class="n">finalSourceRow</span><span class="p">)</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">finalSourceRow</span><span class="p">),</span>  \
+            <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">initSourceRow</span><span class="p">),</span> <span class="n">source</span><span class="o">.</span><span class="n">ITEM_ROLE</span><span class="p">),</span> \
+            <span class="n">source</span><span class="o">.</span><span class="n">ITEM_ROLE</span><span class="p">)</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">removeRow</span><span class="p">(</span><span class="n">initSourceRow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endMoveRows</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">state</span>
+</div></div>
+<div class="viewcode-block" id="MetaPictureModel"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.MetaPictureModel">[docs]</a><span class="k">class</span> <span class="nc">MetaPictureModel</span><span class="p">(</span><span class="n">pyqtWrapperType</span><span class="p">,</span> <span class="n">Savable</span><span class="p">):</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="PictureModel"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel">[docs]</a><span class="k">class</span> <span class="nc">PictureModel</span><span class="p">(</span><span class="n">QAbstractListModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaPictureModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represent and handle a list of pictures as a ListModel. Directly implements </span>
+<span class="sd">    QAbstractListModel.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">      PATH_ROLE      (int): Role that handle the picture&#39;s path name of an item</span>
+<span class="sd">      NAME_ROLE      (int): Role that handle the picture&#39;s name of an item</span>
+<span class="sd">      DATE_ROLE      (int): Role that handle the picture&#39;s date of creation </span>
+<span class="sd">      STATUS_ROLE    (int): Role that handle the picture&#39;s status of an item</span>
+<span class="sd">      ICON_ROLE      (int): Role that handle the picture&#39;s icon of an item</span>
+<span class="sd">      ITEM_ROLE      (int): Role related to the whole item / picture </span>
+<span class="sd">      LATITUDE_ROLE  (int): Role related to the latitude of an item</span>
+<span class="sd">      LONGITUDE_ROLE (int): Roled related to the longitude of an item</span>
+<span class="sd">      COLOR_ROLE     (int): Role that handle the color of an item on the map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c">#Roles of our model, used in QML side to retrieve data from our model</span>
+    <span class="n">PATH_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">NAME_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="n">DATE_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="n">STATUS_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">4</span>
+    <span class="n">ICON_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="n">LATITUDE_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">6</span>
+    <span class="n">LONGITUDE_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">7</span>
+    <span class="n">COLOR_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">8</span>
+    <span class="n">ITEM_ROLE</span> <span class="o">=</span> <span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span> <span class="o">+</span> <span class="mi">50</span>
+    <span class="n">_roles</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">PATH_ROLE</span><span class="p">:</span> <span class="s">&quot;path&quot;</span><span class="p">,</span> 
+        <span class="n">NAME_ROLE</span><span class="p">:</span> <span class="s">&quot;name&quot;</span><span class="p">,</span> 
+        <span class="n">DATE_ROLE</span><span class="p">:</span> <span class="s">&quot;date&quot;</span><span class="p">,</span> 
+        <span class="n">STATUS_ROLE</span><span class="p">:</span> <span class="s">&quot;status&quot;</span><span class="p">,</span> 
+        <span class="n">ICON_ROLE</span><span class="p">:</span> <span class="s">&quot;icon&quot;</span><span class="p">,</span>
+        <span class="n">ITEM_ROLE</span><span class="p">:</span> <span class="s">&quot;item&quot;</span><span class="p">,</span>
+        <span class="n">LATITUDE_ROLE</span><span class="p">:</span> <span class="s">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="n">LONGITUDE_ROLE</span><span class="p">:</span> <span class="s">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="n">COLOR_ROLE</span><span class="p">:</span> <span class="s">&quot;circleColor&quot;</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resourcesPath</span><span class="p">,</span> <span class="n">listPictures</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parent</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">          Initialize a picture model</span>
+<span class="sd">          </span>
+<span class="sd">          Args:</span>
+<span class="sd">            resourcesPath (str): Path to the resources folder of the application. </span>
+<span class="sd">            listPictures  (str): The list of pictures to use, could be empty and </span>
+<span class="sd">                specified later</span>
+<span class="sd">            parent        (str): Parent Element; May remains None in our case</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PictureModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resourcesPath</span> <span class="o">=</span> <span class="n">resourcesPath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">listPictures</span>
+
+<div class="viewcode-block" id="PictureModel.instantiateManager"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.instantiateManager">[docs]</a>    <span class="k">def</span> <span class="nf">instantiateManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Create an instance of this model manager. The manager add an indirection </span>
+<span class="sd">          that allow, for instance, filtering. </span>
+
+<span class="sd">          Returns:</span>
+<span class="sd">            PictureManager: The picture manager corresponding to that model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">manager</span> <span class="o">=</span> <span class="n">PictureManager</span><span class="p">()</span>
+        <span class="n">manager</span><span class="o">.</span><span class="n">setSourceModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">manager</span><span class="o">.</span><span class="n">setFilterRole</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">STATUS_ROLE</span><span class="p">)</span> <span class="c"># Status will be used in order to filter pictures</span>
+        <span class="k">return</span> <span class="n">manager</span>
+</div>
+<div class="viewcode-block" id="PictureModel.insertRow"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.insertRow">[docs]</a>    <span class="k">def</span> <span class="nf">insertRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">QModelIndex</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          An implementation of the parent method insertRow. It add an empty row at the given index</span>
+<span class="sd">          See Qt Documentation for more details &lt;3. </span>
+<span class="sd">          Args:</span>
+<span class="sd">            row     (int):  The index of tization between pictures. If more than one</span>
+<span class="sd">        index are supplied, the first he future row. If superior to model size, the row will be appended. </span>
+<span class="sd">            parent  (QModelIndex):  The parent index, always default in our case.</span>
+<span class="sd">          Returns:</span>
+<span class="sd">            bool: Return True if the row have been successfully inserted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beginInsertRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">row</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endInsertRows</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PictureModel.data"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">role</span> <span class="o">=</span> <span class="n">NAME_ROLE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Retrieve a piece of information from an item (a picture) of the model</span>
+
+<span class="sd">          Args: </span>
+<span class="sd">            index (int):  The index of the element</span>
+<span class="sd">            role  (int):  The role of the element we are interested in</span>
+<span class="sd">          Returns: </span>
+<span class="sd">            QVariant: The requested element or data related to this element. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Ensure the index</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">QVariant</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">QVariant</span><span class="p">()</span>
+
+        <span class="c"># Ensure the role</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">role</span> <span class="ow">in</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">_roles</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">QVariant</span><span class="p">()</span>
+
+        <span class="c"># Index and role are correct, retrieve the picture and send back the requested information</span>
+        <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">picture</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">QVariant</span><span class="p">()</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">role</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ITEM_ROLE</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">picture</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">_roles</span><span class="p">[</span><span class="n">role</span><span class="p">])</span>
+  </div>
+<div class="viewcode-block" id="PictureModel.roleNames"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.roleNames">[docs]</a>    <span class="k">def</span> <span class="nf">roleNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            An accessor to roles names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_roles</span>
+</div>
+<div class="viewcode-block" id="PictureModel.add"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Add a picture to the model</span>
+
+<span class="sd">            picture -- The picture to add</span>
+<span class="sd">            index -- The index where the picture should be inserted. If None, </span>
+<span class="sd">            the picture will be appended at the end.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Append at the end</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beginInsertRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">endInsertRows</span><span class="p">()</span>
+        <span class="c"># Insert in the list</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Ensure Index</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beginInsertRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">row</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">picture</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">endInsertRows</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="PictureModel.removeRows"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.removeRows">[docs]</a>    <span class="k">def</span> <span class="nf">removeRows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">QModelIndex</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove contiguous pictures from the model</span>
+
+<span class="sd">        Args</span>
+<span class="sd">            row     (int)           : The first picture&#39;s index</span>
+<span class="sd">            count   (int)           : Number of picture to remove</span>
+<span class="sd">            parent  (QModelIndex)   : The parent row</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Ensure the index is correct</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">row</span> <span class="o">+</span> <span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">beginRemoveRows</span><span class="p">(</span><span class="n">QModelIndex</span><span class="p">(),</span> <span class="n">row</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c">#Deleting row starting by the latest index</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">count</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endRemoveRows</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="PictureModel.removeRow"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.removeRow">[docs]</a>    <span class="k">def</span> <span class="nf">removeRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">QModelIndex</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Remove a picture from the model</span>
+
+<span class="sd">          row -- The picture&quot;s index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removeRows</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PictureModel.rowCount"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.rowCount">[docs]</a>    <span class="k">def</span> <span class="nf">rowCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">QModelIndex</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Return the number of element within that model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PictureModel.setData"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.setData">[docs]</a>    <span class="k">def</span> <span class="nf">setData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">          Set a particular value in the data model using his role.</span>
+
+<span class="sd">          index -- The index of the related element</span>
+<span class="sd">          value -- The new value</span>
+<span class="sd">          role  -- The related role</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Ensure index and role</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">isValid</span><span class="p">()</span> <span class="ow">or</span> <span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">role</span> <span class="ow">in</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">_roles</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">role</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ITEM_ROLE</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">index</span><span class="o">.</span><span class="n">row</span><span class="p">()]</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">PictureModel</span><span class="o">.</span><span class="n">_roles</span><span class="p">[</span><span class="n">role</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">role</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="PictureModel.printData"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.printData">[docs]</a>    <span class="k">def</span> <span class="nf">printData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">picture</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">and</span> <span class="s">&quot;-----&quot;</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">picture</span><span class="o">.</span><span class="n">status</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; - &quot;</span> <span class="o">+</span> <span class="n">picture</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="PictureModel.thumbnails"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.thumbnails">[docs]</a>    <span class="k">def</span> <span class="nf">thumbnails</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">status</span><span class="o">==</span><span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="PictureModel.removeDiscardedThumbnails"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.removeDiscardedThumbnails">[docs]</a>    <span class="k">def</span> <span class="nf">removeDiscardedThumbnails</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">THUMBNAIL_DISCARDED</span> <span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="PictureModel.populate"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.populate">[docs]</a>    <span class="k">def</span> <span class="nf">populate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picturesFiles</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Populate the model, i.e. add instance of pictures element. Element are added</span>
+<span class="sd">        with the status &quot;NEW&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            picturesFiles   (list&lt;str&gt;) : List of path to the different pictures</span>
+<span class="sd">            status          (int) : The initial status to assign to the item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">exiftool</span><span class="o">.</span><span class="n">ExifTool</span><span class="p">()</span> <span class="k">as</span> <span class="n">exifparser</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">picturesFiles</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+                <span class="c"># Get EXIF data</span>
+                <span class="n">exifData</span> <span class="o">=</span> <span class="n">exifparser</span><span class="o">.</span><span class="n">get_tags</span><span class="p">(</span>\
+                    <span class="p">[</span><span class="s">&#39;EXIF:GPSLatitude&#39;</span><span class="p">,</span> <span class="s">&#39;EXIF:GPSLongitude&#39;</span><span class="p">],</span> <span class="n">url</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s">&#39;EXIF:GPSLatitude&#39;</span> <span class="ow">in</span> <span class="n">exifData</span><span class="p">):</span>
+                    <span class="c">#May raise an error if no GPS data ?</span>
+                    <span class="n">exifData</span><span class="p">[</span><span class="s">&#39;EXIF:GPSLatitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;0.0&quot;</span>
+                    <span class="n">exifData</span><span class="p">[</span><span class="s">&#39;EXIF:GPSLongitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;0.0&quot;</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Picture</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_resourcesPath</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> \
+                    <span class="nb">str</span><span class="p">(</span><span class="n">exifData</span><span class="p">[</span><span class="s">&#39;EXIF:GPSLatitude&#39;</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">exifData</span><span class="p">[</span><span class="s">&#39;EXIF:GPSLongitude&#39;</span><span class="p">]),</span> \
+                        <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="PictureModel.validFiles"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.validFiles">[docs]</a>    <span class="k">def</span> <span class="nf">validFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve all files that may be used for the reconstruction; i.e. with status :</span>
+<span class="sd">        NEW or PROCESSED</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list&lt;Picture&gt;: The list of all valid pictures in that model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="n">PictureState</span><span class="o">.</span><span class="n">NEW</span><span class="p">,</span> <span class="n">PictureState</span><span class="o">.</span><span class="n">PROCESSED</span><span class="p">]</span> <span class="p">]</span>
+</div>
+<div class="viewcode-block" id="PictureModel.serialize"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Serialize a pictureModel object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serial</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;pictures&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="n">serial</span><span class="p">[</span><span class="s">&#39;pictures&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">picture</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+        <span class="n">serial</span><span class="p">[</span><span class="s">&#39;resourcesPath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resourcesPath</span>
+        <span class="k">return</span> <span class="n">serial</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PictureModel.deserialize"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.deserialize">[docs]</a>    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">serial</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Recreate a pictureModel object from its serialization.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            serial (dict()): The serialized version of a pictureModel object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pictureModel</span> <span class="o">=</span> <span class="n">PictureModel</span><span class="p">(</span><span class="n">serial</span><span class="p">[</span><span class="s">&#39;resourcesPath&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">picture</span> <span class="ow">in</span> <span class="n">serial</span><span class="p">[</span><span class="s">&#39;pictures&#39;</span><span class="p">]:</span>
+            <span class="n">pictureModel</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Picture</span><span class="p">(</span><span class="n">serial</span><span class="p">[</span><span class="s">&#39;resourcesPath&#39;</span><span class="p">],</span> <span class="n">picture</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">],</span>\
+                <span class="n">picture</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">],</span> <span class="n">picture</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">],</span> <span class="n">picture</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">],</span> <span class="n">picture</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">pictureModel</span>
+</div>
+<div class="viewcode-block" id="PictureModel.save"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Save the object in the file system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Savable</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PictureModel.load"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.pictureManager.PictureModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">base_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">object_class</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Recreate a pictureModel object from a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            base_path (str): The path of the directory containing the file.</span>
+<span class="sd">            file_name (str): The name of the file to load.</span>
+<span class="sd">            object_class (class): The class of the object to recreate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">object_class</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">object_class</span> <span class="o">=</span> <span class="n">cls</span>
+        <span class="k">return</span> <span class="n">Savable</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">object_class</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Matthias Benkort, Nicolas Gaborit, Arthur Manoha, Matthieu Pizenberg, Louis Viot.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

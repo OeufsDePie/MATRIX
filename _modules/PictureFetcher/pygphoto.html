@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PictureFetcher.pygphoto &mdash; MATRIX 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/map.html">2.5. Map localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../code.html">4. Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../code/modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/PyQt/modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">MATRIX</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>PictureFetcher.pygphoto</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for PictureFetcher.pygphoto</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python3</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QObject</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QThread</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QTimer</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">pyqtSignal</span>
+<span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">pyqtSlot</span>
+
+<div class="viewcode-block" id="Pygphoto"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto">[docs]</a><span class="k">class</span> <span class="nc">Pygphoto</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Allows simple operations on a USB connected camera by interfacing</span>
+<span class="sd">    the gphoto2 command line tool.</span>
+
+<span class="sd">    This class allows to interact with a USB camera. List the names of</span>
+<span class="sd">    the photos present in the camera, watch for new files, and</span>
+<span class="sd">    eventually download the photos individually.  Needs a QApplication</span>
+<span class="sd">    to be instantiated in order to watch properly for events.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Constants</span>
+    <span class="c"># Command lines string value</span>
+    <span class="n">_GPHOTO</span> <span class="o">=</span> <span class="s">&quot;gphoto2&quot;</span>
+
+    <span class="c"># Camera events check period in milliseconds</span>
+    <span class="n">_EVENTS_PERIOD</span> <span class="o">=</span> <span class="mi">500</span>
+
+    <span class="c"># Signals</span>
+    <span class="n">onCameraConnection</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;This signal indicates if a camera is connected&quot;&quot;&quot;</span>
+
+    <span class="n">onContentChanged</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;When watching the camera for new files, emit this signal when there</span>
+<span class="sd">    has been some changes in the camera filesystem. Arguments are the</span>
+<span class="sd">    lists of new files and deleted files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_onWatchCamera</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;This signal indicates if the component should start or stop</span>
+<span class="sd">    watching for connection events with a camera.&quot;&quot;&quot;</span>
+
+    <span class="n">_onWatchFile</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;This signal indicates if the component should start or stop</span>
+<span class="sd">    watching for new files on the camera.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">watch_camera</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">watch_files</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="c"># Super constructor</span>
+        <span class="n">QObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># _files_index is an internal dictionnary that associate all the</span>
+        <span class="c"># files present on the camera, along with their gphoto index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="c"># Create mutex for the camera</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="c"># Create an internal CameraWatcher</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span> <span class="o">=</span> <span class="n">Pygphoto</span><span class="o">.</span><span class="n">CameraWatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">watch_camera</span><span class="p">,</span> <span class="n">watch_files</span><span class="p">)</span>
+        <span class="c"># Connect watch file and watch camera signals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_onWatchFile</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">set_watching_files</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_onWatchCamera</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">set_watching_camera</span><span class="p">)</span>
+        <span class="c"># Forward signals from camera_watcher</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">onCameraConnection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__forward_onCameraConnection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">onContentChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__forward_onContentChanged</span><span class="p">)</span>
+        <span class="c"># Create a thread to execute the CameraWatcher in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher_thread</span> <span class="o">=</span> <span class="n">QThread</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">moveToThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_watcher_thread</span><span class="p">)</span>
+        <span class="c"># Start the watching</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher_thread</span><span class="o">.</span><span class="n">started</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_camera_watcher</span><span class="o">.</span><span class="n">_watch_events</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Pygphoto.check_camera_connected"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.check_camera_connected">[docs]</a>    <span class="k">def</span> <span class="nf">check_camera_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if a camera is connected.</span>
+
+<span class="sd">        Raises a CalledProcessError when gphoto2 raised an error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Try an auto-detect and see if there are results</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span> <span class="s">&quot;--auto-detect&quot;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="c"># The first two lines are </span>
+        <span class="c"># Model                          Port                                            </span>
+        <span class="c"># ----------------------------------------------------------</span>
+        <span class="c"># Then comes the list of connected camera (that can be empty)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.query_camera_name"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.query_camera_name">[docs]</a>    <span class="k">def</span> <span class="nf">query_camera_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the camera name, or unknown.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;Unknown&quot;</span>
+        <span class="n">model_string</span> <span class="o">=</span> <span class="s">&quot;Model: &quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span> <span class="s">&quot;--summary&quot;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">model_string</span><span class="p">):</span>
+                    <span class="c"># The name follows the model_string</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">model_string</span><span class="p">):]</span> 
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.query_storage_info"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.query_storage_info">[docs]</a>    <span class="k">def</span> <span class="nf">query_storage_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a dict of values concerny memory usage {free, occupied,</span>
+<span class="sd">        total} containing values in KB.</span>
+
+<span class="sd">        Raises a CalledProcessError when gphoto2 raised an error.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">first_int</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="c"># Take the first result of all the digit-only substrings</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&quot;\d+&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span> <span class="s">&quot;--storage-info&quot;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf_8&quot;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="c"># Scan output for relevant information</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;totalcapacity=&quot;</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[</span><span class="s">&quot;total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;free=&quot;</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[</span><span class="s">&quot;free&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="c"># Compute occupied value</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">&quot;occupied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">&quot;total&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">result</span><span class="p">[</span><span class="s">&quot;free&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+    <span class="k">def</span> <span class="nf">_filelist_to_dict</span><span class="p">(</span><span class="n">filenames_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert a filename list to a dictionnary associating filenames</span>
+<span class="sd">        with their index.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Number each files, starting with 1</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">filenames_list</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames_list</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+        
+    <span class="k">def</span> <span class="nf">_query_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the filename of the file indexed &quot;index&quot; when listing all</span>
+<span class="sd">        the files present on the camera</span>
+
+<span class="sd">        Raises a CalledProcessError when gphoto2 raised an error.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Show info on the file indexed &quot;index&quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span> <span class="s">&quot;--show-info&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+
+        <span class="c"># The filename is the fourth word</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="c"># We remove the trailing simple quotes (&quot;&#39;&quot;)</span>
+        <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Pygphoto.query_file_list"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.query_file_list">[docs]</a>    <span class="k">def</span> <span class="nf">query_file_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate the list of filenames for all the files present on the</span>
+<span class="sd">        first camera found by requesting directly the camera.</span>
+
+<span class="sd">        Raises a CalledProcessError when gphoto2 raised an error.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># Result list of filenames</span>
+
+        <span class="c"># Grab the output of the list file command</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span><span class="s">&quot;--list-files&quot;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+
+        <span class="c"># Parse the output for &quot;#&quot; lines</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;#&quot;</span><span class="p">:</span>
+                <span class="c"># Split every one or more whitespaces</span>
+                <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">retval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">retval</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.download_file"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.download_file">[docs]</a>    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Download the file name &quot;filename&quot; and copy it to the given path.</span>
+
+<span class="sd">        Returns 0 if succeeded. Else returns the error code returned by</span>
+<span class="sd">        gphoto.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Check that the output dir is a valid directory</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">))</span>
+
+        <span class="c"># Get the gphoto index of the file and check it is up to date</span>
+        <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">filename</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span>
+           <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="p">[</span><span class="n">filename</span><span class="p">])</span> <span class="o">==</span> <span class="n">filename</span><span class="p">):</span>
+            <span class="c"># Update the files dictionnary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span> <span class="o">=</span> <span class="n">Pygphoto</span><span class="o">.</span><span class="n">_filelist_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_file_list</span><span class="p">())</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
+
+        <span class="c"># The destination is &quot;output_dir/filename</span>
+        <span class="n">destination_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+        <span class="c"># Check that the file does not already exist</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">destination_path</span><span class="p">)):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+                <span class="c"># First remove the file</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">destination_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Do nothing</span>
+                <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c"># Determine the command name</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">):</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-thumbnail&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-file&quot;</span>
+        <span class="n">command_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span>
+                   <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
+                   <span class="s">&quot;--filename&quot;</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">return_code</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">return_code</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.download_files"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.download_files">[docs]</a>    <span class="k">def</span> <span class="nf">download_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename_list</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Download the whole list of files to the ouput directory</span>
+
+<span class="sd">        Return the paths list of downloaded files. This is equivalent</span>
+<span class="sd">        to calling download_file on every file in the &quot;filename_list&quot;,</span>
+<span class="sd">        but should be faster for a large number of files.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Check that the output dir is a valid directory</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">))</span>
+
+        <span class="c"># Init the result list</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c"># Determine the command name</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">):</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-thumbnail&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-file&quot;</span>
+
+        <span class="c"># Update the files dictionnary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span> <span class="o">=</span> <span class="n">Pygphoto</span><span class="o">.</span><span class="n">_filelist_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_file_list</span><span class="p">())</span>
+
+        <span class="c"># Download each file</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filename_list</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
+            <span class="c"># The destination is &quot;output_dir/filename</span>
+            <span class="n">destination_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="n">command_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span>
+                            <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
+                            <span class="s">&quot;--filename&quot;</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">]</span>
+            <span class="c"># Check that the file does not already exist</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">destination_path</span><span class="p">)):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+                    <span class="c"># First remove the file</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">destination_path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># Do nothing</span>
+                    <span class="k">continue</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+                <span class="n">return_code</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">return_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">destination_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.download_all"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.download_all">[docs]</a>    <span class="k">def</span> <span class="nf">download_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Download all the files present on the camera.</span>
+
+<span class="sd">        Overwrites preexisting files. Faster than &#39;download_files()&#39;.</span>
+<span class="sd">        Return the return code returned by the gphoto call</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Check that the output dir is a valid directory</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">))</span>
+        <span class="c"># The destination is &quot;output_dir/filename.suffix</span>
+        <span class="n">destination_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%f</span><span class="s">.%C&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">thumbnail</span><span class="p">):</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-all-thumbnails&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;--get-all-files&quot;</span>
+        <span class="n">command_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span>
+                   <span class="n">command</span><span class="p">,</span>
+                   <span class="s">&quot;--filename&quot;</span><span class="p">,</span>
+                   <span class="n">destination_path</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+            <span class="n">command_line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;--force-overwrite&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
+            <span class="n">return_code</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">command_line</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">return_code</span>
+
+    <span class="c">###############################</span>
+    <span class="c">#  Watching functionality     #</span>
+    <span class="c">###############################</span>
+
+    <span class="c"># If we want to forward signals</span></div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__forward_onCameraConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boolean</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onCameraConnection</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">boolean</span><span class="p">)</span>
+
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__forward_onContentChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newfiles</span><span class="p">,</span> <span class="n">delfiles</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onContentChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">newfiles</span><span class="p">,</span> <span class="n">delfiles</span><span class="p">)</span>
+
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="Pygphoto.set_watching_files"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.set_watching_files">[docs]</a>    <span class="k">def</span> <span class="nf">set_watching_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set whether the component should watch for changes in the camera</span>
+<span class="sd">        filesystem.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_onWatchCamera</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</div>
+    <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="Pygphoto.set_watching_camera"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.set_watching_camera">[docs]</a>    <span class="k">def</span> <span class="nf">set_watching_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set whether the component should watch for presence of a connected</span>
+<span class="sd">        camera.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_onWatchCamera</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.CameraWatcher"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.CameraWatcher">[docs]</a>    <span class="k">class</span> <span class="nc">CameraWatcher</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+
+        <span class="c"># Signals</span>
+        <span class="n">onCameraConnection</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;This signal indicates if a camera is connected&quot;&quot;&quot;</span>
+
+        <span class="n">onContentChanged</span> <span class="o">=</span> <span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;When watching the camera for new files, emit this signal when there</span>
+<span class="sd">        has been some changes in the camera filesystem. Arguments are</span>
+<span class="sd">        the lists of new files and deleted files</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pygphoto</span><span class="p">,</span> <span class="n">watch_camera</span><span class="p">,</span> <span class="n">watch_files</span><span class="p">):</span>
+            <span class="c"># Super constructor</span>
+            <span class="n">QObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="c"># The reference to the gphoto instance to use</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__pygph</span> <span class="o">=</span> <span class="n">pygphoto</span>
+            <span class="c"># _files_index is an internal dictionnary that associate</span>
+            <span class="c"># all the files present on the camera, along with their</span>
+            <span class="c"># gphoto index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="c"># Internal lock for accessing some of the attributes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+            <span class="c"># _watching_files indicates if this component is watching for new files</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_watching_files</span> <span class="o">=</span> <span class="n">watch_files</span>
+            <span class="c"># _watching_camera indicates if this component is watching for camera connections</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_watching_camera</span> <span class="o">=</span> <span class="n">watch_camera</span>
+            <span class="c"># The memorized state of camera connection</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_camera_connection</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="c"># The memorized occupied space on camera</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_camera_occupied_space</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="Pygphoto.CameraWatcher.set_watching_files"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_files">[docs]</a>        <span class="k">def</span> <span class="nf">set_watching_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Set whether the component should watch for changes in the camera</span>
+<span class="sd">            filesystem.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Set watching files: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_watching_files</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+        <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<div class="viewcode-block" id="Pygphoto.CameraWatcher.set_watching_camera"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_camera">[docs]</a>        <span class="k">def</span> <span class="nf">set_watching_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Set whether the component should watch for presence of a connected</span>
+<span class="sd">            camera.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_watching_camera</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.CameraWatcher.is_watching_file"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_file">[docs]</a>        <span class="k">def</span> <span class="nf">is_watching_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Indicates whether the component is watching for changes in the camera</span>
+<span class="sd">            filesystem.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watching_files</span>
+</div>
+<div class="viewcode-block" id="Pygphoto.CameraWatcher.is_watching_camera"><a class="viewcode-back" href="../../code/PyQt/PictureFetcher.html#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_camera">[docs]</a>        <span class="k">def</span> <span class="nf">is_watching_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Indicates whether the component is watching for presence of a connected</span>
+<span class="sd">            camera.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watching_camera</span>
+</div>
+        <span class="nd">@pyqtSlot</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">_watch_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Executed by the watching thread : checks for every events.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c"># Check for the different events</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lock__</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watching_camera</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_watch_camera</span><span class="p">()</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_watching_files</span> 
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_connection</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_watch_files</span><span class="p">()</span>
+            <span class="c"># Non blocking &#39;recursive&#39; call</span>
+            <span class="n">QTimer</span><span class="o">.</span><span class="n">singleShot</span><span class="p">(</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_EVENTS_PERIOD</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watch_events</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_watch_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Check for a change in camera connection, possibly raising a</span>
+<span class="sd">            onCameraConnection signal.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">new_camera_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pygph</span><span class="o">.</span><span class="n">check_camera_connected</span><span class="p">()</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">new_camera_connection</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_connection</span><span class="p">):</span>
+                <span class="c"># Raise a signal</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">onCameraConnection</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">new_camera_connection</span><span class="p">)</span>
+            <span class="c"># Set new state</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_camera_connection</span> <span class="o">=</span> <span class="n">new_camera_connection</span>
+
+        <span class="k">def</span> <span class="nf">_watch_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Check for changes in the camera filesystem, possibly raising a</span>
+<span class="sd">            onContentChanged signal.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">new_occupied_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pygph</span><span class="o">.</span><span class="n">query_storage_info</span><span class="p">()</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">new_occupied_space</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_occupied_space</span><span class="p">):</span>
+                    <span class="c"># Search for new and deleted files</span>
+                    <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_files</span><span class="p">()</span>
+                    <span class="c"># Check there are actually some changes</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="c"># Raise a signal</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">onContentChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c"># Set new state</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_camera_occupied_space</span> <span class="o">=</span> <span class="n">new_occupied_space</span>
+            <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">def</span> <span class="nf">_diff_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Query the camera and return the couple of lists (new_files,</span>
+<span class="sd">            deleted_files) relatively to the last check.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">new_files</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">deleted_files</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c"># Copy last index</span>
+            <span class="n">last_files_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="c"># Update index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span> <span class="o">=</span> <span class="n">Pygphoto</span><span class="o">.</span><span class="n">_filelist_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__pygph</span><span class="o">.</span><span class="n">query_file_list</span><span class="p">())</span>
+
+            <span class="c"># Check for new files</span>
+            <span class="k">for</span> <span class="n">recent_file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="p">:</span>
+                <span class="c"># Check recent_files was already present</span>
+                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">recent_file</span> <span class="ow">in</span> <span class="n">last_files_index</span><span class="p">):</span>
+                    <span class="n">new_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">recent_file</span><span class="p">)</span>
+            <span class="c"># Check for deleted files</span>
+            <span class="k">for</span> <span class="n">last_file</span> <span class="ow">in</span> <span class="n">last_files_index</span><span class="p">:</span>
+                <span class="c"># Check last_files is still present</span>
+                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">last_file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_files_index</span><span class="p">):</span>
+                    <span class="n">deleted_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_file</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">(</span><span class="n">new_files</span><span class="p">,</span> <span class="n">deleted_files</span><span class="p">)</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># TESTINGS</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span>
+
+    <span class="k">class</span> <span class="nc">TestPygphoto</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">QObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">connectCamera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boolean</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Camera connected : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boolean</span><span class="p">))</span>
+
+        <span class="nd">@pyqtSlot</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">newFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">deleted</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;New files : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Deleted files : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">deleted</span><span class="p">))</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+    <span class="n">testpygph</span> <span class="o">=</span> <span class="n">TestPygphoto</span><span class="p">()</span>
+    <span class="n">pygph</span> <span class="o">=</span> <span class="n">Pygphoto</span><span class="p">(</span><span class="n">watch_camera</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">watch_files</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">pygph</span><span class="o">.</span><span class="n">onCameraConnection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">testpygph</span><span class="o">.</span><span class="n">connectCamera</span><span class="p">)</span>
+    <span class="n">pygph</span><span class="o">.</span><span class="n">onContentChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">testpygph</span><span class="o">.</span><span class="n">newFiles</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ query_camera_name&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">query_camera_name</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ _query_filename&quot;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">pygph</span><span class="o">.</span><span class="n">_query_filename</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ _query_file_list&quot;</span><span class="p">)</span>
+    <span class="n">filelist</span> <span class="o">=</span> <span class="n">pygph</span><span class="o">.</span><span class="n">query_file_list</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_file False&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_file False&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_file True&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_all_thumbnails&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_all</span><span class="p">(</span><span class="s">&quot;thumbnails&quot;</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_files False&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_files</span><span class="p">(</span><span class="n">filelist</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">~~~~~~~~ download_all&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pygph</span><span class="o">.</span><span class="n">download_all</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">))</span>
+
+    <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Waiting for events now. Press Return to disable watching.</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="n">pygph</span><span class="o">.</span><span class="n">set_watching_camera</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">pygph</span><span class="o">.</span><span class="n">set_watching_files</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Watching disabled. Press Return to end.</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">)</span>
+    
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Matthias Benkort, Nicolas Gaborit, Arthur Manoha, Matthieu Pizenberg, Louis Viot.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

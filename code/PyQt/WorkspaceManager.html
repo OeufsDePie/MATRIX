@@ -1,0 +1,725 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4.3.3. WorkspaceManager package &mdash; MATRIX 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="4.3. PyQt" href="modules.html"/>
+        <link rel="next" title="4.3.4. test_workspace module" href="test_workspace.html"/>
+        <link rel="prev" title="4.3.2. PictureManager package" href="PictureManager.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/map.html">2.5. Map localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../code.html">4. Code Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">MATRIX</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../code.html">4. Code Documentation</a> &raquo;</li>
+      
+          <li><a href="modules.html">4.3. PyQt</a> &raquo;</li>
+      
+    <li>4.3.3. WorkspaceManager package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../../_sources/code/PyQt/WorkspaceManager.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="workspacemanager-package">
+<h1>4.3.3. WorkspaceManager package<a class="headerlink" href="#workspacemanager-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>4.3.3.1. Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-WorkspaceManager.DirectorySpace">
+<span id="workspacemanager-directoryspace-module"></span><h2>4.3.3.2. WorkspaceManager.DirectorySpace module<a class="headerlink" href="#module-WorkspaceManager.DirectorySpace" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace">
+<em class="property">class </em><tt class="descclassname">WorkspaceManager.DirectorySpace.</tt><tt class="descname">DirectorySpace</tt><big>(</big><em>name=''</em>, <em>base_path=''</em>, <em>relative_path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">Savable.Savable</span></tt></p>
+<p>A space based on a directory in the file system.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>name (str): The name of the space.
+base_path (str): The absolute path of the directory containing the space.
+relative_path (str): The path of the directory space relatively to base_path.
+subdirs (dict(str,str)): The useful subdirectories (path,name).                The paths are the keys
+qt_directory (QDir): The directory corresponding to that workspace</dd>
+</dl>
+<dl class="method">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.create_directory">
+<tt class="descname">create_directory</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.create_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.create_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Effectively creates the directory thanks to Qt object QDir</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the directory space (and its contents).</p>
+<dl class="docutils">
+<dt>Raises:</dt>
+<dd>AssertionError: If the directory does not exist or can not be deleted.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.deserialize">
+<em class="property">static </em><tt class="descname">deserialize</tt><big>(</big><em>serial</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.deserialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.full_path">
+<tt class="descname">full_path</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.full_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.full_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.load">
+<em class="property">classmethod </em><tt class="descname">load</tt><big>(</big><em>base_path</em>, <em>file_name</em>, <em>object_class=None</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recreate a DirectorySpace object from a file.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>base_path (str): The path of the directory containing the file.
+file_name (str): The name of the file to load.
+object_class (class): The class of the object to recreate.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.save">
+<tt class="descname">save</tt><big>(</big><em>file_name</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the object in the file system.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.DirectorySpace.DirectorySpace.serialize">
+<tt class="descname">serialize</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/DirectorySpace.html#DirectorySpace.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.DirectorySpace.DirectorySpace.serialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-WorkspaceManager.Scene">
+<span id="workspacemanager-scene-module"></span><h2>4.3.3.3. WorkspaceManager.Scene module<a class="headerlink" href="#module-WorkspaceManager.Scene" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WorkspaceManager.Scene.Scene">
+<em class="property">class </em><tt class="descclassname">WorkspaceManager.Scene.</tt><tt class="descname">Scene</tt><big>(</big><em>name</em>, <em>base_path</em>, <em>relative_path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">DirectorySpace.DirectorySpace</span></tt></p>
+<p>A scene containing all its images.</p>
+<dl class="docutils">
+<dt>Class Attributes:</dt>
+<dd>RECONSTRUCTION_OUTPUT_DIR
+RECONSTRUCTION_TEMP_DIR
+RECONSTRUCTION_PICTURE_DIR</dd>
+<dt>Attributes:</dt>
+<dd><dl class="first docutils">
+<dt>name (str): The name of the scene. It must be unique in the workspace.</dt>
+<dd>For example : &#8220;Shooting ENSEEIHT&#8221;.
+Default is &#8220;scene_n&#8221; where n is the current number of scenes in workspace.</dd>
+</dl>
+<p class="last">base_path (str): The path of the scene&#8217;s workspace.
+relative_path (str): The path of the scene relatively to base_path.
+subdirs (dict(str,str)): The useful subdirectories (path,name).</p>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="WorkspaceManager.Scene.Scene.PICTURES_DIR">
+<tt class="descname">PICTURES_DIR</tt><em class="property"> = 'pictures_set'</em><a class="headerlink" href="#WorkspaceManager.Scene.Scene.PICTURES_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="WorkspaceManager.Scene.Scene.RECONSTRUCTION_OUTPUT_DIR">
+<tt class="descname">RECONSTRUCTION_OUTPUT_DIR</tt><em class="property"> = 'reconstruction_output'</em><a class="headerlink" href="#WorkspaceManager.Scene.Scene.RECONSTRUCTION_OUTPUT_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="WorkspaceManager.Scene.Scene.RECONSTRUCTION_PICTURE_DIR">
+<tt class="descname">RECONSTRUCTION_PICTURE_DIR</tt><em class="property"> = 'reconstruction_pictures'</em><a class="headerlink" href="#WorkspaceManager.Scene.Scene.RECONSTRUCTION_PICTURE_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="WorkspaceManager.Scene.Scene.RECONSTRUCTION_TEMP_DIR">
+<tt class="descname">RECONSTRUCTION_TEMP_DIR</tt><em class="property"> = 'reconstruction_temp'</em><a class="headerlink" href="#WorkspaceManager.Scene.Scene.RECONSTRUCTION_TEMP_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="WorkspaceManager.Scene.Scene.THUMBNAILS_DIR">
+<tt class="descname">THUMBNAILS_DIR</tt><em class="property"> = 'thumbnails'</em><a class="headerlink" href="#WorkspaceManager.Scene.Scene.THUMBNAILS_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Scene.Scene.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the scene and remove its access from the workspace.</p>
+<p>It must not be called by itself but by the workspace !</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="WorkspaceManager.Scene.Scene.deserialize">
+<em class="property">static </em><tt class="descname">deserialize</tt><big>(</big><em>serial</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.deserialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regenerate a Scene object from serialized data (JSON like).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>serial (dict()): The serialized version of a Scene object.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Scene.Scene.get_reconstruction_out_dir">
+<tt class="descname">get_reconstruction_out_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.get_reconstruction_out_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.get_reconstruction_out_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Scene.Scene.get_reconstruction_picture_dir">
+<tt class="descname">get_reconstruction_picture_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.get_reconstruction_picture_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.get_reconstruction_picture_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Scene.Scene.get_reconstruction_temp_dir">
+<tt class="descname">get_reconstruction_temp_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.get_reconstruction_temp_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.get_reconstruction_temp_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Scene.Scene.get_thumbnails_dir">
+<tt class="descname">get_thumbnails_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Scene.html#Scene.get_thumbnails_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Scene.Scene.get_thumbnails_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-WorkspaceManager.Workspace">
+<span id="workspacemanager-workspace-module"></span><h2>4.3.3.4. WorkspaceManager.Workspace module<a class="headerlink" href="#module-WorkspaceManager.Workspace" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WorkspaceManager.Workspace.Workspace">
+<em class="property">class </em><tt class="descclassname">WorkspaceManager.Workspace.</tt><tt class="descname">Workspace</tt><big>(</big><em>name=''</em>, <em>base_path=''</em>, <em>relative_path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">DirectorySpace.DirectorySpace</span></tt></p>
+<p>A workspace containing its own configuration and scenes.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><p class="first">name (str): The name of the workspace.
+base_path (str): The absolute path of the directory containing the workspace.
+relative_path (str): The path of the workspace relatively to base_path.
+subdirs (dict(str,str)): The useful subdirectories (path,name).
+scenes (dict(str,Scene)): The dictionnary of the scenes it contains.</p>
+<blockquote>
+<div>Keys are the scene paths.</div></blockquote>
+<p class="last">current_scene (str): The path of the current scene.
+qt_directory (QDir): The directory corresponding to that workspace.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the workspace (and its contents).</p>
+<p>It must not be called by itself but by the workspace manager !</p>
+<dl class="docutils">
+<dt>Raises:</dt>
+<dd>AssertionError: If the workspace directory does not exist or can not be deleted.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.delete_scene">
+<tt class="descname">delete_scene</tt><big>(</big><em>scene_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.delete_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.delete_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the scene identified by its local path.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>scene_path (str): The path (relatively to the workspace) of the scene to delete.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="WorkspaceManager.Workspace.Workspace.deserialize">
+<em class="property">static </em><tt class="descname">deserialize</tt><big>(</big><em>serial</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.deserialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recreate a Workspace object from its serialization.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>serial (dict()): The serialized version of a Workspace object.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.getPictureModel">
+<tt class="descname">getPictureModel</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.getPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.getPictureModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.get_current_scene">
+<tt class="descname">get_current_scene</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.get_current_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.get_current_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current scene of the workspace.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Scene: The current scene.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If no current scene.
+AssertionError: If the current scene has disappeared.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.new_scene">
+<tt class="descname">new_scene</tt><big>(</big><em>name=''</em>, <em>path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.new_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.new_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new scene to the workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>name (str): The name of the new scene
+path (str): The local path of the scene (inside workspace)</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If a scene with the same path already exists.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.serialize">
+<tt class="descname">serialize</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize a Workspace object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.setPictureModel">
+<tt class="descname">setPictureModel</tt><big>(</big><em>pictureModel</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.setPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.setPictureModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.Workspace.Workspace.set_current_scene">
+<tt class="descname">set_current_scene</tt><big>(</big><em>scene_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/Workspace.html#Workspace.set_current_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.Workspace.Workspace.set_current_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current scene.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>scene_path (str): The relative path of the scene which will be the current scene.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the scene does not exist in the workspace.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-WorkspaceManager.WorkspaceManager">
+<span id="workspacemanager-workspacemanager-module"></span><h2>4.3.3.5. WorkspaceManager.WorkspaceManager module<a class="headerlink" href="#module-WorkspaceManager.WorkspaceManager" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager">
+<em class="property">class </em><tt class="descclassname">WorkspaceManager.WorkspaceManager.</tt><tt class="descname">WorkspaceManager</tt><big>(</big><em>pictureModel</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>Manages the workspace.</p>
+<p>Will handle all interactions between user and modules and the working space.
+This class is responsible for managing files inside the workspace and for
+communicating any change through signals.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>workspaces (dict(str,Workspace)): All the workspaces.
+current_workspace (str): The current workspace.
+workspaces_model (QStringListModel): The list model (for qml) of the workspaces.
+scenes_model (QStringListModel): The list model (for qml) of the scenes in the current workspace.
+pictureModel (PictureModel): The picture model</dd>
+</dl>
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.change_scene">
+<tt class="descname">change_scene</tt><big>(</big><em>scene_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.change_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.change_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the current scene identified by its path in the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>scene_path (str): The relative path of the scene to select in the current workspace.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the scene directory does not exist.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.change_workspace">
+<tt class="descname">change_workspace</tt><big>(</big><em>workspace_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.change_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.change_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>workspace_path (str): The absolute path of the workspace to select.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.close_workspace">
+<tt class="descname">close_workspace</tt><big>(</big><em>workspace_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.close_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.close_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the workspace (it is not visible anymore in the list of open workspaces.
+Args:</p>
+<blockquote>
+<div>workspace_path (str): The absolute path of the workspace to close.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.delete_scene">
+<tt class="descname">delete_scene</tt><big>(</big><em>scene_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.delete_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.delete_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the scene identified by its path in the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>scene_path (str): The relative path of the scene to delete in the current workspace.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the scene directory does not exist or can not be deleted.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.delete_workspace">
+<tt class="descname">delete_workspace</tt><big>(</big><em>workspace_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.delete_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the workspace identified by its abolute path.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>workspace_path (str): The absolute path of the workspace to delete.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the workspace directory does not exist or can not be deleted.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.getPictureModel">
+<tt class="descname">getPictureModel</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.getPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.getPictureModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_current_scene">
+<tt class="descname">get_current_scene</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_current_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_current_scene" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_current_workspace">
+<tt class="descname">get_current_workspace</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_current_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_current_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current workspace.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Workspace: The current workspace.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If no current workspace.
+AssertionError: If the current workspace has disappeared.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_picture_dir">
+<tt class="descname">get_picture_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_picture_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_picture_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the folder where all pictures are stored</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>str: The absolute path to the folder</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_scene_output_dir">
+<tt class="descname">get_scene_output_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_scene_output_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_scene_output_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the absolute path of the output directory for ply files.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>str: The absolute path of directory.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_scene_temp_output_dir">
+<tt class="descname">get_scene_temp_output_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_scene_temp_output_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_scene_temp_output_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the temporary output directory for scene reconstructions.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>str: The absolute path of the temporary directory.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_selected_picture_dir">
+<tt class="descname">get_selected_picture_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_selected_picture_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_selected_picture_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the absolute path of the directory containing the pictures used for reconstruction.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>str: The absolute path of the picture directory.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.get_thumbnails_dir">
+<tt class="descname">get_thumbnails_dir</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.get_thumbnails_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.get_thumbnails_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.import_pictures">
+<tt class="descname">import_pictures</tt><big>(</big><em>picturesPath</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.import_pictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.import_pictures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import pictures from an external location into the workspace
+Args:</p>
+<blockquote>
+<div>picturesPath (list&lt;str&gt;): The list of path to import</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.new_scene">
+<tt class="descname">new_scene</tt><big>(</big><em>name=''</em>, <em>path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.new_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.new_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new scene in the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>name (str): The name of the scene.
+path (str): The relative path of the scene in the workspace.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If there is no current workspace or the scene already exists.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.new_workspace">
+<tt class="descname">new_workspace</tt><big>(</big><em>name=''</em>, <em>base_path=''</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.new_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.new_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>name (str): The name of the workspace.
+base_path (str): The absolute path of the directory that will contain the new workspace.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.open_workspace">
+<tt class="descname">open_workspace</tt><big>(</big><em>directory_path</em>, <em>file_name</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.open_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.open_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open an existi ng workspace from a save file of the workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>directory_path (str): The absolute path of the directory containing the file.
+file_name (str): The name of the file containing the save of the workspace.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.prepare_reconstruction">
+<tt class="descname">prepare_reconstruction</tt><big>(</big><em>picturesList</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.prepare_reconstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.prepare_reconstruction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy all file describe in picturesList inside the temporary reconstruction folder</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>picturesList (list&lt;Picture&gt;): The list of pictures that should be copied</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.save_workspace">
+<tt class="descname">save_workspace</tt><big>(</big><em>workspace_path</em>, <em>file_name='workspaceSettings'</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.save_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.save_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the workspace in a file.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>workspace_path (str): The absolute path of the workspace to save.
+file_name (str): The name of the file to save into.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.setPictureModel">
+<tt class="descname">setPictureModel</tt><big>(</big><em>pictureModel</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.setPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.setPictureModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.set_current_scene">
+<tt class="descname">set_current_scene</tt><big>(</big><em>scene_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.set_current_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.set_current_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the current scene identified by its path in the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>scene_path (str): The relative path of the scene to select in the current workspace.</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the scene directory does not exist.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.set_current_workspace">
+<tt class="descname">set_current_workspace</tt><big>(</big><em>workspace_path</em><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.set_current_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.set_current_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current workspace.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>workspace_path (str): The absolute path of the workspace</dt>
+<dd>which will be the current workspace.</dd>
+</dl>
+</dd>
+<dt>Raises:</dt>
+<dd>AssertionError: If the workspace does not exist in the workspace manager.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.update_scenes_model">
+<tt class="descname">update_scenes_model</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.update_scenes_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.update_scenes_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the attribute scenes_model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="WorkspaceManager.WorkspaceManager.WorkspaceManager.update_workspaces_model">
+<tt class="descname">update_workspaces_model</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/WorkspaceManager/WorkspaceManager.html#WorkspaceManager.update_workspaces_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WorkspaceManager.WorkspaceManager.WorkspaceManager.update_workspaces_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the attribute workspaces_model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-WorkspaceManager">
+<span id="module-contents"></span><h2>4.3.3.6. Module contents<a class="headerlink" href="#module-WorkspaceManager" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="test_workspace.html" class="btn btn-neutral float-right" title="4.3.4. test_workspace module"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="PictureManager.html" class="btn btn-neutral" title="4.3.2. PictureManager package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Matthias Benkort, Nicolas Gaborit, Arthur Manoha, Matthieu Pizenberg, Louis Viot.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

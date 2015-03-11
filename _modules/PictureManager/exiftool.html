@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PictureManager.exiftool &mdash; MATRIX 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/camera.html">2.3. Camera connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/3d.html">2.4. 3D Reconstruction and Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user/map.html">2.5. Map localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../code.html">4. Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../code/modules.html">4.1. MatrixGUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/Python/modules.html">4.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../code/PyQt/modules.html">4.3. PyQt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc.html">5. Building that Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#sphinx-installation">5.1. Sphinx Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#initialize-the-documentation">5.2. Initialize the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../doc.html#configuration-of-sphinx-documentation">5.3. Configuration of Sphinx documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">MATRIX</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>PictureManager.exiftool</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for PictureManager.exiftool</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c"># PyExifTool &lt;http://github.com/smarnach/pyexiftool&gt;</span>
+<span class="c"># Copyright 2012 Sven Marnach</span>
+
+<span class="c"># This file is part of PyExifTool.</span>
+<span class="c">#</span>
+<span class="c"># PyExifTool is free software: you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, either version 3 of the licence, or</span>
+<span class="c"># (at your option) any later version, or the BSD licence.</span>
+<span class="c">#</span>
+<span class="c"># PyExifTool is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="c">#</span>
+<span class="c"># See COPYING.GPL or COPYING.BSD for more details.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PyExifTool is a Python library to communicate with an instance of Phil</span>
+<span class="sd">Harvey&#39;s excellent ExifTool_ command-line application.  The library</span>
+<span class="sd">provides the class :py:class:`ExifTool` that runs the command-line</span>
+<span class="sd">tool in batch mode and features methods to send commands to that</span>
+<span class="sd">program, including methods to extract meta-information from one or</span>
+<span class="sd">more image files.  Since ``exiftool`` is run in batch mode, only a</span>
+<span class="sd">single instance needs to be launched and can be reused for many</span>
+<span class="sd">queries.  This is much more efficient than launching a separate</span>
+<span class="sd">process for every single query.</span>
+
+<span class="sd">.. _ExifTool: http://www.sno.phy.queensu.ca/~phil/exiftool/</span>
+
+<span class="sd">The source code can be checked out from the github repository with</span>
+
+<span class="sd">::</span>
+
+<span class="sd">    git clone git://github.com/smarnach/pyexiftool.git</span>
+
+<span class="sd">Alternatively, you can download a tarball_.  There haven&#39;t been any</span>
+<span class="sd">releases yet.</span>
+
+<span class="sd">.. _tarball: https://github.com/smarnach/pyexiftool/tarball/master</span>
+
+<span class="sd">PyExifTool is licenced under GNU GPL version 3 or later.</span>
+
+<span class="sd">Example usage::</span>
+
+<span class="sd">    import exiftool</span>
+
+<span class="sd">    files = [&quot;a.jpg&quot;, &quot;b.png&quot;, &quot;c.tif&quot;]</span>
+<span class="sd">    with exiftool.ExifTool() as et:</span>
+<span class="sd">        metadata = et.get_metadata_batch(files)</span>
+<span class="sd">    for d in metadata:</span>
+<span class="sd">        print(&quot;{:20.20} {:20.20}&quot;.format(d[&quot;SourceFile&quot;],</span>
+<span class="sd">                                         d[&quot;EXIF:DateTimeOriginal&quot;]))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+
+<span class="k">try</span><span class="p">:</span>        <span class="c"># Py3k compatibility</span>
+    <span class="nb">basestring</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">basestring</span> <span class="o">=</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+<span class="n">executable</span> <span class="o">=</span> <span class="s">&quot;exiftool&quot;</span>
+<span class="sd">&quot;&quot;&quot;The name of the executable to run.</span>
+
+<span class="sd">If the executable is not located in one of the paths listed in the</span>
+<span class="sd">``PATH`` environment variable, the full path should be given here.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># Sentinel indicating the end of the output of a sequence of commands.</span>
+<span class="c"># The standard value should be fine.</span>
+<span class="n">sentinel</span> <span class="o">=</span> <span class="n">b</span><span class="s">&quot;{ready}&quot;</span>
+
+<span class="c"># The block size when reading from exiftool.  The standard value</span>
+<span class="c"># should be fine, though other values might give better performance in</span>
+<span class="c"># some cases.</span>
+<span class="n">block_size</span> <span class="o">=</span> <span class="mi">4096</span>
+
+<span class="c"># This code has been adapted from Lib/os.py in the Python source tree</span>
+<span class="c"># (sha1 265e36e277f3)</span>
+<span class="k">def</span> <span class="nf">_fscodec</span><span class="p">():</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getfilesystemencoding</span><span class="p">()</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="s">&quot;strict&quot;</span>
+    <span class="k">if</span> <span class="n">encoding</span> <span class="o">!=</span> <span class="s">&quot;mbcs&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">codecs</span><span class="o">.</span><span class="n">lookup_error</span><span class="p">(</span><span class="s">&quot;surrogateescape&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errors</span> <span class="o">=</span> <span class="s">&quot;surrogateescape&quot;</span>
+
+    <span class="k">def</span> <span class="nf">fsencode</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Encode filename to the filesystem encoding with &#39;surrogateescape&#39; error</span>
+<span class="sd">        handler, return bytes unchanged. On Windows, use &#39;strict&#39; error handler if</span>
+<span class="sd">        the file system encoding is &#39;mbcs&#39; (which is the default encoding).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">filename</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fsencode</span>
+
+<span class="n">fsencode</span> <span class="o">=</span> <span class="n">_fscodec</span><span class="p">()</span>
+<span class="k">del</span> <span class="n">_fscodec</span>
+
+<div class="viewcode-block" id="ExifTool"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool">[docs]</a><span class="k">class</span> <span class="nc">ExifTool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run the `exiftool` command-line tool and communicate to it.</span>
+
+<span class="sd">    You can pass the file name of the ``exiftool`` executable as an</span>
+<span class="sd">    argument to the constructor.  The default value ``exiftool`` will</span>
+<span class="sd">    only work if the executable is in your ``PATH``.</span>
+
+<span class="sd">    Most methods of this class are only available after calling</span>
+<span class="sd">    :py:meth:`start()`, which will actually launch the subprocess.  To</span>
+<span class="sd">    avoid leaving the subprocess running, make sure to call</span>
+<span class="sd">    :py:meth:`terminate()` method when finished using the instance.</span>
+<span class="sd">    This method will also be implicitly called when the instance is</span>
+<span class="sd">    garbage collected, but there are circumstance when this won&#39;t ever</span>
+<span class="sd">    happen, so you should not rely on the implicit process</span>
+<span class="sd">    termination.  Subprocesses won&#39;t be automatically terminated if</span>
+<span class="sd">    the parent process exits, so a leaked subprocess will stay around</span>
+<span class="sd">    until manually killed.</span>
+
+<span class="sd">    A convenient way to make sure that the subprocess is terminated is</span>
+<span class="sd">    to use the :py:class:`ExifTool` instance as a context manager::</span>
+
+<span class="sd">        with ExifTool() as et:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    .. warning:: Note that there is no error handling.  Nonsensical</span>
+<span class="sd">       options will be silently ignored by exiftool, so there&#39;s not</span>
+<span class="sd">       much that can be done in that regard.  You should avoid passing</span>
+<span class="sd">       non-existent files to any of the methods, since this will lead</span>
+<span class="sd">       to undefied behaviour.</span>
+
+<span class="sd">    .. py:attribute:: running</span>
+
+<span class="sd">       A Boolean value indicating whether this instance is currently</span>
+<span class="sd">       associated with a running subprocess.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable_</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">executable_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="n">executable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="n">executable_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
+
+<div class="viewcode-block" id="ExifTool.start"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Start an ``exiftool`` process in batch mode for this instance.</span>
+
+<span class="sd">        This method will issue a ``UserWarning`` if the subprocess is</span>
+<span class="sd">        already running.  The process is started with the ``-G`` and</span>
+<span class="sd">        ``-n`` as common arguments, which are automatically included</span>
+<span class="sd">        in every command you run with :py:meth:`execute()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;ExifTool already running; doing nothing.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">devnull</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s">&quot;-stay_open&quot;</span><span class="p">,</span> <span class="s">&quot;True&quot;</span><span class="p">,</span>  <span class="s">&quot;-@&quot;</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;-common_args&quot;</span><span class="p">,</span> <span class="s">&quot;-G&quot;</span><span class="p">,</span> <span class="s">&quot;-n&quot;</span><span class="p">],</span>
+                <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">devnull</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="ExifTool.terminate"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.terminate">[docs]</a>    <span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Terminate the ``exiftool`` process of this instance.</span>
+
+<span class="sd">        If the subprocess isn&#39;t running, this method will do nothing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;-stay_open</span><span class="se">\n</span><span class="s">False</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ExifTool.execute"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute the given batch of parameters with ``exiftool``.</span>
+
+<span class="sd">        This method accepts any number of parameters and sends them to</span>
+<span class="sd">        the attached ``exiftool`` process.  The process must be</span>
+<span class="sd">        running, otherwise ``ValueError`` is raised.  The final</span>
+<span class="sd">        ``-execute`` necessary to actually run the batch is appended</span>
+<span class="sd">        automatically; see the documentation of :py:meth:`start()` for</span>
+<span class="sd">        the common options.  The ``exiftool`` output is read up to the</span>
+<span class="sd">        end-of-output sentinel and returned as a raw ``bytes`` object,</span>
+<span class="sd">        excluding the sentinel.</span>
+
+<span class="sd">        The parameters must also be raw ``bytes``, in whatever</span>
+<span class="sd">        encoding exiftool accepts.  For filenames, this should be the</span>
+<span class="sd">        system&#39;s filesystem encoding.</span>
+
+<span class="sd">        .. note:: This is considered a low-level method, and should</span>
+<span class="sd">           rarely be needed by application developers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;ExifTool instance not running.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">params</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="s">&quot;-execute</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">b</span><span class="s">&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">sentinel</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">block_size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">strip</span><span class="p">()[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">sentinel</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="ExifTool.execute_json"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.execute_json">[docs]</a>    <span class="k">def</span> <span class="nf">execute_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute the given batch of parameters and parse the JSON output.</span>
+
+<span class="sd">        This method is similar to :py:meth:`execute()`.  It</span>
+<span class="sd">        automatically adds the parameter ``-j`` to request JSON output</span>
+<span class="sd">        from ``exiftool`` and parses the output.  The return value is</span>
+<span class="sd">        a list of dictionaries, mapping tag names to the corresponding</span>
+<span class="sd">        values.  All keys are Unicode strings with the tag names</span>
+<span class="sd">        including the ExifTool group name in the format &lt;group&gt;:&lt;tag&gt;.</span>
+<span class="sd">        The values can have multiple types.  All strings occurring as</span>
+<span class="sd">        values will be Unicode strings.  Each dictionary contains the</span>
+<span class="sd">        name of the file it corresponds to in the key ``&quot;SourceFile&quot;``.</span>
+
+<span class="sd">        The parameters to this function must be either raw strings</span>
+<span class="sd">        (type ``str`` in Python 2.x, type ``bytes`` in Python 3.x) or</span>
+<span class="sd">        Unicode strings (type ``unicode`` in Python 2.x, type ``str``</span>
+<span class="sd">        in Python 3.x).  Unicode strings will be encoded using</span>
+<span class="sd">        system&#39;s filesystem encoding.  This behaviour means you can</span>
+<span class="sd">        pass in filenames according to the convention of the</span>
+<span class="sd">        respective Python version – as raw strings in Python 2.x and</span>
+<span class="sd">        as Unicode strings in Python 3.x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">fsencode</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">b</span><span class="s">&quot;-j&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_metadata_batch"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_metadata_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_metadata_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return all meta-data for the given files.</span>
+
+<span class="sd">        The return value will have the format described in the</span>
+<span class="sd">        documentation of :py:meth:`execute_json()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_json</span><span class="p">(</span><span class="o">*</span><span class="n">filenames</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_metadata"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return meta-data for a single file.</span>
+
+<span class="sd">        The returned dictionary has the format described in the</span>
+<span class="sd">        documentation of :py:meth:`execute_json()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_tags_batch"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_tags_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return only specified tags for the given files.</span>
+
+<span class="sd">        The first argument is an iterable of tags.  The tag names may</span>
+<span class="sd">        include group names, as usual in the format &lt;group&gt;:&lt;tag&gt;.</span>
+
+<span class="sd">        The second argument is an iterable of file names.</span>
+
+<span class="sd">        The format of the return value is the same as for</span>
+<span class="sd">        :py:meth:`execute_json()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Explicitly ruling out strings here because passing in a</span>
+        <span class="c"># string would lead to strange and hard-to-find errors</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;The argument &#39;tags&#39; must be &quot;</span>
+                            <span class="s">&quot;an iterable of strings&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;The argument &#39;filenames&#39; must be &quot;</span>
+                            <span class="s">&quot;an iterable of strings&quot;</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;-&quot;</span> <span class="o">+</span> <span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">]</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_json</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_tags"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return only specified tags for a single file.</span>
+
+<span class="sd">        The returned dictionary has the format described in the</span>
+<span class="sd">        documentation of :py:meth:`execute_json()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tags_batch</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="p">[</span><span class="n">filename</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_tag_batch"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_tag_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract a single tag from the given files.</span>
+
+<span class="sd">        The first argument is a single tag name, as usual in the</span>
+<span class="sd">        format &lt;group&gt;:&lt;tag&gt;.</span>
+
+<span class="sd">        The second argument is an iterable of file names.</span>
+
+<span class="sd">        The return value is a list of tag values or ``None`` for</span>
+<span class="sd">        non-existent tags, in the same order as ``filenames``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tags_batch</span><span class="p">([</span><span class="n">tag</span><span class="p">],</span> <span class="n">filenames</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;SourceFile&quot;</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="bp">None</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="ExifTool.get_tag"><a class="viewcode-back" href="../../code/PyQt/PictureManager.html#PictureManager.exiftool.ExifTool.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract a single tag from a single file.</span>
+
+<span class="sd">        The return value is the value of the specified tag, or</span>
+<span class="sd">        ``None`` if this tag was not found in the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tag_batch</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="p">[</span><span class="n">filename</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Matthias Benkort, Nicolas Gaborit, Arthur Manoha, Matthieu Pizenberg, Louis Viot.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

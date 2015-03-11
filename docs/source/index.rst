@@ -7,10 +7,12 @@
 Welcome to MATRIX's documentation!
 ##################################
 
-Contents:
+Contents :
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
+   :includehidden:
 
    context
    user

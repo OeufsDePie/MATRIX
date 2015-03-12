@@ -20,6 +20,8 @@ The application core depends on :
 * Qt >= 5.4 (we used Qt 5.4.0 and 5.4.1)
 * PyQt5 (debian package python3-pyqt5)
 * PyQt5 (debian package python3-pyqt5.qtquick)
+* Sphinx 1.3
+* sphinx_rtd_theme (python module)
 * libgl (we used 10.3.2)
 * libglu (we used 9.0.0-2)
 * libglm-dev (we used 0.9.5.1-1)
@@ -51,4 +53,12 @@ Go to the 3D rendering module folder and compile it :
 cd MATRIX/MatrixGUI/Components/QML/3dRendering/
 qmake && make && make clean
 ```
+
+Now you have to compile openMVG. Go to the reconstruction manager directory :
+
+```
+cd MATRIX/MatrixGUI/Components/PyQt/ReconstructionManager/
+```
+
+Follow the README to build openMVG
 

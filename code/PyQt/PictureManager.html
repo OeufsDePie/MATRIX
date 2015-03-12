@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+        
+          <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -127,7 +134,7 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="picturemanager-package">
 <h1>4.3.2. PictureManager package<a class="headerlink" href="#picturemanager-package" title="Permalink to this headline">¶</a></h1>
@@ -138,10 +145,10 @@
 <span id="picturemanager-exiftool-module"></span><h2>4.3.2.2. PictureManager.exiftool module<a class="headerlink" href="#module-PictureManager.exiftool" title="Permalink to this headline">¶</a></h2>
 <p>PyExifTool is a Python library to communicate with an instance of Phil
 Harvey&#8217;s excellent <a class="reference external" href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> command-line application.  The library
-provides the class <a class="reference internal" href="#PictureManager.exiftool.ExifTool" title="PictureManager.exiftool.ExifTool"><tt class="xref py py-class docutils literal"><span class="pre">ExifTool</span></tt></a> that runs the command-line
+provides the class <a class="reference internal" href="#PictureManager.exiftool.ExifTool" title="PictureManager.exiftool.ExifTool"><code class="xref py py-class docutils literal"><span class="pre">ExifTool</span></code></a> that runs the command-line
 tool in batch mode and features methods to send commands to that
 program, including methods to extract meta-information from one or
-more image files.  Since <tt class="docutils literal"><span class="pre">exiftool</span></tt> is run in batch mode, only a
+more image files.  Since <code class="docutils literal"><span class="pre">exiftool</span></code> is run in batch mode, only a
 single instance needs to be launched and can be reused for many
 queries.  This is much more efficient than launching a separate
 process for every single query.</p>
@@ -165,16 +172,16 @@ releases yet.</p>
 </div>
 <dl class="class">
 <dt id="PictureManager.exiftool.ExifTool">
-<em class="property">class </em><tt class="descclassname">PictureManager.exiftool.</tt><tt class="descname">ExifTool</tt><big>(</big><em>executable_=None</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureManager.exiftool.</code><code class="descname">ExifTool</code><span class="sig-paren">(</span><em>executable_=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Run the <cite>exiftool</cite> command-line tool and communicate to it.</p>
-<p>You can pass the file name of the <tt class="docutils literal"><span class="pre">exiftool</span></tt> executable as an
-argument to the constructor.  The default value <tt class="docutils literal"><span class="pre">exiftool</span></tt> will
-only work if the executable is in your <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
+<p>You can pass the file name of the <code class="docutils literal"><span class="pre">exiftool</span></code> executable as an
+argument to the constructor.  The default value <code class="docutils literal"><span class="pre">exiftool</span></code> will
+only work if the executable is in your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 <p>Most methods of this class are only available after calling
-<a class="reference internal" href="#PictureManager.exiftool.ExifTool.start" title="PictureManager.exiftool.ExifTool.start"><tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt></a>, which will actually launch the subprocess.  To
+<a class="reference internal" href="#PictureManager.exiftool.ExifTool.start" title="PictureManager.exiftool.ExifTool.start"><code class="xref py py-meth docutils literal"><span class="pre">start()</span></code></a>, which will actually launch the subprocess.  To
 avoid leaving the subprocess running, make sure to call
-<a class="reference internal" href="#PictureManager.exiftool.ExifTool.terminate" title="PictureManager.exiftool.ExifTool.terminate"><tt class="xref py py-meth docutils literal"><span class="pre">terminate()</span></tt></a> method when finished using the instance.
+<a class="reference internal" href="#PictureManager.exiftool.ExifTool.terminate" title="PictureManager.exiftool.ExifTool.terminate"><code class="xref py py-meth docutils literal"><span class="pre">terminate()</span></code></a> method when finished using the instance.
 This method will also be implicitly called when the instance is
 garbage collected, but there are circumstance when this won&#8217;t ever
 happen, so you should not rely on the implicit process
@@ -182,7 +189,7 @@ termination.  Subprocesses won&#8217;t be automatically terminated if
 the parent process exits, so a leaked subprocess will stay around
 until manually killed.</p>
 <p>A convenient way to make sure that the subprocess is terminated is
-to use the <a class="reference internal" href="#PictureManager.exiftool.ExifTool" title="PictureManager.exiftool.ExifTool"><tt class="xref py py-class docutils literal"><span class="pre">ExifTool</span></tt></a> instance as a context manager:</p>
+to use the <a class="reference internal" href="#PictureManager.exiftool.ExifTool" title="PictureManager.exiftool.ExifTool"><code class="xref py py-class docutils literal"><span class="pre">ExifTool</span></code></a> instance as a context manager:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ExifTool</span><span class="p">()</span> <span class="k">as</span> <span class="n">et</span><span class="p">:</span>
     <span class="o">...</span>
 </pre></div>
@@ -197,24 +204,24 @@ to undefied behaviour.</p>
 </div>
 <dl class="attribute">
 <dt id="PictureManager.exiftool.ExifTool.running">
-<tt class="descname">running</tt><a class="headerlink" href="#PictureManager.exiftool.ExifTool.running" title="Permalink to this definition">¶</a></dt>
+<code class="descname">running</code><a class="headerlink" href="#PictureManager.exiftool.ExifTool.running" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Boolean value indicating whether this instance is currently
 associated with a running subprocess.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.execute">
-<tt class="descname">execute</tt><big>(</big><em>*params</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute the given batch of parameters with <tt class="docutils literal"><span class="pre">exiftool</span></tt>.</p>
+<code class="descname">execute</code><span class="sig-paren">(</span><em>*params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the given batch of parameters with <code class="docutils literal"><span class="pre">exiftool</span></code>.</p>
 <p>This method accepts any number of parameters and sends them to
-the attached <tt class="docutils literal"><span class="pre">exiftool</span></tt> process.  The process must be
-running, otherwise <tt class="docutils literal"><span class="pre">ValueError</span></tt> is raised.  The final
-<tt class="docutils literal"><span class="pre">-execute</span></tt> necessary to actually run the batch is appended
-automatically; see the documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.start" title="PictureManager.exiftool.ExifTool.start"><tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt></a> for
-the common options.  The <tt class="docutils literal"><span class="pre">exiftool</span></tt> output is read up to the
-end-of-output sentinel and returned as a raw <tt class="docutils literal"><span class="pre">bytes</span></tt> object,
+the attached <code class="docutils literal"><span class="pre">exiftool</span></code> process.  The process must be
+running, otherwise <code class="docutils literal"><span class="pre">ValueError</span></code> is raised.  The final
+<code class="docutils literal"><span class="pre">-execute</span></code> necessary to actually run the batch is appended
+automatically; see the documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.start" title="PictureManager.exiftool.ExifTool.start"><code class="xref py py-meth docutils literal"><span class="pre">start()</span></code></a> for
+the common options.  The <code class="docutils literal"><span class="pre">exiftool</span></code> output is read up to the
+end-of-output sentinel and returned as a raw <code class="docutils literal"><span class="pre">bytes</span></code> object,
 excluding the sentinel.</p>
-<p>The parameters must also be raw <tt class="docutils literal"><span class="pre">bytes</span></tt>, in whatever
+<p>The parameters must also be raw <code class="docutils literal"><span class="pre">bytes</span></code>, in whatever
 encoding exiftool accepts.  For filenames, this should be the
 system&#8217;s filesystem encoding.</p>
 <div class="admonition note">
@@ -226,20 +233,20 @@ rarely be needed by application developers.</p>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.execute_json">
-<tt class="descname">execute_json</tt><big>(</big><em>*params</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.execute_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.execute_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">execute_json</code><span class="sig-paren">(</span><em>*params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.execute_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.execute_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the given batch of parameters and parse the JSON output.</p>
-<p>This method is similar to <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute" title="PictureManager.exiftool.ExifTool.execute"><tt class="xref py py-meth docutils literal"><span class="pre">execute()</span></tt></a>.  It
-automatically adds the parameter <tt class="docutils literal"><span class="pre">-j</span></tt> to request JSON output
-from <tt class="docutils literal"><span class="pre">exiftool</span></tt> and parses the output.  The return value is
+<p>This method is similar to <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute" title="PictureManager.exiftool.ExifTool.execute"><code class="xref py py-meth docutils literal"><span class="pre">execute()</span></code></a>.  It
+automatically adds the parameter <code class="docutils literal"><span class="pre">-j</span></code> to request JSON output
+from <code class="docutils literal"><span class="pre">exiftool</span></code> and parses the output.  The return value is
 a list of dictionaries, mapping tag names to the corresponding
 values.  All keys are Unicode strings with the tag names
 including the ExifTool group name in the format &lt;group&gt;:&lt;tag&gt;.
 The values can have multiple types.  All strings occurring as
 values will be Unicode strings.  Each dictionary contains the
-name of the file it corresponds to in the key <tt class="docutils literal"><span class="pre">&quot;SourceFile&quot;</span></tt>.</p>
+name of the file it corresponds to in the key <code class="docutils literal"><span class="pre">&quot;SourceFile&quot;</span></code>.</p>
 <p>The parameters to this function must be either raw strings
-(type <tt class="docutils literal"><span class="pre">str</span></tt> in Python 2.x, type <tt class="docutils literal"><span class="pre">bytes</span></tt> in Python 3.x) or
-Unicode strings (type <tt class="docutils literal"><span class="pre">unicode</span></tt> in Python 2.x, type <tt class="docutils literal"><span class="pre">str</span></tt>
+(type <code class="docutils literal"><span class="pre">str</span></code> in Python 2.x, type <code class="docutils literal"><span class="pre">bytes</span></code> in Python 3.x) or
+Unicode strings (type <code class="docutils literal"><span class="pre">unicode</span></code> in Python 2.x, type <code class="docutils literal"><span class="pre">str</span></code>
 in Python 3.x).  Unicode strings will be encoded using
 system&#8217;s filesystem encoding.  This behaviour means you can
 pass in filenames according to the convention of the
@@ -249,72 +256,72 @@ as Unicode strings in Python 3.x.</p>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_metadata">
-<tt class="descname">get_metadata</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_metadata</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return meta-data for a single file.</p>
 <p>The returned dictionary has the format described in the
-documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><tt class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></tt></a>.</p>
+documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><code class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_metadata_batch">
-<tt class="descname">get_metadata_batch</tt><big>(</big><em>filenames</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_metadata_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_metadata_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_metadata_batch</code><span class="sig-paren">(</span><em>filenames</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_metadata_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_metadata_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all meta-data for the given files.</p>
 <p>The return value will have the format described in the
-documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><tt class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></tt></a>.</p>
+documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><code class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_tag">
-<tt class="descname">get_tag</tt><big>(</big><em>tag</em>, <em>filename</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tag" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tag</code><span class="sig-paren">(</span><em>tag</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract a single tag from a single file.</p>
 <p>The return value is the value of the specified tag, or
-<tt class="docutils literal"><span class="pre">None</span></tt> if this tag was not found in the file.</p>
+<code class="docutils literal"><span class="pre">None</span></code> if this tag was not found in the file.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_tag_batch">
-<tt class="descname">get_tag_batch</tt><big>(</big><em>tag</em>, <em>filenames</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tag_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tag_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tag_batch</code><span class="sig-paren">(</span><em>tag</em>, <em>filenames</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tag_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tag_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract a single tag from the given files.</p>
 <p>The first argument is a single tag name, as usual in the
 format &lt;group&gt;:&lt;tag&gt;.</p>
 <p>The second argument is an iterable of file names.</p>
-<p>The return value is a list of tag values or <tt class="docutils literal"><span class="pre">None</span></tt> for
-non-existent tags, in the same order as <tt class="docutils literal"><span class="pre">filenames</span></tt>.</p>
+<p>The return value is a list of tag values or <code class="docutils literal"><span class="pre">None</span></code> for
+non-existent tags, in the same order as <code class="docutils literal"><span class="pre">filenames</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_tags">
-<tt class="descname">get_tags</tt><big>(</big><em>tags</em>, <em>filename</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tags</code><span class="sig-paren">(</span><em>tags</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return only specified tags for a single file.</p>
 <p>The returned dictionary has the format described in the
-documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><tt class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></tt></a>.</p>
+documentation of <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><code class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.get_tags_batch">
-<tt class="descname">get_tags_batch</tt><big>(</big><em>tags</em>, <em>filenames</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tags_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tags_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tags_batch</code><span class="sig-paren">(</span><em>tags</em>, <em>filenames</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.get_tags_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.get_tags_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return only specified tags for the given files.</p>
 <p>The first argument is an iterable of tags.  The tag names may
 include group names, as usual in the format &lt;group&gt;:&lt;tag&gt;.</p>
 <p>The second argument is an iterable of file names.</p>
 <p>The format of the return value is the same as for
-<a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><tt class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></tt></a>.</p>
+<a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute_json" title="PictureManager.exiftool.ExifTool.execute_json"><code class="xref py py-meth docutils literal"><span class="pre">execute_json()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.start">
-<tt class="descname">start</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.start" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start an <tt class="docutils literal"><span class="pre">exiftool</span></tt> process in batch mode for this instance.</p>
-<p>This method will issue a <tt class="docutils literal"><span class="pre">UserWarning</span></tt> if the subprocess is
-already running.  The process is started with the <tt class="docutils literal"><span class="pre">-G</span></tt> and
-<tt class="docutils literal"><span class="pre">-n</span></tt> as common arguments, which are automatically included
-in every command you run with <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute" title="PictureManager.exiftool.ExifTool.execute"><tt class="xref py py-meth docutils literal"><span class="pre">execute()</span></tt></a>.</p>
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start an <code class="docutils literal"><span class="pre">exiftool</span></code> process in batch mode for this instance.</p>
+<p>This method will issue a <code class="docutils literal"><span class="pre">UserWarning</span></code> if the subprocess is
+already running.  The process is started with the <code class="docutils literal"><span class="pre">-G</span></code> and
+<code class="docutils literal"><span class="pre">-n</span></code> as common arguments, which are automatically included
+in every command you run with <a class="reference internal" href="#PictureManager.exiftool.ExifTool.execute" title="PictureManager.exiftool.ExifTool.execute"><code class="xref py py-meth docutils literal"><span class="pre">execute()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.exiftool.ExifTool.terminate">
-<tt class="descname">terminate</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.terminate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Terminate the <tt class="docutils literal"><span class="pre">exiftool</span></tt> process of this instance.</p>
+<code class="descname">terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/exiftool.html#ExifTool.terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.exiftool.ExifTool.terminate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate the <code class="docutils literal"><span class="pre">exiftool</span></code> process of this instance.</p>
 <p>If the subprocess isn&#8217;t running, this method will do nothing.</p>
 </dd></dl>
 
@@ -322,15 +329,15 @@ in every command you run with <a class="reference internal" href="#PictureManage
 
 <dl class="data">
 <dt id="PictureManager.exiftool.executable">
-<tt class="descclassname">PictureManager.exiftool.</tt><tt class="descname">executable</tt><em class="property"> = 'exiftool'</em><a class="headerlink" href="#PictureManager.exiftool.executable" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">PictureManager.exiftool.</code><code class="descname">executable</code><em class="property"> = 'exiftool'</em><a class="headerlink" href="#PictureManager.exiftool.executable" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the executable to run.</p>
 <p>If the executable is not located in one of the paths listed in the
-<tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable, the full path should be given here.</p>
+<code class="docutils literal"><span class="pre">PATH</span></code> environment variable, the full path should be given here.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="PictureManager.exiftool.fsencode">
-<tt class="descclassname">PictureManager.exiftool.</tt><tt class="descname">fsencode</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#PictureManager.exiftool.fsencode" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">PictureManager.exiftool.</code><code class="descname">fsencode</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#PictureManager.exiftool.fsencode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode filename to the filesystem encoding with &#8216;surrogateescape&#8217; error
 handler, return bytes unchanged. On Windows, use &#8216;strict&#8217; error handler if
 the file system encoding is &#8216;mbcs&#8217; (which is the default encoding).</p>
@@ -341,29 +348,29 @@ the file system encoding is &#8216;mbcs&#8217; (which is the default encoding).<
 <span id="picturemanager-picturemanager-module"></span><h2>4.3.2.3. PictureManager.pictureManager module<a class="headerlink" href="#module-PictureManager.pictureManager" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="PictureManager.pictureManager.MetaPictureModel">
-<em class="property">class </em><tt class="descclassname">PictureManager.pictureManager.</tt><tt class="descname">MetaPictureModel</tt><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#MetaPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.MetaPictureModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.pyqtWrapperType</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">Savable.Savable</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureManager.pictureManager.</code><code class="descname">MetaPictureModel</code><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#MetaPictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.MetaPictureModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.pyqtWrapperType</span></code>, <code class="xref py py-class docutils literal"><span class="pre">Savable.Savable</span></code></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="PictureManager.pictureManager.Picture">
-<em class="property">class </em><tt class="descclassname">PictureManager.pictureManager.</tt><tt class="descname">Picture</tt><big>(</big><em>resourcesPath</em>, <em>path</em>, <em>latitude</em>, <em>longitude</em>, <em>date=None</em>, <em>status=0</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureManager.pictureManager.</code><code class="descname">Picture</code><span class="sig-paren">(</span><em>resourcesPath</em>, <em>path</em>, <em>latitude</em>, <em>longitude</em>, <em>date=None</em>, <em>status=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A container used to store all data about a particular picture. It reflects an xml
 structure and is used to manipulate photos as dataModel along the use of the application</p>
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.Picture.circleColor">
-<tt class="descname">circleColor</tt><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture.circleColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture.circleColor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">circleColor</code><a class="headerlink" href="#PictureManager.pictureManager.Picture.circleColor" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.Picture.icon">
-<tt class="descname">icon</tt><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture.icon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture.icon" title="Permalink to this definition">¶</a></dt>
+<code class="descname">icon</code><a class="headerlink" href="#PictureManager.pictureManager.Picture.icon" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.Picture.serialize">
-<tt class="descname">serialize</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture.serialize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">serialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#Picture.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.Picture.serialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Serialize a Picture object.</p>
 </dd></dl>
 
@@ -371,286 +378,413 @@ structure and is used to manipulate photos as dataModel along the use of the app
 
 <dl class="class">
 <dt id="PictureManager.pictureManager.PictureManager">
-<em class="property">class </em><tt class="descclassname">PictureManager.pictureManager.</tt><tt class="descname">PictureManager</tt><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QSortFilterProxyModel</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureManager.pictureManager.</code><code class="descname">PictureManager</code><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QSortFilterProxyModel</span></code></p>
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.computeCenter">
-<tt class="descname">computeCenter</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.computeCenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.computeCenter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">computeCenter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.computeCenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.computeCenter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the coordinates of the center associated to all pictures</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>list&lt;float&gt;: The coordinates, latitude then longitude</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The coordinates, latitude then longitude</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list&lt;float&gt;</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.count">
-<tt class="descname">count</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.count" title="Permalink to this definition">¶</a></dt>
+<code class="descname">count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>An alias to be used in QML as a property. We can&#8221;t use the rowCount method
 as it should remain available inside the class.</p>
-<dl class="docutils">
-<dt>Returns: </dt>
-<dd>int: The number of element in the model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of element in the model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.deleteAll">
-<tt class="descname">deleteAll</tt><big>(</big><em>rows</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.deleteAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.deleteAll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deleteAll</code><span class="sig-paren">(</span><em>rows</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.deleteAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.deleteAll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove pictures from the model</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rows</strong> (<em>list&lt;QModelIndex&gt;</em>) &#8211; The related rows in the proxy model</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.discardAll">
-<tt class="descname">discardAll</tt><big>(</big><em>rows</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.discardAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.discardAll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">discardAll</code><span class="sig-paren">(</span><em>rows</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.discardAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.discardAll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of pictures to DISCARDED or THUMBNAIL_DISCARDED</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rows</strong> (<em>list&lt;QModelIndex&gt;</em>) &#8211; The related rows in the proxy model</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.getName">
-<tt class="descname">getName</tt><big>(</big><em>index</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.getName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getName</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.getName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.move">
-<tt class="descname">move</tt><big>(</big><em>initRow</em>, <em>finalRow</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.move" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move a row from an index to another. Exactly, put initRow after 
+<code class="descname">move</code><span class="sig-paren">(</span><em>initRow</em>, <em>finalRow</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move a row from an index to another. Exactly, put initRow after
 finalRow if moving up to down, and before finalRow if moving down to up</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>initRow   (QModelIndex): The starting index
-finalRow  (QModelIndex): The final index</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>initRow</strong> (<em>QModelIndex</em>) &#8211; The starting index</li>
+<li><strong>finalRow</strong> (<em>QModelIndex</em>) &#8211; The final index</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureManager.renewAll">
-<tt class="descname">renewAll</tt><big>(</big><em>rows</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.renewAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.renewAll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">renewAll</code><span class="sig-paren">(</span><em>rows</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureManager.renewAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureManager.renewAll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the status of pictures DISCARDED, THUMBNAIL_DISCARDED or REJECTED to NEW</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>rows (list&lt;QModelIndex&gt;): The related rows in the proxy model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rows</strong> (<em>list&lt;QModelIndex&gt;</em>) &#8211; The related rows in the proxy model</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="PictureManager.pictureManager.PictureModel">
-<em class="property">class </em><tt class="descclassname">PictureManager.pictureManager.</tt><tt class="descname">PictureModel</tt><big>(</big><em>resourcesPath</em>, <em>listPictures=[]</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QAbstractListModel</span></tt></p>
-<p>Represent and handle a list of pictures as a ListModel. Directly implements 
+<em class="property">class </em><code class="descclassname">PictureManager.pictureManager.</code><code class="descname">PictureModel</code><span class="sig-paren">(</span><em>resourcesPath</em>, <em>listPictures=[]</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QAbstractListModel</span></code></p>
+<p>Represent and handle a list of pictures as a ListModel. Directly implements
 QAbstractListModel.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd>PATH_ROLE      (int): Role that handle the picture&#8217;s path name of an item
-NAME_ROLE      (int): Role that handle the picture&#8217;s name of an item
-DATE_ROLE      (int): Role that handle the picture&#8217;s date of creation 
-STATUS_ROLE    (int): Role that handle the picture&#8217;s status of an item
-ICON_ROLE      (int): Role that handle the picture&#8217;s icon of an item
-ITEM_ROLE      (int): Role related to the whole item / picture 
-LATITUDE_ROLE  (int): Role related to the latitude of an item
-LONGITUDE_ROLE (int): Roled related to the longitude of an item
-COLOR_ROLE     (int): Role that handle the color of an item on the map</dd>
-</dl>
 <dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.COLOR_ROLE">
-<tt class="descname">COLOR_ROLE</tt><em class="property"> = 264</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.COLOR_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.DATE_ROLE">
-<tt class="descname">DATE_ROLE</tt><em class="property"> = 259</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.DATE_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.ICON_ROLE">
-<tt class="descname">ICON_ROLE</tt><em class="property"> = 261</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.ICON_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.ITEM_ROLE">
-<tt class="descname">ITEM_ROLE</tt><em class="property"> = 306</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.ITEM_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.LATITUDE_ROLE">
-<tt class="descname">LATITUDE_ROLE</tt><em class="property"> = 262</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.LATITUDE_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.LONGITUDE_ROLE">
-<tt class="descname">LONGITUDE_ROLE</tt><em class="property"> = 263</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.LONGITUDE_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="PictureManager.pictureManager.PictureModel.PATH_ROLE">
+<code class="descname">PATH_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.PATH_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the picture&#8217;s path name of an item</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureModel.NAME_ROLE">
-<tt class="descname">NAME_ROLE</tt><em class="property"> = 258</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.NAME_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">NAME_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.NAME_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the picture&#8217;s name of an item</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="PictureManager.pictureManager.PictureModel.PATH_ROLE">
-<tt class="descname">PATH_ROLE</tt><em class="property"> = 257</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.PATH_ROLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="PictureManager.pictureManager.PictureModel.DATE_ROLE">
+<code class="descname">DATE_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.DATE_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the picture&#8217;s date of creation</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureModel.STATUS_ROLE">
-<tt class="descname">STATUS_ROLE</tt><em class="property"> = 260</em><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.STATUS_ROLE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">STATUS_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.STATUS_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the picture&#8217;s status of an item</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PictureManager.pictureManager.PictureModel.ICON_ROLE">
+<code class="descname">ICON_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.ICON_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the picture&#8217;s icon of an item</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PictureManager.pictureManager.PictureModel.ITEM_ROLE">
+<code class="descname">ITEM_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.ITEM_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role related to the whole item / picture</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PictureManager.pictureManager.PictureModel.LATITUDE_ROLE">
+<code class="descname">LATITUDE_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.LATITUDE_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role related to the latitude of an item</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PictureManager.pictureManager.PictureModel.LONGITUDE_ROLE">
+<code class="descname">LONGITUDE_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.LONGITUDE_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Roled related to the longitude of an item</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PictureManager.pictureManager.PictureModel.COLOR_ROLE">
+<code class="descname">COLOR_ROLE</code><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.COLOR_ROLE" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Role that handle the color of an item on the map</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">COLOR_ROLE</code><em class="property"> = 264</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">DATE_ROLE</code><em class="property"> = 259</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ICON_ROLE</code><em class="property"> = 261</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ITEM_ROLE</code><em class="property"> = 306</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LATITUDE_ROLE</code><em class="property"> = 262</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LONGITUDE_ROLE</code><em class="property"> = 263</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">NAME_ROLE</code><em class="property"> = 258</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">PATH_ROLE</code><em class="property"> = 257</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">STATUS_ROLE</code><em class="property"> = 260</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.add">
-<tt class="descname">add</tt><big>(</big><em>picture</em>, <em>index=None</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.add" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add</code><span class="sig-paren">(</span><em>picture</em>, <em>index=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a picture to the model</p>
 <p>picture &#8211; The picture to add
-index &#8211; The index where the picture should be inserted. If None, 
+index &#8211; The index where the picture should be inserted. If None,
 the picture will be appended at the end.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.data">
-<tt class="descname">data</tt><big>(</big><em>index</em>, <em>role=258</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">data</code><span class="sig-paren">(</span><em>index</em>, <em>role=258</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a piece of information from an item (a picture) of the model</p>
-<dl class="docutils">
-<dt>Args: </dt>
-<dd>index (int):  The index of the element
-role  (int):  The role of the element we are interested in</dd>
-<dt>Returns: </dt>
-<dd>QVariant: The requested element or data related to this element.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>index</strong> (<em>int</em>) &#8211; The index of the element</li>
+<li><strong>role</strong> (<em>int</em>) &#8211; The role of the element we are interested in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested element or data related to this element.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">QVariant</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="PictureManager.pictureManager.PictureModel.deserialize">
-<em class="property">static </em><tt class="descname">deserialize</tt><big>(</big><em>serial</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.deserialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.deserialize" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">deserialize</code><span class="sig-paren">(</span><em>serial</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.deserialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.deserialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recreate a pictureModel object from its serialization.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>serial (dict()): The serialized version of a pictureModel object.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>serial</strong> (<em>dict()</em>) &#8211; The serialized version of a pictureModel object.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.insertRow">
-<tt class="descname">insertRow</tt><big>(</big><em>row</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object at 0x7f146bcace48&gt;</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.insertRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.insertRow" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>An implementation of the parent method insertRow. It add an empty row at the given index
-See Qt Documentation for more details &lt;3. 
-Args:</p>
-<blockquote>
-<div>row     (int):  The index of tization between pictures. If more than one</div></blockquote>
-</div></blockquote>
-<dl class="docutils">
-<dt>index are supplied, the first he future row. If superior to model size, the row will be appended. </dt>
-<dd><blockquote class="first">
-<div>parent  (QModelIndex):  The parent index, always default in our case.</div></blockquote>
-<dl class="last docutils">
-<dt>Returns:</dt>
-<dd>bool: Return True if the row have been successfully inserted.</dd>
-</dl>
-</dd>
-</dl>
+<code class="descname">insertRow</code><span class="sig-paren">(</span><em>row</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.insertRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.insertRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>An implementation of the parent method insertRow. It add an empty row at the given index
+See Qt Documentation for more details &lt;3.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>row</strong> (<em>int</em>) &#8211; The index of tization between pictures. If more than one                    index are supplied, the first he future row. If superior to model size,                    the row will be appended.</li>
+<li><strong>parent</strong> (<em>QModelIndex</em>) &#8211; The parent index, always default in our case.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Return True if the row have been successfully inserted.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.instantiateManager">
-<tt class="descname">instantiateManager</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.instantiateManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.instantiateManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an instance of this model manager. The manager add an indirection 
+<code class="descname">instantiateManager</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.instantiateManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.instantiateManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instance of this model manager. The manager add an indirection
 that allow, for instance, filtering.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>PictureManager: The picture manager corresponding to that model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The picture manager corresponding to that model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#module-PictureManager" title="PictureManager">PictureManager</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="PictureManager.pictureManager.PictureModel.load">
-<em class="property">classmethod </em><tt class="descname">load</tt><big>(</big><em>base_path</em>, <em>file_name</em>, <em>object_class=None</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>base_path</em>, <em>file_name</em>, <em>object_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recreate a pictureModel object from a file.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>base_path (str): The path of the directory containing the file.
-file_name (str): The name of the file to load.
-object_class (class): The class of the object to recreate.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>base_path</strong> (<em>str</em>) &#8211; The path of the directory containing the file.</li>
+<li><strong>file_name</strong> (<em>str</em>) &#8211; The name of the file to load.</li>
+<li><strong>object_class</strong> (<em>class</em>) &#8211; The class of the object to recreate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.populate">
-<tt class="descname">populate</tt><big>(</big><em>picturesFiles</em>, <em>status=0</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.populate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.populate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">populate</code><span class="sig-paren">(</span><em>picturesFiles</em>, <em>status=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.populate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.populate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Populate the model, i.e. add instance of pictures element. Element are added
 with the status &#8220;NEW&#8221;</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>picturesFiles   (list&lt;str&gt;) : List of path to the different pictures
-status          (int) : The initial status to assign to the item</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>picturesFiles</strong> (<em>list&lt;str&gt;</em>) &#8211; List of path to the different pictures</li>
+<li><strong>status</strong> (<em>int</em>) &#8211; The initial status to assign to the item</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.printData">
-<tt class="descname">printData</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.printData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.printData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.printData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.printData" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.removeDiscardedThumbnails">
-<tt class="descname">removeDiscardedThumbnails</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeDiscardedThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeDiscardedThumbnails" title="Permalink to this definition">¶</a></dt>
+<code class="descname">removeDiscardedThumbnails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeDiscardedThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeDiscardedThumbnails" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.removeRow">
-<tt class="descname">removeRow</tt><big>(</big><em>row</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object at 0x7f146bcacf28&gt;</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeRow" title="Permalink to this definition">¶</a></dt>
+<code class="descname">removeRow</code><span class="sig-paren">(</span><em>row</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeRow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a picture from the model</p>
 <p>row &#8211; The picture&#8221;s index</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.removeRows">
-<tt class="descname">removeRows</tt><big>(</big><em>row</em>, <em>count</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object at 0x7f146bcacdd8&gt;</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeRows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeRows" title="Permalink to this definition">¶</a></dt>
+<code class="descname">removeRows</code><span class="sig-paren">(</span><em>row</em>, <em>count</em>, <em>parent=&lt;PyQt5.QtCore.QModelIndex object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.removeRows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.removeRows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove contiguous pictures from the model</p>
-<dl class="docutils">
-<dt>Args</dt>
-<dd>row     (int)           : The first picture&#8217;s index
-count   (int)           : Number of picture to remove
-parent  (QModelIndex)   : The parent row</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>int</em>) &#8211; The first picture&#8217;s index</li>
+<li><strong>count</strong> (<em>int</em>) &#8211; Number of picture to remove</li>
+<li><strong>parent</strong> (<em>QModelIndex</em>) &#8211; The parent row</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.roleNames">
-<tt class="descname">roleNames</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.roleNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.roleNames" title="Permalink to this definition">¶</a></dt>
+<code class="descname">roleNames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.roleNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.roleNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>An accessor to roles names</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.rowCount">
-<tt class="descname">rowCount</tt><big>(</big><em>parent=&lt;PyQt5.QtCore.QModelIndex object at 0x7f146bcacf98&gt;</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.rowCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.rowCount" title="Permalink to this definition">¶</a></dt>
+<code class="descname">rowCount</code><span class="sig-paren">(</span><em>parent=&lt;PyQt5.QtCore.QModelIndex object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.rowCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.rowCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of element within that model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.save">
-<tt class="descname">save</tt><big>(</big><em>base_path</em>, <em>file_name</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>base_path</em>, <em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the object in the file system.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.serialize">
-<tt class="descname">serialize</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.serialize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">serialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.serialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.serialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Serialize a pictureModel object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.setData">
-<tt class="descname">setData</tt><big>(</big><em>index</em>, <em>value</em>, <em>role</em><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.setData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.setData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setData</code><span class="sig-paren">(</span><em>index</em>, <em>value</em>, <em>role</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.setData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.setData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a particular value in the data model using his role.</p>
 <p>index &#8211; The index of the related element
 value &#8211; The new value
@@ -659,60 +793,66 @@ role  &#8211; The related role</p>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.thumbnails">
-<tt class="descname">thumbnails</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.thumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.thumbnails" title="Permalink to this definition">¶</a></dt>
+<code class="descname">thumbnails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.thumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.thumbnails" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PictureManager.pictureManager.PictureModel.validFiles">
-<tt class="descname">validFiles</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.validFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.validFiles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">validFiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureModel.validFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureModel.validFiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all files that may be used for the reconstruction; i.e. with status :
 NEW or PROCESSED</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>list&lt;Picture&gt;: The list of all valid pictures in that model</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of all valid pictures in that model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list&lt;Picture&gt;</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="PictureManager.pictureManager.PictureState">
-<em class="property">class </em><tt class="descclassname">PictureManager.pictureManager.</tt><tt class="descname">PictureState</tt><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureManager.pictureManager.</code><code class="descname">PictureState</code><a class="reference internal" href="../../_modules/PictureManager/pictureManager.html#PictureState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureManager.pictureManager.PictureState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>An Enumeration to handle all different state in which a picture may be</p>
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.DISCARDED">
-<tt class="descname">DISCARDED</tt><em class="property"> = 6</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.DISCARDED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DISCARDED</code><em class="property"> = 6</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.DISCARDED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.NEW">
-<tt class="descname">NEW</tt><em class="property"> = 0</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.NEW" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NEW</code><em class="property"> = 0</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.NEW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.PROCESSED">
-<tt class="descname">PROCESSED</tt><em class="property"> = 3</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.PROCESSED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PROCESSED</code><em class="property"> = 3</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.PROCESSED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.RECONSTRUCTION">
-<tt class="descname">RECONSTRUCTION</tt><em class="property"> = 1</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.RECONSTRUCTION" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RECONSTRUCTION</code><em class="property"> = 1</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.RECONSTRUCTION" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.REJECTED">
-<tt class="descname">REJECTED</tt><em class="property"> = 2</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.REJECTED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">REJECTED</code><em class="property"> = 2</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.REJECTED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.THUMBNAIL">
-<tt class="descname">THUMBNAIL</tt><em class="property"> = 4</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.THUMBNAIL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">THUMBNAIL</code><em class="property"> = 4</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.THUMBNAIL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PictureManager.pictureManager.PictureState.THUMBNAIL_DISCARDED">
-<tt class="descname">THUMBNAIL_DISCARDED</tt><em class="property"> = 5</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.THUMBNAIL_DISCARDED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">THUMBNAIL_DISCARDED</code><em class="property"> = 5</em><a class="headerlink" href="#PictureManager.pictureManager.PictureState.THUMBNAIL_DISCARDED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -729,7 +869,7 @@ NEW or PROCESSED</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="WorkspaceManager.html" class="btn btn-neutral float-right" title="4.3.3. WorkspaceManager package"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="WorkspaceManager.html" class="btn btn-neutral float-right" title="4.3.3. WorkspaceManager package">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="PictureFetcher.html" class="btn btn-neutral" title="4.3.1. PictureFetcher package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -745,7 +885,8 @@ NEW or PROCESSED</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -770,7 +911,7 @@ NEW or PROCESSED</p>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -28,9 +28,11 @@
   
 
   
+
+  
     <link rel="top" title="MATRIX 0.1 documentation" href="../index.html"/>
         <link rel="up" title="3. Architecture of the Application" href="../architecture.html"/>
-        <link rel="next" title="3.2. The Model/View pattern" href="model_view.html"/>
+        <link rel="next" title="3.2. The model / view pattern" href="model_view.html"/>
         <link rel="prev" title="3. Architecture of the Application" href="../architecture.html"/> 
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+        
+          <a href="../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../architecture.html">3. Architecture of the Application</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -125,11 +132,42 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="global-architecture-of-the-application">
 <h1>3.1. Global architecture of the application<a class="headerlink" href="#global-architecture-of-the-application" title="Permalink to this headline">¶</a></h1>
-<p>Title self explanary (diagrams are welcomed).</p>
+<p>The application has been splitted into several independent modules. Before going further in the description of connections and contents of each modules, let&#8217;s define the concept of <em>module</em> in our case.</p>
+<div class="section" id="what-is-called-module">
+<h2>3.1.1. What is called module<a class="headerlink" href="#what-is-called-module" title="Permalink to this headline">¶</a></h2>
+<p>A <em>module</em> is related to a group of functions that are used to manipulate a specific entity. A module has no idea of the existence of other module and should never interact with another module directly. Instead of that, and thanks to the <a class="reference external" href="http://doc.qt.io/qt-5/signalsandslots.html">signals and slots system in Qt</a> which may be seen as an implementation of the <em>publisher / subscriber</em> pattern, each module can emit signals whenever it wants to transmit some pieces of information to an interested module. In the same way, module can have slots that allow them to receive data from elsewhere.</p>
+</div>
+<div class="section" id="connections-between-modules">
+<h2>3.1.2. Connections between modules<a class="headerlink" href="#connections-between-modules" title="Permalink to this headline">¶</a></h2>
+<p>With this architecture, it is necessary to create top-level components that handle all connections between signals and slots of modules we want to link. This top-level components is the only one that import and know each module of the final application. Thus, if a module has to change because of any updates, the other modules will not have to be impacted by thoses changes; the top-level component is in charge of adapting the way they are connected if necessary. Also, the top-level component is responsible for both instantiating each module and handling errors coming from them.</p>
+<p>On a first approach, we decided to only communicate with modules using signals and slots, and then, use the top-level component as a kind of big switchboard operator (like in 1950&#8217;s/1960&#8217;s) which may grab signals from one module, and dispatch them to other interested modules. However, there are some actions in the application that lead each time to identical successive calls to primary functions of several modules. Therefore, we&#8217;ve decided to use the top-level component to call directly functions of modules and transmit each result as parameters. Actually, signals and slots correspond to events and their handling. An event may require different actions on several modules. But, this actions are handled by the top-level component. The code below gives an overview of this principle (using the <a class="reference external" href="http://pyqt.sourceforge.net/Docs/PyQt5/introduction.html">PyQt5</a> Syntax):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@pyqtSlot</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">slot_launchReconstruction</span><span class="p">():</span>
+  <span class="n">intermediateResult</span> <span class="o">=</span> <span class="n">module1</span><span class="o">.</span><span class="n">function1</span><span class="p">()</span>
+  <span class="n">module2</span><span class="o">.</span><span class="n">function2</span><span class="p">(</span><span class="n">intermediateResult</span><span class="p">)</span>
+  <span class="n">module3</span><span class="o">.</span><span class="n">function3</span><span class="p">()</span>
+
+<span class="o">...</span>
+
+<span class="n">view</span><span class="o">.</span><span class="n">sig_launchReconstruction</span><span class="p">(</span><span class="n">slot_launchReconstruction</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In such a way, when the signal <strong>sig_launchReconstruction</strong> is emitted by an entity (for instance, a button pressed in the graphical interface), the corresponding slot will proceed and call functions to carry out the reconstruction.</p>
+</div>
+<div class="section" id="a-same-working-space">
+<h2>3.1.3. A same working space<a class="headerlink" href="#a-same-working-space" title="Permalink to this headline">¶</a></h2>
+<p>In order to simplify the manipulation of data within the application, we&#8217;ve decided that every pieces of data (photos, configuration files, exports and temporary files) will be placed under a same folder. This folder is called a <em>scene</em>. Then, as some parameters may be common to several scenes (that can be photos, or configs), all <em>scene</em> folders have been placed under a global parent folder called <em>workspace</em>. Then, it is possible for the user to create a <em>workspace</em> wherever he wants to but then, every single piece of data in that workspace should be manipulated by the application. A specific module in charge of those manipulations, the <em>workspace manager</em>, is detailed in the <a class="reference external" href="components_detail.html">Components Implementation</a> .</p>
+<a class="reference internal image-reference" href="../_images/schemaWorkspace.png"><img alt="../_images/schemaWorkspace.png" class="align-center" src="../_images/schemaWorkspace.png" style="width: 90%;" /></a>
+<p>To keep the same spirit as before, modules don&#8217;t have an idea of the structure of the workspace. That&#8217;s why, every module which want to export data in or grab data from the files system may require I/O paths as arguments. We also completly move aside the knowing of the workspace in a given module. The top-level component previously presented has therefore no idea of how the workspace is structured and may ask the <em>workspace manager</em> for any filepath.</p>
+</div>
+<div class="section" id="implementation-details">
+<h2>3.1.4. Implementation details<a class="headerlink" href="#implementation-details" title="Permalink to this headline">¶</a></h2>
+<p>In order to build the whole GUI, we have been using the <a class="reference external" href="http://doc.qt.io/qt-5/qtqml-index.html">QML</a> language to handle all displays and user interactions. Indeed, we follow here a <em>model / view pattern</em> (described in <a class="reference external" href="model_view.html">the next section</a>), where the view is also responsible for the user inputs.  Also, as we shared the whole application into several modules, the view will be splitted all the same into several little views called <em>Components</em>. The challenge here, is to make all modules and <em>Components</em> communicate to each other as they are written using different tools. On one side, we are using <a class="reference external" href="http://pyqt.sourceforge.net/Docs/PyQt5/introduction.html">PyQt5</a> which is a Python API that maps the existing C++ API <a class="reference external" href="http://www.qt.io/">Qt</a> used for graphical user interface purposes. On the other side, we are building the view using the QML language, which is part of the Qt API as well. In fact, Qt gives us the opportunity of making views using their declarative language, and also enable smart ways to communicate from these views to a model or at least, an operative and logic part of the application. This is possible via <em>Signals and Slots</em> described previously. For more details about the way is implemented the communication, please go ahead to <a class="reference external" href="model_view.html">the next section</a>.</p>
+</div>
 </div>
 
 
@@ -138,7 +176,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="model_view.html" class="btn btn-neutral float-right" title="3.2. The Model/View pattern"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="model_view.html" class="btn btn-neutral float-right" title="3.2. The model / view pattern">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../architecture.html" class="btn btn-neutral" title="3. Architecture of the Application"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -154,7 +192,8 @@
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -179,7 +218,7 @@
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

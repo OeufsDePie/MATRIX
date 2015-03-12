@@ -7,4 +7,3 @@ PyQt
    PictureFetcher
    PictureManager
    WorkspaceManager
-   test_workspace

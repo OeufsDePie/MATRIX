@@ -7,14 +7,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3.2. The Model/View pattern &mdash; MATRIX 0.1 documentation</title>
+  <title>3.2. The model / view pattern &mdash; MATRIX 0.1 documentation</title>
   
 
   
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+        
+          <a href="../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../architecture.html">3. Architecture of the Application</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -116,7 +123,7 @@
       
           <li><a href="../architecture.html">3. Architecture of the Application</a> &raquo;</li>
       
-    <li>3.2. The Model/View pattern</li>
+    <li>3.2. The model / view pattern</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="../_sources/architecture/model_view.txt" rel="nofollow"> View page source</a>
@@ -125,12 +132,28 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="the-model-view-pattern">
-<h1>3.2. The Model/View pattern<a class="headerlink" href="#the-model-view-pattern" title="Permalink to this headline">¶</a></h1>
-<p>Explain the model/view pattern of Qt and our repartition
-of models and views. (Diagram is welcomed).</p>
+<h1>3.2. The model / view pattern<a class="headerlink" href="#the-model-view-pattern" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general-principle">
+<h2>3.2.1. General principle<a class="headerlink" href="#general-principle" title="Permalink to this headline">¶</a></h2>
+<p>The <em>model / view pattern</em> is derived from the <em>model - view - controller</em> pattern tradionally used in web application and in a more general way, in any application that needs to keep a separated logic part. In our case, view and controller are gathered into what we called view. This pattern is then called <em>model / view</em> and is the one on which <a class="reference external" href="http://qt-project.org/doc/qt-4.8/model-view-programming.html">Qt</a>&#8216;s philosophy relies on.</p>
+<p>As the whole concept is well-explained in the Qt&#8217;s documentation, we will only gives here a small synthesis. The idea of this pattern is to shared components into two kinds of components, depending of their responsabilities; Components responsibles for rendering item and interacting with the user are in the view part. The other, responsible for storing and managing the data, they are called models. Once a view component catches an action from the user, it may either inform the model that it should update itself; either ask the model for some data to display.</p>
+<p>In most cases,  models may exists and be used without a view. The view is only there to translate user action into concrete models calls. It is a convenient way for a user to manipulate the data whereas it is a convenient way for the programmer to supply and store the same data.</p>
+</div>
+<div class="section" id="matrix-model-view-implementation">
+<h2>3.2.2. MATRIX model / view implementation<a class="headerlink" href="#matrix-model-view-implementation" title="Permalink to this headline">¶</a></h2>
+<p>In the application, we followed and implemented the <em>model / view</em> pattern. As it has been said <a class="reference external" href="components_global.html">before</a>, all view parts have been written using <a class="reference external" href="http://doc.qt.io/qt-5/qtqml-index.html">QML</a> while models rely on Python and <a class="reference external" href="http://pyqt.sourceforge.net/Docs/PyQt5/introduction.html">PyQt5</a>. Beside, in the python&#8217;s side, models live alongside other modules that are just interface to library or external ressources (for instance, the module who&#8217;s handling <a class="reference external" href="http://gphoto.sourceforge.net/">gphoto2</a> doesn&#8217;t define any model. It acts like a façade and offer control operations on a Camera). That&#8217;s why, in order to manage all those modules, there is a top-level component called the <em>Orchestrator</em> in the Python&#8217;s side. This is rigorously the same in the QML&#8217;s side; Components may be seen as independant entities, all orchestrated by a top-level view called the <em>MainWindow</em>. As both side rely on the same philosophy, we&#8217;ll describe only the Python&#8217;s side and admit that things are transposable to the QML&#8217;s side.</p>
+<a class="reference internal image-reference" href="../_images/schemaArchitecture.png"><img alt="../_images/schemaArchitecture.png" class="align-center" src="../_images/schemaArchitecture.png" style="width: 80%;" /></a>
+<p>The Orchestrator&#8217;s role is quite straightforward : it instantiates each module, instantiates the view, and watches for signals emitted either by modules, or either by the view. When a signal is catched, there are then two different strategies :</p>
+<ul class="simple">
+<li>Directly connect the signal to a corresponding slot</li>
+<li>Define a specific slot to handle the signal</li>
+</ul>
+<p>In fact, we use the second case when the signal can&#8217;t be connected directly because it involves several modules and/or models. The Orchestrator is then responsible for executing each action necessary to perform the global action required by the signal. It is common in our application that the orchestrator emits at the end a new signal toward the view to inform it that the action has been performed successfully.</p>
+<p>As a matter of fact, communications between the QML&#8217;s side and the Python&#8217;s side are made only (or at least, mainly) between the Orchestrator and the Mainwindow. To be totally exact, actions that only require to retrieve data from a model corresponds to direct model method calls in QML. Thus some models (for instance, the <em>pictureModel</em>) define internal slots that are never used by the Orchestrator, but corresponds to callable functions in QML. Moreover, <a class="reference external" href="http://pyqt.sourceforge.net/Docs/PyQt5/introduction.html">PyQt5</a> doesn&#8217;t make any distinction between <em>INVOKABLE methods</em> and <em>SLOTS</em> from the Qt framework. That&#8217;s why some slots special slots are necessary, but they should only be defined on models and models items and only on accessors. All other requests from the view should be transmitted to the MainWindow which will either handle it locally, or either transmit it to the Orchestrator.</p>
+</div>
 </div>
 
 
@@ -139,7 +162,7 @@ of models and views. (Diagram is welcomed).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="components_detail.html" class="btn btn-neutral float-right" title="3.3. Components implementation"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="components_detail.html" class="btn btn-neutral float-right" title="3.3. Components implementation">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="components_global.html" class="btn btn-neutral" title="3.1. Global architecture of the application"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -155,7 +178,8 @@ of models and views. (Diagram is welcomed).</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -180,7 +204,7 @@ of models and views. (Diagram is welcomed).</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

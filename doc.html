@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -28,8 +28,10 @@
   
 
   
+
+  
     <link rel="top" title="MATRIX 0.1 documentation" href="index.html"/>
-        <link rel="prev" title="4.3.4. test_workspace module" href="code/PyQt/test_workspace.html"/> 
+        <link rel="prev" title="4.3.3. WorkspaceManager package" href="code/PyQt/WorkspaceManager.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -43,9 +45,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+        
+          <a href="index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -55,8 +60,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="context.html#current-solution">1.2. Current solution</a></li>
@@ -73,7 +79,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -91,6 +97,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -121,7 +128,7 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="building-that-documentation">
 <h1>5. Building that Documentation<a class="headerlink" href="#building-that-documentation" title="Permalink to this headline">¶</a></h1>
@@ -149,13 +156,13 @@ The simplest way is to use Python package manager (<a class="reference external"
 <div class="admonition attention">
 <p class="first admonition-title">Attention</p>
 <p class="last">If you use some Ubuntu derived distribution,
-you might need to use <tt class="docutils literal"><span class="pre">pip3</span></tt> instead of <tt class="docutils literal"><span class="pre">pip</span></tt>.</p>
+you might need to use <code class="docutils literal"><span class="pre">pip3</span></code> instead of <code class="docutils literal"><span class="pre">pip</span></code>.</p>
 </div>
 </div>
 <div class="section" id="initialize-the-documentation">
 <h2>5.2. Initialize the documentation<a class="headerlink" href="#initialize-the-documentation" title="Permalink to this headline">¶</a></h2>
-<p>Sources of the documentation will reside in the <tt class="docutils literal"><span class="pre">docs</span></tt> folder.
-Use the <tt class="docutils literal"><span class="pre">sphinx-quickstart</span></tt> command to start the documentation :</p>
+<p>Sources of the documentation will reside in the <code class="docutils literal"><span class="pre">docs</span></code> folder.
+Use the <code class="docutils literal"><span class="pre">sphinx-quickstart</span></code> command to start the documentation :</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mkdir docs
 <span class="nv">$ </span><span class="nb">cd </span>docs/
 <span class="nv">$ </span>sphinx-quickstart
@@ -168,15 +175,15 @@ Use the <tt class="docutils literal"><span class="pre">sphinx-quickstart</span><
 </pre></div>
 </div>
 <p>At the end of the script, Sphinx configuration has been initialized.
-It has setup 2 folders : <tt class="docutils literal"><span class="pre">build</span></tt> and <tt class="docutils literal"><span class="pre">source</span></tt>.
-It also created a <tt class="docutils literal"><span class="pre">Makefile</span></tt> allowing to easily build the doc with commands such as :</p>
+It has setup 2 folders : <code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">source</span></code>.
+It also created a <code class="docutils literal"><span class="pre">Makefile</span></code> allowing to easily build the doc with commands such as :</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>make html
 </pre></div>
 </div>
 </div>
 <div class="section" id="configuration-of-sphinx-documentation">
 <h2>5.3. Configuration of Sphinx documentation<a class="headerlink" href="#configuration-of-sphinx-documentation" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">sphinx-quickstart</span></tt> script generated files allowing us to configure Sphinx.
+<p>The <code class="docutils literal"><span class="pre">sphinx-quickstart</span></code> script generated files allowing us to configure Sphinx.
 Here are some additional information to setup your documentation.</p>
 <div class="section" id="host-your-documentation-on-github">
 <h3>5.3.1. Host your documentation on Github<a class="headerlink" href="#host-your-documentation-on-github" title="Permalink to this headline">¶</a></h3>
@@ -185,7 +192,7 @@ on the Github pages of your repository.
 See <a class="reference external" href="https://help.github.com/articles/what-are-github-pages/">https://help.github.com/articles/what-are-github-pages/</a>
 for more explanations on it.</p>
 <p>To activate the Github pages of your repository you only have to
-create a new branch called <tt class="docutils literal"><span class="pre">gh-pages</span></tt> and to push it on origin.</p>
+create a new branch called <code class="docutils literal"><span class="pre">gh-pages</span></code> and to push it on origin.</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span>git checkout --orphan gh-pages
 <span class="nv">$ </span>git rm -rf .
 <span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;My page&quot;</span> &gt; index.html
@@ -197,16 +204,16 @@ create a new branch called <tt class="docutils literal"><span class="pre">gh-pag
 </div>
 <div class="section" id="configure-html-build">
 <h3>5.3.2. Configure HTML build<a class="headerlink" href="#configure-html-build" title="Permalink to this headline">¶</a></h3>
-<p>In practice we need to build into the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.
-But it is not immediatly possible since we are not <tt class="docutils literal"><span class="pre">gh-pages</span></tt>
+<p>In practice we need to build into the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.
+But it is not immediatly possible since we are not <code class="docutils literal"><span class="pre">gh-pages</span></code>
 branch when compiling.</p>
 <p>The easiest solution according to me is to have 2 folders.
 One with the standard repository,
-and the other one with only the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch
+and the other one with only the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch
 (so it is lightweight) of the same repository.
 Then you only have to configure your Sphinx build so that
 it builds into the folder containing the repository
-on the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.</p>
+on the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.</p>
 <p>Example for creating the second folder :</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">pwd</span>
 /home/......../MATRIX
@@ -216,7 +223,7 @@ on the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branc
 <span class="nv">$ </span>git clone -b gh-pages --single-branch git@github.com:mpizenberg/MATRIX.git .
 </pre></div>
 </div>
-<p>Now we just need to modify the make file <tt class="docutils literal"><span class="pre">MATRIX/docs/Makefile</span></tt> :</p>
+<p>Now we just need to modify the make file <code class="docutils literal"><span class="pre">MATRIX/docs/Makefile</span></code> :</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">BUILDDIR</span> <span class="o">=</span> ../../MATRIX_gh-pages
 
 <span class="nf">html</span><span class="o">:</span>
@@ -230,17 +237,17 @@ on the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branc
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install sphinx_rtd_theme
 </pre></div>
 </div>
-<p>Then in the file <tt class="docutils literal"><span class="pre">conf.py</span></tt> :</p>
+<p>Then in the file <code class="docutils literal"><span class="pre">conf.py</span></code> :</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sphinx_rtd_theme</span>
 <span class="n">html_theme</span> <span class="o">=</span> <span class="s">&quot;sphinx_rtd_theme&quot;</span>
 <span class="n">html_theme_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">sphinx_rtd_theme</span><span class="o">.</span><span class="n">get_html_theme_path</span><span class="p">()]</span>
 </pre></div>
 </div>
 <p>Once it is installed, there is one last manipulation.
-You have to add an empty file entitled <tt class="docutils literal"><span class="pre">.nojekyll</span></tt>
-in the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.
+You have to add an empty file entitled <code class="docutils literal"><span class="pre">.nojekyll</span></code>
+in the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.
 Otherwise Github will ignore folders starting with <cite>_</cite>.
-It would be a problem since the folder <tt class="docutils literal"><span class="pre">_static</span></tt> contains
+It would be a problem since the folder <code class="docutils literal"><span class="pre">_static</span></code> contains
 CSS styles and images needed for the theme.</p>
 </div>
 </div>
@@ -253,7 +260,7 @@ CSS styles and images needed for the theme.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="code/PyQt/test_workspace.html" class="btn btn-neutral" title="4.3.4. test_workspace module"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="code/PyQt/WorkspaceManager.html" class="btn btn-neutral" title="4.3.3. WorkspaceManager package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -266,7 +273,8 @@ CSS styles and images needed for the theme.</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -291,7 +299,7 @@ CSS styles and images needed for the theme.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+        
+          <a href="../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">3. Architecture of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../architecture/components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -127,82 +134,94 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="module-orchestratorSlots">
 <span id="orchestratorslots-module"></span><h1>4.1.2. orchestratorSlots module<a class="headerlink" href="#module-orchestratorSlots" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="orchestratorSlots.OrchestratorSlots">
-<em class="property">class </em><tt class="descclassname">orchestratorSlots.</tt><tt class="descname">OrchestratorSlots</tt><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></tt></p>
+<em class="property">class </em><code class="descclassname">orchestratorSlots.</code><code class="descname">OrchestratorSlots</code><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></code></p>
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.cameraConnection">
-<tt class="descname">cameraConnection</tt><big>(</big><em>isConnected</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.cameraConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.cameraConnection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cameraConnection</code><span class="sig-paren">(</span><em>isConnected</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.cameraConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.cameraConnection" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.change_scene">
-<tt class="descname">change_scene</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.change_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.change_scene" title="Permalink to this definition">¶</a></dt>
+<code class="descname">change_scene</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.change_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.change_scene" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.change_workspace">
-<tt class="descname">change_workspace</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.change_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.change_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">change_workspace</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.change_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.change_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.close_workspace">
-<tt class="descname">close_workspace</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.close_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.close_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">close_workspace</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.close_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.close_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.confirmThumbnails">
-<tt class="descname">confirmThumbnails</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.confirmThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.confirmThumbnails" title="Permalink to this definition">¶</a></dt>
+<code class="descname">confirmThumbnails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.confirmThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.confirmThumbnails" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.deletePictures">
-<tt class="descname">deletePictures</tt><big>(</big><em>indexes</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.deletePictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.deletePictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deletePictures</code><span class="sig-paren">(</span><em>indexes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.deletePictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.deletePictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>A slot that handle picture deleting</p>
-<dl class="docutils">
-<dt>Args: </dt>
-<dd>indexes (list&lt;QVariant&gt;): Indexes of pictures to delete</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>indexes</strong> (<em>list&lt;QVariant&gt;</em>) &#8211; Indexes of pictures to delete</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.delete_scene">
-<tt class="descname">delete_scene</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.delete_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.delete_scene" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_scene</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.delete_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.delete_scene" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.delete_workspace">
-<tt class="descname">delete_workspace</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.delete_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_workspace</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.delete_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.discardPictures">
-<tt class="descname">discardPictures</tt><big>(</big><em>indexes</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.discardPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.discardPictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">discardPictures</code><span class="sig-paren">(</span><em>indexes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.discardPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.discardPictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>A slot that handle picture discarding</p>
-<dl class="docutils">
-<dt>Args: </dt>
-<dd>indexes (list&lt;QVariant&gt;): Indexes of pictures to discard</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>indexes</strong> (<em>list&lt;QVariant&gt;</em>) &#8211; Indexes of pictures to discard</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.filterPictures">
-<tt class="descname">filterPictures</tt><big>(</big><em>status</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.filterPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.filterPictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">filterPictures</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.filterPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.filterPictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>A slot that handle filtering within pictures</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>status  (int):  The status that should be filtered, according to PictureState</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>status</strong> (<em>int</em>) &#8211; The status that should be filtered, according to PictureState</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.importPictures">
-<tt class="descname">importPictures</tt><big>(</big><em>picturesFiles</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.importPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.importPictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">importPictures</code><span class="sig-paren">(</span><em>picturesFiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.importPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.importPictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>A slot that handle the picture import from a camera</p>
 <p>Args:
 picturesFiles (list&lt;QUrl&gt;): The list of pictures to be imported</p>
@@ -210,19 +229,19 @@ picturesFiles (list&lt;QUrl&gt;): The list of pictures to be imported</p>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.importThumbnails">
-<tt class="descname">importThumbnails</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.importThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.importThumbnails" title="Permalink to this definition">¶</a></dt>
+<code class="descname">importThumbnails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.importThumbnails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.importThumbnails" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.launchReconstruction">
-<tt class="descname">launchReconstruction</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.launchReconstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.launchReconstruction" title="Permalink to this definition">¶</a></dt>
+<code class="descname">launchReconstruction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.launchReconstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.launchReconstruction" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.movePictures">
-<tt class="descname">movePictures</tt><big>(</big><em>indexes</em>, <em>startIndexTo</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.movePictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.movePictures" title="Permalink to this definition">¶</a></dt>
-<dd><p>A slot that handle the reorganization between pictures. If more than one 
-index are supplied, the first pictures selected will be moved at indexTo, 
+<code class="descname">movePictures</code><span class="sig-paren">(</span><em>indexes</em>, <em>startIndexTo</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.movePictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.movePictures" title="Permalink to this definition">¶</a></dt>
+<dd><p>A slot that handle the reorganization between pictures. If more than one
+index are supplied, the first pictures selected will be moved at indexTo,
 and the other will be appended</p>
 <p>Args:
 indexes (list&lt;int&gt;):  Indexes to be moved
@@ -231,63 +250,67 @@ startIndexTo   (int):  The destination start index of all pictures</p>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.newPictures">
-<tt class="descname">newPictures</tt><big>(</big><em>newPictures</em>, <em>deletedPictures</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.newPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.newPictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">newPictures</code><span class="sig-paren">(</span><em>newPictures</em>, <em>deletedPictures</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.newPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.newPictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle an update from the camera to manage new or deleted pictures.</p>
 <p>Args:
 newPictures (list&lt;str&gt;): A list of newly found pictures
-deletedPictures (list&lt;str&gt;): A list of all previously existing pictures 
+deletedPictures (list&lt;str&gt;): A list of all previously existing pictures
 now deleted by user</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.new_scene">
-<tt class="descname">new_scene</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.new_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.new_scene" title="Permalink to this definition">¶</a></dt>
+<code class="descname">new_scene</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.new_scene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.new_scene" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.new_workspace">
-<tt class="descname">new_workspace</tt><big>(</big><em>name</em>, <em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.new_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.new_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">new_workspace</code><span class="sig-paren">(</span><em>name</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.new_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.new_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="orchestratorSlots.OrchestratorSlots.onCameraConnection">
-<tt class="descname">onCameraConnection</tt><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.onCameraConnection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">onCameraConnection</code><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.onCameraConnection" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.open_workspace">
-<tt class="descname">open_workspace</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.open_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.open_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">open_workspace</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.open_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.open_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="orchestratorSlots.OrchestratorSlots.picturesUpdated">
-<tt class="descname">picturesUpdated</tt><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.picturesUpdated" title="Permalink to this definition">¶</a></dt>
+<code class="descname">picturesUpdated</code><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.picturesUpdated" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="orchestratorSlots.OrchestratorSlots.reconstructionChanged">
-<tt class="descname">reconstructionChanged</tt><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.reconstructionChanged" title="Permalink to this definition">¶</a></dt>
+<code class="descname">reconstructionChanged</code><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.reconstructionChanged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.renewPictures">
-<tt class="descname">renewPictures</tt><big>(</big><em>indexes</em><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.renewPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.renewPictures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">renewPictures</code><span class="sig-paren">(</span><em>indexes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.renewPictures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.renewPictures" title="Permalink to this definition">¶</a></dt>
 <dd><p>A slot that handle picture renewing, i.e, that allow rejected or
 discarded pictures to be used again</p>
-<dl class="docutils">
-<dt>Args: </dt>
-<dd>indexes (list&lt;QVariant&gt;): Indexes of pictures to renew</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>indexes</strong> (<em>list&lt;QVariant&gt;</em>) &#8211; Indexes of pictures to renew</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="orchestratorSlots.OrchestratorSlots.save_workspace">
-<tt class="descname">save_workspace</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.save_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.save_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_workspace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/orchestratorSlots.html#OrchestratorSlots.save_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.save_workspace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="orchestratorSlots.OrchestratorSlots.workspaceAvailable">
-<tt class="descname">workspaceAvailable</tt><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.workspaceAvailable" title="Permalink to this definition">¶</a></dt>
+<code class="descname">workspaceAvailable</code><a class="headerlink" href="#orchestratorSlots.OrchestratorSlots.workspaceAvailable" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -300,7 +323,7 @@ discarded pictures to be used again</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Python/modules.html" class="btn btn-neutral float-right" title="4.2. Python"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Python/modules.html" class="btn btn-neutral float-right" title="4.2. Python">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="orchestrator.html" class="btn btn-neutral" title="4.1.1. orchestrator module"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -316,7 +339,8 @@ discarded pictures to be used again</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -341,7 +365,7 @@ discarded pictures to be used again</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -20,6 +20,14 @@ I have that error :
 
    Could not import extension sphinx.ext.napoleon (exception: No module named 'sphinx.ext.napoleon')
 
+.. note::
+
+   Problem solved by updating Sphinx from 1.2.3 to 1.3 with ::
+
+      sudo pip install sphinx --upgrade
+
+   But still some errors and warnings to deal with
+
 .. toctree::
    :maxdepth: 2
    :glob:

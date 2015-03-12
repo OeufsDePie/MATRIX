@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+        
+          <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -127,7 +134,7 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="picture-fetcher">
 <h1><a class="toc-backref" href="#id1">3.3.1. Picture Fetcher</a><a class="headerlink" href="#picture-fetcher" title="Permalink to this headline">¶</a></h1>
@@ -135,27 +142,27 @@
 <p class="topic-title first">Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#picture-fetcher" id="id1">Picture Fetcher</a><ul>
-<li><a class="reference internal" href="#interface-with-the-gphoto2-command-line-interface" id="id2">Interface with the <tt class="docutils literal"><span class="pre">gphoto2</span></tt> command-line interface</a></li>
+<li><a class="reference internal" href="#interface-with-the-gphoto2-command-line-interface" id="id2">Interface with the <code class="docutils literal"><span class="pre">gphoto2</span></code> command-line interface</a></li>
 <li><a class="reference internal" href="#active-watching-of-the-camera" id="id3">Active watching of the camera</a></li>
 <li><a class="reference internal" href="#camera-locking" id="id4">Camera locking</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<p>This module is made of a single class <tt class="docutils literal"><span class="pre">Pygphoto</span></tt> defined in the file
+<p>This module is made of a single class <code class="docutils literal"><span class="pre">Pygphoto</span></code> defined in the file
 <a class="reference external" href="http://example.com/">pygphoto.py</a>. It allows to interact with a USB camera using the
 <a class="reference external" href="http://www.gphoto.org/">gphoto2</a> tool. Common actions include : listing the names of the
 photos present in the camera, watching for new files, downloading
 photos individually etc.</p>
 <div class="section" id="interface-with-the-gphoto2-command-line-interface">
-<h2><a class="toc-backref" href="#id2">3.3.1.1. Interface with the <tt class="docutils literal"><span class="pre">gphoto2</span></tt> command-line interface</a><a class="headerlink" href="#interface-with-the-gphoto2-command-line-interface" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">3.3.1.1. Interface with the <code class="docutils literal"><span class="pre">gphoto2</span></code> command-line interface</a><a class="headerlink" href="#interface-with-the-gphoto2-command-line-interface" title="Permalink to this headline">¶</a></h2>
 <p>The module uses directly the <a class="reference external" href="http://www.gphoto.org/doc/manual/ref-gphoto2-cli.html">gphoto2 command-line interface</a> for
 prototyping. It would be wiser to create a <cite>C</cite> module that uses the
-<tt class="docutils literal"><span class="pre">C</span></tt> API of gphoto2 called <a class="reference external" href="http://gphoto.sourceforge.net/doc/api/index.html">libgphoto2</a> and offer a interface for all
+<code class="docutils literal"><span class="pre">C</span></code> API of gphoto2 called <a class="reference external" href="http://gphoto.sourceforge.net/doc/api/index.html">libgphoto2</a> and offer a interface for all
 the needed operations. This <cite>C</cite> module would be compiled as a shared
 library and imported in Python with <a class="reference external" href="http://docs.python.org/3/library/ctypes.html">ctypes</a>.</p>
 <p>However, the current implementation makes extended use of the
-command-line interface provided by <tt class="docutils literal"><span class="pre">gphoto2</span></tt>, through hardcoded calls
+command-line interface provided by <code class="docutils literal"><span class="pre">gphoto2</span></code>, through hardcoded calls
 and output parsing.</p>
 <p>The calls to gphoto2 are made with the <a class="reference external" href="http://docs.python.org/3.4/library/subprocess.html">subprocess</a> Python module.</p>
 <p>Simple calls are done like so:</p>
@@ -164,7 +171,7 @@ and output parsing.</p>
 </pre></div>
 </div>
 <p>When the output need to be parsed, it is necessary to use the blocking
-<tt class="docutils literal"><span class="pre">subprocess.check_output()</span></tt> function and to decode the binary stream
+<code class="docutils literal"><span class="pre">subprocess.check_output()</span></code> function and to decode the binary stream
 as an UTF-8 string:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;gphoto2&quot;</span><span class="p">,</span> <span class="s">&quot;--summary&quot;</span><span class="p">]</span>
 <span class="n">output_string</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
@@ -173,20 +180,20 @@ as an UTF-8 string:</p>
 </div>
 <div class="section" id="active-watching-of-the-camera">
 <h2><a class="toc-backref" href="#id3">3.3.1.2. Active watching of the camera</a><a class="headerlink" href="#active-watching-of-the-camera" title="Permalink to this headline">¶</a></h2>
-<p>When instantiated, the <tt class="docutils literal"><span class="pre">Pygphoto</span></tt> class create a daemon thread that
+<p>When instantiated, the <code class="docutils literal"><span class="pre">Pygphoto</span></code> class create a daemon thread that
 actively watch for new camera connections/disconnections and pictures
-creation/deletion. The two associated signals <tt class="docutils literal"><span class="pre">onCameraConnection</span></tt> and
-<tt class="docutils literal"><span class="pre">onContentChanged</span></tt> are the only signals emitted by <tt class="docutils literal"><span class="pre">Pygphoto</span></tt>.</p>
-<p>The <tt class="docutils literal"><span class="pre">CameraWatcher</span></tt> internal class is responsible for the active
+creation/deletion. The two associated signals <code class="docutils literal"><span class="pre">onCameraConnection</span></code> and
+<code class="docutils literal"><span class="pre">onContentChanged</span></code> are the only signals emitted by <code class="docutils literal"><span class="pre">Pygphoto</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">CameraWatcher</span></code> internal class is responsible for the active
 watching. The threading is made by moving the instance of
-<tt class="docutils literal"><span class="pre">CameraWatcher</span></tt> to a <tt class="docutils literal"><span class="pre">QThread</span></tt> at initialisation. Using <tt class="docutils literal"><span class="pre">QThread</span></tt>
-allows for easy asynchronous communication with the <tt class="docutils literal"><span class="pre">CameraWatcher</span></tt>&#8216;s
+<code class="docutils literal"><span class="pre">CameraWatcher</span></code> to a <code class="docutils literal"><span class="pre">QThread</span></code> at initialisation. Using <code class="docutils literal"><span class="pre">QThread</span></code>
+allows for easy asynchronous communication with the <code class="docutils literal"><span class="pre">CameraWatcher</span></code>&#8216;s
 thread through the use of <cite>Qt</cite>&#8216;s signals.</p>
-<p><strong>Note</strong>: As the <tt class="docutils literal"><span class="pre">CameraWatcher</span></tt> class is internal, <tt class="docutils literal"><span class="pre">Pygphoto</span></tt>
-must forward every signals emitted by <tt class="docutils literal"><span class="pre">CameraWatcher</span></tt> to the
+<p><strong>Note</strong>: As the <code class="docutils literal"><span class="pre">CameraWatcher</span></code> class is internal, <code class="docutils literal"><span class="pre">Pygphoto</span></code>
+must forward every signals emitted by <code class="docutils literal"><span class="pre">CameraWatcher</span></code> to the
 exterior. The same goes for slots connections. As a consequence, every
-slot and signal of <tt class="docutils literal"><span class="pre">CameraWatcher</span></tt> is duplicated in the the parent
-<tt class="docutils literal"><span class="pre">Pygphoto</span></tt> class.</p>
+slot and signal of <code class="docutils literal"><span class="pre">CameraWatcher</span></code> is duplicated in the the parent
+<code class="docutils literal"><span class="pre">Pygphoto</span></code> class.</p>
 </div>
 <div class="section" id="camera-locking">
 <h2><a class="toc-backref" href="#id4">3.3.1.3. Camera locking</a><a class="headerlink" href="#camera-locking" title="Permalink to this headline">¶</a></h2>
@@ -200,9 +207,9 @@ An error occurred in the io-library (&#39;Could not lock the device&#39;): Camer
 <p>Sometimes it comes from other processes or daemons accessing the
 camera. We do not do anything about them and we did not explore this
 issue further. Sometimes, however, the lock comes from simultaneous
-calls to <tt class="docutils literal"><span class="pre">gphoto2</span></tt> made by the application. To avoid such problems, we
+calls to <code class="docutils literal"><span class="pre">gphoto2</span></code> made by the application. To avoid such problems, we
 use a <a class="reference external" href="http://docs.python.org/3.4/library/threading.html#threading.Lock">thread synchronization lock</a>
-every time we make a call to <tt class="docutils literal"><span class="pre">gphoto2</span></tt>:</p>
+every time we make a call to <code class="docutils literal"><span class="pre">gphoto2</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">Pygphoto</span><span class="o">.</span><span class="n">_GPHOTO</span><span class="p">,</span> <span class="s">&quot;--auto-detect&quot;</span><span class="p">]</span>
 <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_lock</span><span class="p">:</span>
@@ -211,9 +218,9 @@ every time we make a call to <tt class="docutils literal"><span class="pre">gpho
 <span class="c"># Continue working with output...</span>
 </pre></div>
 </div>
-<p>The lock is internal to the <tt class="docutils literal"><span class="pre">Pygphoto</span></tt> class, the only class that can
-make calls to <tt class="docutils literal"><span class="pre">gphoto2</span></tt>. The lock issue is thus hidden from the
-exterior. It is important to note that the <tt class="docutils literal"><span class="pre">Pygphoto</span></tt> class should not
+<p>The lock is internal to the <code class="docutils literal"><span class="pre">Pygphoto</span></code> class, the only class that can
+make calls to <code class="docutils literal"><span class="pre">gphoto2</span></code>. The lock issue is thus hidden from the
+exterior. It is important to note that the <code class="docutils literal"><span class="pre">Pygphoto</span></code> class should not
 be instantiated twice, and could actually be implemented as a
 singleton class.</p>
 </div>
@@ -225,7 +232,7 @@ singleton class.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../code.html" class="btn btn-neutral float-right" title="4. Code Documentation"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../../code.html" class="btn btn-neutral float-right" title="4. Code Documentation">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../components_detail.html" class="btn btn-neutral" title="3.3. Components implementation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -241,7 +248,8 @@ singleton class.</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -266,7 +274,7 @@ singleton class.</p>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -14,7 +14,7 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -25,6 +25,8 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
   
 
   
@@ -45,9 +47,12 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> MATRIX</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+        
+          <a href="../../index.html" class="fa fa-home"> MATRIX</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -57,8 +62,9 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
-        
-            <ul class="current">
+          
+          
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
@@ -75,7 +81,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">3. Architecture of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/components_global.html">3.1. Global architecture of the application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The Model/View pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/model_view.html">3.2. The model / view pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/components_detail.html">3.3. Components implementation</a></li>
 </ul>
 </li>
@@ -93,6 +99,7 @@
 </li>
 </ul>
 
+          
         
       </div>
       &nbsp;
@@ -127,7 +134,7 @@
   </ul>
   <hr/>
 </div>
-          <div role="main">
+          <div role="main" class="document">
             
   <div class="section" id="picturefetcher-package">
 <h1>4.3.1. PictureFetcher package<a class="headerlink" href="#picturefetcher-package" title="Permalink to this headline">¶</a></h1>
@@ -138,8 +145,8 @@
 <span id="picturefetcher-pygphoto-module"></span><h2>4.3.1.2. PictureFetcher.pygphoto module<a class="headerlink" href="#module-PictureFetcher.pygphoto" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="PictureFetcher.pygphoto.Pygphoto">
-<em class="property">class </em><tt class="descclassname">PictureFetcher.pygphoto.</tt><tt class="descname">Pygphoto</tt><big>(</big><em>watch_camera=False</em>, <em>watch_files=False</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></tt></p>
+<em class="property">class </em><code class="descclassname">PictureFetcher.pygphoto.</code><code class="descname">Pygphoto</code><span class="sig-paren">(</span><em>watch_camera=False</em>, <em>watch_files=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></code></p>
 <p>Allows simple operations on a USB connected camera by interfacing
 the gphoto2 command line tool.</p>
 <p>This class allows to interact with a USB camera. List the names of
@@ -148,31 +155,31 @@ eventually download the photos individually.  Needs a QApplication
 to be instantiated in order to watch properly for events.</p>
 <dl class="class">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher">
-<em class="property">class </em><tt class="descname">CameraWatcher</tt><big>(</big><em>pygphoto</em>, <em>watch_camera</em>, <em>watch_files</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></tt></p>
+<em class="property">class </em><code class="descname">CameraWatcher</code><span class="sig-paren">(</span><em>pygphoto</em>, <em>watch_camera</em>, <em>watch_files</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtCore.QObject</span></code></p>
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_camera">
-<tt class="descname">is_watching_camera</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.is_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_camera" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_watching_camera</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.is_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_camera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indicates whether the component is watching for presence of a connected
 camera.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_file">
-<tt class="descname">is_watching_file</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.is_watching_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_watching_file</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.is_watching_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.is_watching_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indicates whether the component is watching for changes in the camera
 filesystem.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onCameraConnection">
-<tt class="descname">onCameraConnection</tt><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onCameraConnection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">onCameraConnection</code><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onCameraConnection" title="Permalink to this definition">¶</a></dt>
 <dd><p>This signal indicates if a camera is connected</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onContentChanged">
-<tt class="descname">onContentChanged</tt><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onContentChanged" title="Permalink to this definition">¶</a></dt>
+<code class="descname">onContentChanged</code><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.onContentChanged" title="Permalink to this definition">¶</a></dt>
 <dd><p>When watching the camera for new files, emit this signal when there
 has been some changes in the camera filesystem. Arguments are
 the lists of new files and deleted files</p>
@@ -180,14 +187,14 @@ the lists of new files and deleted files</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_camera">
-<tt class="descname">set_watching_camera</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.set_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_camera" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_watching_camera</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.set_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_camera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set whether the component should watch for presence of a connected
 camera.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_files">
-<tt class="descname">set_watching_files</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.set_watching_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_files" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_watching_files</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.CameraWatcher.set_watching_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.CameraWatcher.set_watching_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set whether the component should watch for changes in the camera
 filesystem.</p>
 </dd></dl>
@@ -196,14 +203,14 @@ filesystem.</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.check_camera_connected">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">check_camera_connected</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.check_camera_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.check_camera_connected" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">check_camera_connected</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.check_camera_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.check_camera_connected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a camera is connected.</p>
 <p>Raises a CalledProcessError when gphoto2 raised an error.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.download_all">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">download_all</tt><big>(</big><em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_all" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">download_all</code><span class="sig-paren">(</span><em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download all the files present on the camera.</p>
 <p>Overwrites preexisting files. Faster than &#8216;download_files()&#8217;.
 Return the return code returned by the gphoto call</p>
@@ -211,7 +218,7 @@ Return the return code returned by the gphoto call</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.download_file">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">download_file</tt><big>(</big><em>filename</em>, <em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_file" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">download_file</code><span class="sig-paren">(</span><em>filename</em>, <em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download the file name &#8220;filename&#8221; and copy it to the given path.</p>
 <p>Returns 0 if succeeded. Else returns the error code returned by
 gphoto.</p>
@@ -219,7 +226,7 @@ gphoto.</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.download_files">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">download_files</tt><big>(</big><em>filename_list</em>, <em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_files" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">download_files</code><span class="sig-paren">(</span><em>filename_list</em>, <em>output_dir</em>, <em>overwrite=True</em>, <em>thumbnail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.download_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.download_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download the whole list of files to the ouput directory</p>
 <p>Return the paths list of downloaded files. This is equivalent
 to calling download_file on every file in the &#8220;filename_list&#8221;,
@@ -228,13 +235,13 @@ but should be faster for a large number of files.</p>
 
 <dl class="attribute">
 <dt id="PictureFetcher.pygphoto.Pygphoto.onCameraConnection">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">onCameraConnection</tt><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.onCameraConnection" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">onCameraConnection</code><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.onCameraConnection" title="Permalink to this definition">¶</a></dt>
 <dd><p>This signal indicates if a camera is connected</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="PictureFetcher.pygphoto.Pygphoto.onContentChanged">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">onContentChanged</tt><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.onContentChanged" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">onContentChanged</code><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.onContentChanged" title="Permalink to this definition">¶</a></dt>
 <dd><p>When watching the camera for new files, emit this signal when there
 has been some changes in the camera filesystem. Arguments are the
 lists of new files and deleted files</p>
@@ -242,13 +249,13 @@ lists of new files and deleted files</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.query_camera_name">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">query_camera_name</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_camera_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_camera_name" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">query_camera_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_camera_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_camera_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the camera name, or unknown.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.query_file_list">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">query_file_list</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_file_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_file_list" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">query_file_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_file_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_file_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate the list of filenames for all the files present on the
 first camera found by requesting directly the camera.</p>
 <p>Raises a CalledProcessError when gphoto2 raised an error.</p>
@@ -256,7 +263,7 @@ first camera found by requesting directly the camera.</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.query_storage_info">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">query_storage_info</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_storage_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_storage_info" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">query_storage_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.query_storage_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.query_storage_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a dict of values concerny memory usage {free, occupied,
 total} containing values in KB.</p>
 <p>Raises a CalledProcessError when gphoto2 raised an error.</p>
@@ -264,14 +271,14 @@ total} containing values in KB.</p>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.set_watching_camera">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">set_watching_camera</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.set_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.set_watching_camera" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">set_watching_camera</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.set_watching_camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.set_watching_camera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set whether the component should watch for presence of a connected
 camera.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="PictureFetcher.pygphoto.Pygphoto.set_watching_files">
-<tt class="descclassname">Pygphoto.</tt><tt class="descname">set_watching_files</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.set_watching_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.set_watching_files" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Pygphoto.</code><code class="descname">set_watching_files</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PictureFetcher/pygphoto.html#Pygphoto.set_watching_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PictureFetcher.pygphoto.Pygphoto.set_watching_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set whether the component should watch for changes in the camera
 filesystem.</p>
 </dd></dl>
@@ -290,7 +297,7 @@ filesystem.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PictureManager.html" class="btn btn-neutral float-right" title="4.3.2. PictureManager package"/>Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="PictureManager.html" class="btn btn-neutral float-right" title="4.3.2. PictureManager package">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="modules.html" class="btn btn-neutral" title="4.3. PyQt"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -306,7 +313,8 @@ filesystem.</p>
     </p>
   </div>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
 </footer>
         </div>
       </div>
@@ -331,7 +339,7 @@ filesystem.</p>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

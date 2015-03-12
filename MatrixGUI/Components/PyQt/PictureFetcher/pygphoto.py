@@ -19,6 +19,10 @@ class Pygphoto(QObject):
     eventually download the photos individually.  Needs a QApplication
     to be instantiated in order to watch properly for events.
 
+    Args:
+        watch_camera=False (bool): Should the daemon thread watch for camera connection.
+        watch_files=False  (bool): Should the daemon thread watch for files creation/deletion.
+
     """
     # Constants
     # Command lines string value
@@ -29,12 +33,13 @@ class Pygphoto(QObject):
 
     # Signals
     onCameraConnection = pyqtSignal(bool)
-    """This signal indicates if a camera is connected"""
+    """``pyqtSignal(bool)`` This signal indicates if a camera is connected."""
 
     onContentChanged = pyqtSignal(list, list)
-    """When watching the camera for new files, emit this signal when there
-    has been some changes in the camera filesystem. Arguments are the
-    lists of new files and deleted files
+    """``pyqtSignal(list, list)`` When watching the camera for new files,
+    emit this signal when there has been some changes in the camera
+    filesystem. Arguments are the lists of new files and deleted files
+
     """
 
     _onWatchCamera = pyqtSignal(bool)
@@ -54,7 +59,7 @@ class Pygphoto(QObject):
         # Create mutex for the camera
         self._camera_lock = threading.Lock()
         # Create an internal CameraWatcher
-        self._camera_watcher = Pygphoto.CameraWatcher(self, watch_camera, watch_files)
+        self._camera_watcher = Pygphoto._CameraWatcher(self, watch_camera, watch_files)
         # Connect watch file and watch camera signals
         self._onWatchFile.connect(self._camera_watcher.set_watching_files)
         self._onWatchCamera.connect(self._camera_watcher.set_watching_camera)
@@ -69,9 +74,13 @@ class Pygphoto(QObject):
         self._watcher_thread.start()
 
     def check_camera_connected(self):
-        """Check if a camera is connected.
+        """
+        Returns:
+            A boolean indicating the presence of a connected camera.
+        
+        Raises:
+            CalledProcessError: when gphoto2 raised an error.
 
-        Raises a CalledProcessError when gphoto2 raised an error.
         """
         # Try an auto-detect and see if there are results
         command = [Pygphoto._GPHOTO, "--auto-detect"]
@@ -85,9 +94,11 @@ class Pygphoto(QObject):
         return (len(lines) > 2)
 
     def query_camera_name(self):
-        """Return the camera name, or unknown.
         """
-        result = "Unknown"
+        Returns:
+            The camera model name, or None.
+        """
+        result = None
         model_string = "Model: "
         command = [Pygphoto._GPHOTO, "--summary"]
         try:
@@ -103,10 +114,13 @@ class Pygphoto(QObject):
         return result
 
     def query_storage_info(self):
-        """Return a dict of values concerny memory usage {free, occupied,
-        total} containing values in KB.
+        """
+        Returns: 
+            A dictionnary of values concerning memory usage {free, occupied,
+            total} containing values in KB.
 
-        Raises a CalledProcessError when gphoto2 raised an error.
+        Raises:
+           CalledProcessError: when gphoto2 raised an error.
 
         """
         def first_int(string):
@@ -129,8 +143,13 @@ class Pygphoto(QObject):
         return result
 
     def _filelist_to_dict(filenames_list):
-        """Convert a filename list to a dictionnary associating filenames
-        with their index.
+        """Convert a filename list to a dictionnary associating filenames with
+        their index.
+
+        Args:
+            filenames_list (list): The list of filenames.
+        Returns:
+            A dictionnary associating each filename with their original list index.
 
         """
         # Number each files, starting with 1
@@ -157,7 +176,10 @@ class Pygphoto(QObject):
         """Generate the list of filenames for all the files present on the
         first camera found by requesting directly the camera.
 
-        Raises a CalledProcessError when gphoto2 raised an error.
+        Returns:
+            The list of all filenames present on the camera.
+        Raises:
+            CalledProcessError: when gphoto2 raised an error.
 
         """
         retval = []  # Result list of filenames
@@ -179,9 +201,16 @@ class Pygphoto(QObject):
 
     def download_file(self, filename, output_dir, overwrite=True, thumbnail=False):
         """Download the file name "filename" and copy it to the given path.
-
-        Returns 0 if succeeded. Else returns the error code returned by
-        gphoto.
+        
+        Args:
+            filename (str): The name of the file to download.
+            output_dir (str): The directory where the files should be downloaded to.
+            overwrite=True (bool): If any existing file with the same name should be overwritten.
+            thumbnail=False (bool): Download the thumbnail instead of the file.
+        
+        Returns:
+            0 if succeeded. Else returns the error code returned by
+            gphoto.
 
         """
         # Check that the output dir is a valid directory
@@ -222,9 +251,18 @@ class Pygphoto(QObject):
     def download_files(self, filename_list, output_dir, overwrite=True, thumbnail=False):
         """Download the whole list of files to the ouput directory
 
-        Return the paths list of downloaded files. This is equivalent
-        to calling download_file on every file in the "filename_list",
-        but should be faster for a large number of files.
+        This is equivalent to calling download_file on every file in
+        the "filename_list", but should be faster for a large number
+        of files.
+
+        Args:
+            filename_list (list): The name list of files to download.
+            output_dir (str): The directory where the files should be downloaded to.
+            overwrite=True (bool): If any existing file with the same name should be overwritten.
+            thumbnail=False (bool): Download the thumbnail instead of the file.
+
+        Returns:
+            files_list (list): The paths list of all downloaded files.
 
         """
         # Check that the output dir is a valid directory
@@ -268,8 +306,14 @@ class Pygphoto(QObject):
         """Download all the files present on the camera.
 
         Overwrites preexisting files. Faster than 'download_files()'.
-        Return the return code returned by the gphoto call
+        
+        Args:
+            output_dir (str): The directory where the files should be downloaded to.
+            overwrite=True (bool): If any existing file with the same name should be overwritten.
+            thumbnail=False (bool): Download the thumbnail instead of the file.
 
+        Returns:
+            The return code returned by the gphoto2
         """
         # Check that the output dir is a valid directory
         assert(os.path.isdir(output_dir))
@@ -308,6 +352,9 @@ class Pygphoto(QObject):
         """Set whether the component should watch for changes in the camera
         filesystem.
 
+        Args:
+            value (bool): True for watching.
+
         """
         self._onWatchFile.emit(value)
 
@@ -316,11 +363,18 @@ class Pygphoto(QObject):
         """Set whether the component should watch for presence of a connected
         camera.
 
+        Args:
+            value (bool): True for watching.
         """
         self._onWatchCamera.emit(value)
 
-    class CameraWatcher(QObject):
+    class _CameraWatcher(QObject):
+        """Internal class responsible for active watching. The threading is
+        made by moving the instance of this class to a QThread. Using
+        QThread allows for easy asynchronous communication through the
+        use of Qt‘s signals and slots.
 
+        """
         # Signals
         onCameraConnection = pyqtSignal(bool)
         """This signal indicates if a camera is connected"""

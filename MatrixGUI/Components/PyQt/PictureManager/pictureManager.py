@@ -264,12 +264,12 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
 
     def __init__(self, resourcesPath, listPictures = [], parent = None):
         """ 
-          Initialize a picture model
-          
-          Args:
+        Initialize a picture model.
+
+        Args:
             resourcesPath (str): Path to the resources folder of the application. 
-            listPictures  (str): The list of pictures to use, could be empty and 
-                specified later
+            listPictures  (str): The list of pictures to use, could be empty and\
+                    specified later
             parent        (str): Parent Element; May remains None in our case
         """
         super(PictureModel, self).__init__(parent)
@@ -278,10 +278,10 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
 
     def instantiateManager(self):
         """
-          Create an instance of this model manager. The manager add an indirection 
-          that allow, for instance, filtering. 
+        Create an instance of this model manager. The manager add an indirection 
+        that allow, for instance, filtering. 
 
-          Returns:
+        Returns:
             PictureManager: The picture manager corresponding to that model
         """
         manager = PictureManager()
@@ -291,13 +291,16 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
 
     def insertRow(self, row, parent = QModelIndex()):
         """
-          An implementation of the parent method insertRow. It add an empty row at the given index
-          See Qt Documentation for more details <3. 
-          Args:
-            row     (int):  The index of tization between pictures. If more than one
-        index are supplied, the first he future row. If superior to model size, the row will be appended. 
-            parent  (QModelIndex):  The parent index, always default in our case.
-          Returns:
+        An implementation of the parent method insertRow. It add an empty row at the given index
+        See Qt Documentation for more details <3. 
+
+        Args:
+            row (int):  The index of tization between pictures. If more than one\
+                    index are supplied, the first he future row. If superior to model size,\
+                    the row will be appended. 
+            parent (QModelIndex):  The parent index, always default in our case.
+
+        Returns:
             bool: Return True if the row have been successfully inserted.
         """
         self.beginInsertRows(QModelIndex(), row, row)
@@ -307,12 +310,13 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
 
     def data(self, index, role = NAME_ROLE):
         """
-          Retrieve a piece of information from an item (a picture) of the model
+        Retrieve a piece of information from an item (a picture) of the model
 
-          Args: 
+        Args: 
             index (int):  The index of the element
             role  (int):  The role of the element we are interested in
-          Returns: 
+
+        Returns: 
             QVariant: The requested element or data related to this element. 
         """
         # Ensure the index
@@ -336,17 +340,17 @@ class PictureModel(QAbstractListModel, metaclass=MetaPictureModel):
   
     def roleNames(self):
         """
-            An accessor to roles names
+        An accessor to roles names
         """
         return self._roles
 
     def add(self, picture, index = None):
         """
-            Add a picture to the model
+        Add a picture to the model
 
-            picture -- The picture to add
-            index -- The index where the picture should be inserted. If None, 
-            the picture will be appended at the end.
+        picture -- The picture to add
+        index -- The index where the picture should be inserted. If None, 
+        the picture will be appended at the end.
         """
         # Append at the end
         if index == None:

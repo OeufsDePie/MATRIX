@@ -371,7 +371,7 @@ class Pygphoto(QObject):
             with self.__lock__:
                 self._watching_camera = value
 
-        def is_watching_file(self, value):
+        def is_watching_file(self):
             """Indicates whether the component is watching for changes in the camera
             filesystem.
 
@@ -379,7 +379,7 @@ class Pygphoto(QObject):
             with self.__lock__:
                 return self._watching_files
 
-        def is_watching_camera(self, value):
+        def is_watching_camera(self):
             """Indicates whether the component is watching for presence of a connected
             camera.
 

@@ -8,7 +8,7 @@ Here is a video demo of our application which shows you quickly how to use it :
 
 .. raw:: html
 
-   <iframe width="640" height="360" src="https://www.youtube.com/embed/uqd6v_LBcAs?feature=player_detailpage" frameborder="0" allowfullscreen>
+   <iframe width="640" height="360" src="https://www.youtube.com/watch?v=frpuu8nP56w" frameborder="0" allowfullscreen>
    </iframe>
 
 .. toctree::

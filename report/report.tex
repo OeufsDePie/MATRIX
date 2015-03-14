@@ -1,0 +1,113 @@
+% -*- coding: utf-8; -*-
+\documentclass[a4paper]{report}
+
+%%%% LANGUAGE
+\usepackage{geometry}       % marges
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{lmodern}
+\usepackage{graphicx}
+%%%% STRUCTURE
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[plainpages=false, colorlinks=true, linkcolor=black,
+urlcolor=MidnightBlue]{hyperref}
+\usepackage{enumitem} % For nested list like 1.2.2
+
+%%%% COLORS
+\usepackage{fancyvrb}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+%%%% Formating
+\usepackage{verbatim}
+\usepackage{pdfpages} % pour insérer des pages PDF
+\usepackage{listings}
+
+% COMMANDS
+\newcommand\code[1]{\texttt{#1}}
+
+\newcommand\courriel[1]{%
+  \href{mailto:#1}{\nolinkurl{#1}}%
+}%
+
+\newcommand{\source}[1]{%
+  \nobreak\parbox[t]{\linewidth}{\raggedleft #1}% Placing a quote source
+}%
+
+
+\def\mytitle{On-Set Reconstruction Tool}
+
+\title{\mytitle}
+
+\def\myauthor{Louis Viot, Matthieu Pizenberg, Arthur Manoha, Nicolas
+  Gaborit, Matthias Benkort}
+\author{\myauthor}
+
+\date{From January, 19\up{th} to March, 13\up{th}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+
+\null
+\vfill
+
+{\Huge\sffamily\bfseries\mytitle\par}
+\vspace{1cm}
+{\Large\myauthor\par}
+
+\vfill
+\vfill
+
+\includegraphics[width=5cm]{img/inpn7.pdf}
+
+\vfill
+
+{\Large \emph{Projet long} Final Report -- 2015\par%
+  Clients : Simone Gasparini, Fabien Castan\par}
+
+
+\end{titlepage}
+
+\newpage
+
+\thispagestyle{empty}
+\null
+\vfill
+
+\section*{Acknowledgments}
+\input{tex/acknowledgements.tex}
+
+\chapter{Project overview}
+\section{Objectives}
+\section{Supplies}
+\section{Deliverables}
+
+\chapter{Project Management}
+\section{Team and Roles}
+\section{Meetings}
+\subsection{Clients}
+\subsection{Industrial Supervisor}
+\section{Development environment}
+\section{Quality insurance}
+\section{Planning}
+\section{Risks Management}
+
+\chapter{Conclusions}
+\section{Realized parts}
+\section{Missing features}
+\section{Insights}
+
+\appendix
+\chapter{Specifications}
+\chapter{Mockup}
+\chapter{Workflow documents}
+\chapter{Coding style guide}
+\chapter{MATRIX's Documentation}
+\chapter{Any other Google Doc ??}
+
+\end{document}

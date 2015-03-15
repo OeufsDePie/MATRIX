@@ -7,12 +7,10 @@ Components implementation
 
    components_detail/picture_fetcher
    components_detail/picture_manager
+   components_detail/workspace_manager
 
 Explain each component implementation.
 Sub files may be needed.
-
-WorkspaceManager
-================
 
 Etc.
 ====

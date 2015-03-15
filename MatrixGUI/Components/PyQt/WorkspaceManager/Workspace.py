@@ -15,6 +15,7 @@ class Workspace(DirectorySpace):
             Keys are the scene paths.
         current_scene (str): The path of the current scene.
         qt_directory (QDir): The directory corresponding to that workspace.
+        pictureModel (PictureModel): A model for the view.
     """
 
     def __init__(self, name="", base_path="", relative_path=""):

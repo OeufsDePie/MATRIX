@@ -2,7 +2,7 @@
 \documentclass[a4paper]{report}
 
 %%%% LANGUAGE
-\usepackage{geometry}       % marges
+\usepackage[a4paper]{geometry}    % marges
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
@@ -100,6 +100,18 @@ urlcolor=MidnightBlue]{hyperref}
 \chapter{Workflow documents}
 \chapter{Coding style guide}
 \chapter{MATRIX's Documentation}
-\chapter{Any other Google Doc ??}
+
+
+\newgeometry{left=1cm,right=1cm,bottom=1cm,top=1cm}
+\chapter{Planning}
+\thispagestyle{empty}
+This was the first version of our planning, established on 
+the 5th week.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\linewidth]{img/planning.pdf}
+  \label{app:planning}
+\end{figure}
+\restoregeometry
 
 \end{document}

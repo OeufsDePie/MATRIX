@@ -30,6 +30,14 @@ The 3D renderer currently only display a point cloud when the application gives 
 are still not any interactions between the 3D renderer and the rest of the application, see the documentation for further details about that.
 
 \section{Missing features}
-While the application was supposed to be a prototype and was not to be a hundred percent usable and stable, there are still essentials features that are missing.
-\begin{
+While the application was supposed to be a prototype and was not to be a hundred percent usable and stable, there are still essentials features that are missing. Here a list of those features, classified by their importance :
+\begin{description}
+\item[Dynamic behavior between Pictures selection, Map view and 3D View] There are many interactions between the preview list and the map viewer like said previously. One important feature that evry user would naturally
+expect is the same type of interaction between those two modules and the 3D view. Clicking on a picture would not only change the current view of the map, but also the current view on the 3D view.
+\item[3D Navigation] Being able to navigate inside the 3D world to see the point cloud is also something any user would expect to be present in the application. 
+\item[Automated Reconstruction] As said before, you have to manually launch the reconstruction when you have selected your pictures. What the client expected from us was that the application would automatically launch
+a new reconstruction when a new picture, in the right state, has been added. 
+\item[Reconstruction Feedback] When the user launches the reconstruction, he currently never knows if there are problems with the reconstruction, or its progress state. A feedback, simply like logs, is also something missing.
+\end{description}
+
 \section{Insights}

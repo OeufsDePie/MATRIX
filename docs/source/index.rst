@@ -7,7 +7,6 @@
 Welcome to MATRIX's documentation!
 ##################################
 
-Contents :
 
 .. toctree::
    :maxdepth: 2

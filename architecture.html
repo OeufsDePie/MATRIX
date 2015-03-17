@@ -133,14 +133,50 @@
             
   <div class="section" id="architecture-of-the-application">
 <h1>3. Architecture of the Application<a class="headerlink" href="#architecture-of-the-application" title="Permalink to this headline">¶</a></h1>
-<p>Matthias c&#8217;est pour toi.
-Hésite pas à redistribuer des sous parties pour ne pas avoir
-à tout faire.
-C&#8217;est le plus gros bout je pense (surtout la partie Details).</p>
-<p>Explain here the architecture of the application.
-I splitted it in other files but it may not be necessary ...
-It will be for the details on the implementation of each module but don&#8217;t know.</p>
+<p>Here we will first outline the architecture of the application
+and then enter in implementation details of each module.</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/components_global.html">3.1. Global architecture of the application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html#what-is-called-module">3.1.1. What is called module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html#connections-between-modules">3.1.2. Connections between modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html#a-same-working-space">3.1.3. A same working space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_global.html#implementation-details">3.1.4. Implementation details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/model_view.html">3.2. The model / view pattern</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html#general-principle">3.2.1. General principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/model_view.html#matrix-model-view-implementation">3.2.2. MATRIX model / view implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/components_detail.html">3.3. Components implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail/picture_fetcher.html">3.3.1. Picture Fetcher</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_fetcher.html#interface-with-the-gphoto2-command-line-interface">3.3.1.1. Interface with the <code class="docutils literal"><span class="pre">gphoto2</span></code> command-line interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_fetcher.html#active-watching-of-the-camera">3.3.1.2. Active watching of the camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_fetcher.html#camera-locking">3.3.1.3. Camera locking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail/picture_manager.html">3.3.2. Picture Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_manager.html#picture-model">3.3.2.1. Picture model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_manager.html#picture-model-s-items-picture">3.3.2.2. Picture model&#8217;s items : Picture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/picture_manager.html#id1">3.3.2.3. Picture manager</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail/workspace_manager.html">3.3.3. Workspace Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail/reconstruction_manager.html">3.3.4. Recontruction Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/reconstruction_manager.html#interface-with-the-openmvg-command-line">3.3.4.1. Interface with the openMVG command line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/reconstruction_manager.html#recontruction-manager-improvements">3.3.4.2. Recontruction Manager improvements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/components_detail/3drenderer.html">3.3.5. 3D Rendering Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/3drenderer.html#opengl-implementation-and-ply-reader">3.3.5.1. openGL implementation and <code class="docutils literal"><span class="pre">.ply</span></code> reader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/3drenderer.html#the-qml-plugin">3.3.5.2. The QML Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture/components_detail/3drenderer.html#communication-between-qml-and-the-plugin">3.3.5.3. Communication between QML and the plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3.3.3. Workspace Manager &mdash; MATRIX 0.1 documentation</title>
+  <title>3.3.4. Recontruction Manager &mdash; MATRIX 0.1 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
         <link rel="up" title="3.3. Components implementation" href="../components_detail.html"/>
-        <link rel="next" title="3.3.4. Recontruction Manager" href="reconstruction_manager.html"/>
-        <link rel="prev" title="3.3.2. Picture Manager" href="picture_manager.html"/> 
+        <link rel="next" title="3.3.5. 3D Rendering Module" href="3drenderer.html"/>
+        <link rel="prev" title="3.3.3. Workspace Manager" href="workspace_manager.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -125,10 +125,10 @@
       
           <li><a href="../components_detail.html">3.3. Components implementation</a> &raquo;</li>
       
-    <li>3.3.3. Workspace Manager</li>
+    <li>3.3.4. Recontruction Manager</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../../_sources/architecture/components_detail/workspace_manager.txt" rel="nofollow"> View page source</a>
+          <a href="../../_sources/architecture/components_detail/reconstruction_manager.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -136,31 +136,44 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="workspace-manager">
-<h1>3.3.3. Workspace Manager<a class="headerlink" href="#workspace-manager" title="Permalink to this headline">¶</a></h1>
-<p>The WorkspaceManager package is made of 4 different classes :</p>
+  <div class="section" id="recontruction-manager">
+<h1>3.3.4. Recontruction Manager<a class="headerlink" href="#recontruction-manager" title="Permalink to this headline">¶</a></h1>
+<p>This section describes several things about the module used to launch
+the recontruction. This module is included in the project as a git
+submodule and has it&#8217;s own github repository (<a class="reference external" href="https://github.com/OeufsDePie/OpenMVGFeeder">OpenMVGFeeder</a>).  Right
+now, the reconstruciton manager has two versions (the older is the one
+included in the final version of the application).</p>
+<div class="section" id="interface-with-the-openmvg-command-line">
+<h2>3.3.4.1. Interface with the openMVG command line<a class="headerlink" href="#interface-with-the-openmvg-command-line" title="Permalink to this headline">¶</a></h2>
+<p>The reconstruction manager is simply a front end to the openMVG
+command line. It is very similar with the <a class="reference external" href="http://oeufsdepie.github.io/MATRIX/architecture/components_detail/picture_fetcher.html">Picture Fetcher</a> module :
+we also use the subprocess submodule from python to call directly
+openMVG through the command line.</p>
+<p>This version is pretty basic and doesn&#8217;t handle many things we would
+have wanted to implement like detection of new point cloud
+file. That&#8217;s why there is another version, but we didn&#8217;t have the time
+to integrate it in our last version of the application.</p>
+</div>
+<div class="section" id="recontruction-manager-improvements">
+<h2>3.3.4.2. Recontruction Manager improvements<a class="headerlink" href="#recontruction-manager-improvements" title="Permalink to this headline">¶</a></h2>
+<p>In this improvement, we first added a function, <code class="docutils literal"><span class="pre">pointCloudDetected</span></code>
+able to emit a signal when a new point cloud is detected in a specific
+folder (given as a parameter).</p>
+<p>When the orchestrator creates a reconstruction manager, it creates a
+new object with default atttributes :</p>
 <ul class="simple">
-<li>WorkspaceManager</li>
-<li>DirectorySpace</li>
-<li>Workspace</li>
-<li>Scene</li>
+<li>A list of <code class="docutils literal"><span class="pre">.ply</span></code> files it already has : initialize empty.</li>
+<li>A new signal called <cite>newPointCloud</cite></li>
+<li>A new <cite>QFileSystemWatcher_</cite> initially watching nothing and that we
+connect with the pointCloudDetected (described previously) slot.</li>
 </ul>
-<p>The WorkspaceManager class is serving as an interface between the
-ochestrator and the effective workspaces and scenes.</p>
-<p>Internally the three other classes (DirectorySpace, Workspace and Scene)
-handle the creation, manipulation and destruction of workspaces and scenes.
-In order to make a DRY (Don&#8217;t Repeat Yourself) code, every feature shared
-between workspaces and scenes is in the parent class DirectorySpace.
-You have a simple class diagram of the workspaces and scenes in the figure below :</p>
-<a class="reference internal image-reference" href="../../_images/WMClassDiagram.png"><img alt="../../_images/WMClassDiagram.png" class="align-center" src="../../_images/WMClassDiagram.png" style="width: 100%;" /></a>
-<div class="admonition attention">
-<p class="first admonition-title">Attention</p>
-<p class="last">Normally, the core features of workspaces and scenes were tested many times and are stable.
-However, during the last two days before the demo, some important features needed
-to interact with external modules (pictureManager, reconstructionManager, ...) were added
-without the time to do meticulous testing.
-Thus it is possible that some bugs occur while manipulating scenes in the application.
-But we are confident that such bugs might be easily corrected.</p>
+<p>Then, when we launch a new recontruction, we call the
+<code class="docutils literal"><span class="pre">launchReconstruction</span></code> function. This function is working like in
+the first version, except that every time it is called, we add the
+openMVG output directory to the list of folder watched by the file
+watcher. Every time a new point cloud is detected in this folder, we
+copy it in the output folder used by the 3D renderer (the path is
+given as a parameter).</p>
 </div>
 </div>
 
@@ -170,10 +183,10 @@ But we are confident that such bugs might be easily corrected.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reconstruction_manager.html" class="btn btn-neutral float-right" title="3.3.4. Recontruction Manager">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="3drenderer.html" class="btn btn-neutral float-right" title="3.3.5. 3D Rendering Module">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="picture_manager.html" class="btn btn-neutral" title="3.3.2. Picture Manager"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="workspace_manager.html" class="btn btn-neutral" title="3.3.3. Workspace Manager"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

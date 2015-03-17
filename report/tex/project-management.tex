@@ -93,6 +93,34 @@ You will find a more complete description of thoses
 tools in the INSTALL.md file of our Github repository.
 
 \section{Quality insurance}
+This is a major black spot in our project.
+We intended to produce high-quality code but we did not
+setup a test environment. This due to a lack of time
+at the end of the project.\\
+
+\noindent
+In the early stage of the project, along with the development environment,
+we intended to setup a continuous integration and test environment based
+on Github.
+The idea was to use Travis (as a Github extension) to automatically launch
+tests whenever new commits where pushed on the reference repository.
+In addition we would have used Coverall (also as a Github extension)
+to compute code coverage of our tests.\\
+
+\noindent
+In the end the only tests we have done are manual tests
+quickly done before accepting pull requests in order to check
+new functionnalities.
+However, due to the lack of automatic tests, we did not ensure
+backwards compatibility.\\
+
+\noindent
+Nevertheless, we tried to produce a clean, readable, maintanable code.
+From this perspective we wrote a coding style guide (annexed to that document).
+It decribes the general conventions we should try to respect in order to
+reach consistency across the project.
+Since it was done at a moment where we thought we shall code in C++,
+it is thus focused on C++ style guide.
 
 \section{Risks Management}
 We made a formal risks analysis during the early weeks as a

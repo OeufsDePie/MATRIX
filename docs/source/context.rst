@@ -2,7 +2,7 @@
 Context and Objectives
 ######################
 
-Arthur c'est pour toi
+Arthur it is your part.
 
 **********************
 On-set special effects

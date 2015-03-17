@@ -10,9 +10,3 @@ Components implementation
    components_detail/workspace_manager
    components_detail/reconstruction_manager
    components_detail/3drenderer
-
-Explain each component implementation.
-Sub files may be needed.
-
-Etc.
-====

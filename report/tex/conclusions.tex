@@ -1,3 +1,35 @@
 \section{Realized parts}
+We will present in this section what is currently usable in the final version of the application.
+\subsection*{Workspace Management}
+When the user launch the application, he will be asked to create a new workspace. You cannot use the application without first creating a workspace, like in eclipse. 
+When a workspace is created, in a specific folder, you can create another workspace, delete your current workspace or change to another workspace. When you are done with
+a workspace, you can save it and re-open it later.
+
+In a workspace, you can create a scene or multiple scenes. A scene corresponds to a set of photos, like a real scene. You can change your current scene to another one already created or delete your current scene. Note
+that when you create a workspace, a default scene is created so you don't have to create a scene.
+
+\subsection*{Pictures Handling}
+When you are in your workspace, you can import pictures, either from a specific folder or from a camera. If a camera is connected, the application will detect it and display its name. If you choose to import photos from
+your camera, the application will import \textbf{all} your photos as thumbnails. 
+
+You can then manage your pictures, select the one you want to import as real photos and not as thumbnails by setting their state as \textit{Discarded} or \textit{New}, if you imported them from your camera. The is on 
+the left of the screen a list with your pictures and a preview above the list. You can select pictures, drag and drop them as you want to sort them. You can filter them by their state.
+
+\subsection*{Map View}
+If you switch on the \textit{Show the map} button, a map centered on your pictures will appear (if you have pictures with GPS exif data, otherwise the map be centered on the point of coordinates 0.0,0.0). You can 
+navigate on the map as you want, or click on a picture in the preview list to center the map on it. You can also click on a point on the map to select the corresponding picture in the list. Note that each picture state has
+its own color code, see the documentation for further details. There is a good interaction between the preview list and the map. 
+
+\subsection*{Reconstruction}
+When you are all set for the reconstruction, meaning that you have selected a set of pictures you want to use for the recontruction, you can launch the 3D reconstruction. In the current version of the application,
+this will freeze the application and you will have to wait for the reconstruction to be done to be able to re-use the application. Once the reconstruciton is done, you will see the 3D rendering of your scene wetween the map
+and the preview list.
+
+\subsection*{3D Renderer}
+The 3D renderer currently only display a point cloud when the application gives him one. Note that the point of view from where you see the point cloud is the exact location of one of your camera. There 
+are still not any interactions between the 3D renderer and the rest of the application, see the documentation for further details about that.
+
 \section{Missing features}
+While the application was supposed to be a prototype and was not to be a hundred percent usable and stable, there are still essentials features that are missing.
+\begin{
 \section{Insights}

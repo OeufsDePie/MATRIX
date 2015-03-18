@@ -96,21 +96,66 @@ urlcolor=MidnightBlue]{hyperref}
 
 \appendix
 \chapter{Specifications}
-\chapter{Mockup}
-\chapter{Workflow documents}
-\chapter{Coding style guide}
-\chapter{MATRIX's Documentation}
+We spent 3 weeks tweaking the specifications. Here is the raw final
+document which has been signed by the clients. We also made a separate
+document dedicated to the GUI specifications, also included here.
 
+\includepdf[pages={-}]{appendix/specifications/Specifications.pdf}
+\includepdf[pages={-}]{appendix/specifications/GUISpecifications.pdf}
+
+\newgeometry{left=1cm,right=1cm,bottom=1cm,top=1cm}
+\chapter{Mock-up}
+Here is the graphical mock-up realized by Matthias Benkort on the 3rd
+week.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\linewidth]{appendix/design/MockupV0_1.png}
+  \label{app:mockup}
+\end{figure}
+\restoregeometry
+
+
+\chapter{Development Workflow}
+Matthieu Pizenberg redacted two documents to help setup a development
+workflow throughout the project. They are presented as is in the next
+pages.
+
+%\includepdf[pages={-}]{appendix/guides/GitIntroduction.pdf}
+\includepdf[pages={-}]{appendix/guides/Workflow.pdf}
+\chapter{Coding style guide}
+Nicolas Gaborit initially made a simple coding style guide inspired
+from the
+\href{http://google-styleguide.googlecode.com/svn/trunk/cppguide.html}{Google
+  C++ Coding Style Guide}. After switching to Python we directly
+linked to the already simple
+\href{http://google-styleguide.googlecode.com/svn/trunk/pyguide.html}{Google
+  Python Coding Style Guide}. It is included thereafter.
+
+\includepdf[pages={-}]{appendix/guides/CodingStyleGuide.pdf}
+
+\chapter{Architecture}
+Matthias Benkort realized a synthesis document for our architecture
+design. This document has been included here.
+
+\includepdf[pages={-}]{appendix/design/Architecture.pdf}
+
+\chapter{MATRIX's Documentation}
 MATRIX's documentation describes the technical parts of our project
-and also provides with the code's documentation. It can be seen online
-at \url{http://oeufsdepie.github.io/MATRIX/} or as PDF enclosed with
-this report.
+and also provides with the code's documentation. We used Sphinx to
+generate a documentation in both HTML and PDF formats, including
+automatic documentation from Python code docstrings. It can be seen
+online at \url{http://oeufsdepie.github.io/MATRIX/} or as a PDF enclosed
+with this report.
+
 
 \newgeometry{left=1cm,right=1cm,bottom=1cm,top=1cm}
 \chapter{Planning}
-\thispagestyle{empty}
-This was the first version of our planning, established on 
-the 5th week.
+
+\thispagestyle{empty} 
+
+This was the first version of our planning, established on the 5th
+week. It has been generated from the online project management tool
+\emph{Teamwork}.
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\linewidth]{img/planning.pdf}

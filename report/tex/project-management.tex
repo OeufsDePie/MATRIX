@@ -19,14 +19,14 @@ manager, the technical manager and the integration manager.
   a technical reference for the rest of the team. He is responsible
   for the overall architecture of the application and validates
   choices made in this regard. He is responsible for the overall
-  quality of the code, including its extendibility and reusability. He
+  quality of the code, including its extensibility and re-usability. He
   also insure the overall consistency of the code by defining early on
   some coding style rules in a document called: Coding Style Guide.
 
 \item[Integration Manager] \emph{(Matthieu Pizenberg)} He is the
   central part, insuring the code developed by everyone integrate well
   together without adding bugs. He setups the development environment
-  (Git) and defines an integration process and a development workflow
+  (Git) and defines an integration process and a development work flow
   for this purpose. He is available to help everyone with the
   development tools.
 
@@ -45,7 +45,7 @@ clients and the second with the industrial supervisor.
 \subsection{Clients}
 We met every Friday with the clients to present our progress, ask some
 questions about problems we are facing or choices we are making, and
-get a feedbacks from them. They lasted one hour and a half. However,
+get a feedback from them. They lasted one hour and a half. However,
 we tried not to wait until Friday when we needed to clarify things and
 thus we used mails or video calls to communicate outside of this
 schedule.
@@ -63,7 +63,7 @@ at the end of "projet long". Therefore we should have a clean workflow,
 compatible with the POPART team one.\\
 
 \noindent
-To help us in that task we decided to use Git wich allow to have
+To help us in that task we decided to use Git which allow to have
 a fine control of the production flow.
 Nevertheless not everyone knows how to use Git.
 Thus, as a preliminary task we wrote two guides (annexed to this document) :
@@ -86,10 +86,10 @@ Broadly speaking, we followed a mix of two classic workflows :
 \end{itemize}
 
 \noindent
-Regarding the softwares and librairies needed,
+Regarding the software and libraries needed,
 they are too many and varying to list them here.
 But they all are open source and available online.
-You will find a more complete description of thoses
+You will find a more complete description of these
 tools in the INSTALL.md file of our Github repository.
 
 \section{Quality insurance}
@@ -110,21 +110,21 @@ to compute code coverage of our tests.\\
 \noindent
 In the end the only tests we have done are manual tests
 quickly done before accepting pull requests in order to check
-new functionnalities.
+new functionality.
 However, due to the lack of automatic tests, we did not ensure
 backwards compatibility.\\
 
 \noindent
-Nevertheless, we tried to produce a clean, readable, maintanable code.
+Nevertheless, we tried to produce a clean, readable, maintainable code.
 From this perspective we wrote a coding style guide (annexed to that document).
-It decribes the general conventions we should try to respect in order to
+It describes the general conventions we should try to respect in order to
 reach consistency across the project.
 Since it was done at a moment where we thought we shall code in C++,
 it is thus focused on C++ style guide.
 
 \section{Risks Management}
 We made a formal risks analysis during the early weeks as a
-brainstorming initally. We listed all the risks we could think of and
+brainstorming initially. We listed all the risks we could think of and
 sorted them according to both their probability and impact. Then we
 decided of a response plan or solution for each of them. This first
 risks analysis is fully visible on page \pageref{fig:risks}. However,
@@ -134,7 +134,7 @@ This resulted in some unexpected problems whose main consequences were
 to add delay to the project:
 
 \begin{description}
-\item[No 3D optimisation in Python] The Python OpenGL bindings would
+\item[No 3D optimization in Python] The Python OpenGL bindings would
   not allow us to optimize the 3D rendering of the point cloud using
   \code{Vertex Array Objects} and \code{Buffer Objects}. So we needed
   to use \verb!C++! and make a QML plugin that could integrate in

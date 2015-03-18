@@ -25,7 +25,7 @@ library and imported in Python with `ctypes
 <http://docs.python.org/3/library/ctypes.html>`_.
 
 However, the current implementation makes extended use of the
-command-line interface provided by ``gphoto2``, through hardcoded calls
+command-line interface provided by ``gphoto2``, through hard-coded calls
 and output parsing.
 
 The calls to gphoto2 are made with the `subprocess
@@ -53,7 +53,7 @@ creation/deletion. The two associated signals ``onCameraConnection`` and
 
 The ``CameraWatcher`` internal class is responsible for the active
 watching. The threading is made by moving the instance of
-``CameraWatcher`` to a ``QThread`` at initialisation. Using ``QThread``
+``CameraWatcher`` to a ``QThread`` at initialization. Using ``QThread``
 allows for easy asynchronous communication with the ``CameraWatcher``'s
 thread through the use of `Qt`'s signals.
 
@@ -69,9 +69,9 @@ Camera locking
 The camera device can be busy for several reasons. This usually end up
 throwing the following error message ::
 
-  *** Error ***              
+  *** Error ***
   An error occurred in the io-library ('Could not lock the device'): Camera is already in use.
-  *** Error (-60: 'Could not lock the device') ***      
+  *** Error (-60: 'Could not lock the device') ***
 
 Sometimes it comes from other processes or daemons accessing the
 camera. We do not do anything about them and we did not explore this

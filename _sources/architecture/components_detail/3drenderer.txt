@@ -24,14 +24,14 @@ The ``.ply`` reader can be found in an old commit made in the `openMVG
 repository`_. This reader is the one initializing the position and
 color buffers of the renderer.
 
-When a point cloud has been read by the reader, we initialze a list of
-camera coordinates simply by reading the end of the position buffer
+When a point cloud has been read by the reader, we initialize a list
+of camera coordinates simply by reading the end of the position buffer
 (because cameras are found at the end of the ply file). We then
 initialize the default camera to the first camera : that's the default
 point of view used for the renderer. We can switch this point of view,
-in the camera list order, simply by calling the nextCam function.  The
-renderer is still pretty basic, but what is interesting here is the
-conversion between the C++ openGL implementation to a Qt
+in the camera list order, simply by calling the ``nextCam`` function.
+The renderer is still pretty basic, but what is interesting here is
+the conversion between the C++ openGL implementation to a Qt
 implementation. We then describe how to use this renderer as a QML
 plugin. The ``pathply`` attribute and the ``nextCam`` function are two
 good examples of interactions between QML and the plugin, and are two
@@ -48,8 +48,8 @@ QQmlExtensionPlugin_.  As said before, we used the QML scene graph to
 display openGL under QML. As explained in the tutorial, we had to
 separate the PointCloud, which lives in the GUI thread, and the
 PointCloudRenderer, which lives in the rendering thread.  When the
-beforeRendering signal from the window is emitted , at the start of
-every frame before the window rendering, any OpenGL draw calls that
+``beforeRendering`` signal from the window is emitted , at the start
+of every frame before the window rendering, any OpenGL draw calls that
 are made as a response to this signal will stack under the Qt Quick
 items. We then simply connect the ``beforeRendering`` signal to the
 renderer paint function to paint the PointCloud.

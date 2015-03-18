@@ -65,12 +65,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
@@ -138,28 +133,86 @@
             
   <div class="section" id="picture-manager">
 <h1>3.3.2. Picture Manager<a class="headerlink" href="#picture-manager" title="Permalink to this headline">¶</a></h1>
-<p>This section describes several things that, once combined, allow the application to manage pictures. Models, entities and manager will be described. We&#8217;ll also write a bit about the storage system.</p>
+<p>This section describes several things that, once combined, allow the
+application to manage pictures. Models, entities and manager will be
+described. We&#8217;ll also write a bit about the storage system.</p>
 <div class="section" id="picture-model">
 <h2>3.3.2.1. Picture model<a class="headerlink" href="#picture-model" title="Permalink to this headline">¶</a></h2>
-<p>In order to manipulate pictures in the <em>Picture Manager</em>, we&#8217;ve defined a specific model in Python. Besides, this model is also used by the <em>Workspace Manager</em> and the <em>Map Viewer</em> as they share common needs that may be represented into one single model. Concretly our Python implementation is classic Python class that inherit from the <a class="reference external" href="http://doc.qt.io/qt-5/qabstractlistmodel.html">QAbstractListModel</a> of Qt (or more exactly, the PyQt5 representation). Then, the model is
-implementing required methods to access data, set data and easily manipulate rows. We&#8217;ve strictly respected Qt documentation and headers to write functions content; thus, Qt&#8217;s doc could be used to describe each implemented function. There is also a bunch of fonctionalities needed for our typical application purpose such as specific accessors or hydratation method.</p>
-<p>Also, the picture is implementing a <em>METAClass</em> <em>Savable</em> that allow it to be stored and loaded by the <em>Workspace Manager</em> into and from the workspace. This is possible with only four methods calls on an instance of the model, which are : serialize, unserialize, save and load. Their meanings are pretty straightforward.</p>
+<p>In order to manipulate pictures in the <em>Picture Manager</em>, we&#8217;ve
+defined a specific model in Python. Besides, this model is also used
+by the <em>Workspace Manager</em> and the <em>Map Viewer</em> as they share common
+needs that may be represented into one single model. Concretely our
+Python implementation is classic Python class that inherit from the
+<a class="reference external" href="http://doc.qt.io/qt-5/qabstractlistmodel.html">QAbstractListModel</a> of Qt (or more exactly, the PyQt5
+representation). Then, the model is implementing required methods to
+access data, set data and easily manipulate rows. We&#8217;ve strictly
+respected Qt documentation and headers to write functions content;
+thus, Qt&#8217;s doc could be used to describe each implemented
+function. There is also a bunch of functions needed for our
+typical application purpose such as specific accessors or hydratation
+method.</p>
+<p>Also, the picture is implementing a <em>METAClass</em> <em>Savable</em> that allow
+it to be stored and loaded by the <em>Workspace Manager</em> into and from
+the workspace. This is possible with only four methods calls on an
+instance of the model, which are : serialize, unserialize, save and
+load. Their meanings are pretty straightforward.</p>
 </div>
 <div class="section" id="picture-model-s-items-picture">
 <h2>3.3.2.2. Picture model&#8217;s items : Picture<a class="headerlink" href="#picture-model-s-items-picture" title="Permalink to this headline">¶</a></h2>
-<p>Each model is a kind of container that store certain kind of item. In our case, those items are pictures, or at least, our idea of a picture. In Matrix, a picture represent several things : a path to an image file, a name, a status, a latitude, a longitude, a date of creation, a color and an icon. All those attributes are called <em>roles</em> in the Qt world. Some of them could be directly obtained from another (color and icon from status for instance) and thus, they are just programming sugars.
-However, most of the role are straightforward, except maybe the status role which we&#8217;ll describe below.</p>
+<p>Each model is a kind of container that store certain kind of item. In
+our case, those items are pictures, or at least, our idea of a
+picture. In Matrix, a picture represent several things : a path to an
+image file, a name, a status, a latitude, a longitude, a date of
+creation, a color and an icon. All those attributes are called <em>roles</em>
+in the Qt world. Some of them could be directly obtained from another
+(color and icon from status for instance) and thus, they are just
+programming sugars.  However, most of the role are straightforward,
+except maybe the status role which we&#8217;ll describe below.</p>
 <a class="reference internal image-reference" href="../../_images/schemaPictures.png"><img alt="../../_images/schemaPictures.png" class="align-center" src="../../_images/schemaPictures.png" style="width: 70%;" /></a>
-<p>Thereby, a picture can have a status. The actual goal of this status is either to know which pictures to select for a reconstruction, or either to inform users about how the application is considering the picture. A picture can start in only two states : <strong>THUMBNAIL</strong> or <strong>NEW</strong>; <strong>THUMBNAIL</strong> after an import from a camera, and new after either an import from a computer, or a real import from thumbnail into HQ pictures. After a reconstruction, pictures can be in the state <strong>PROCESSED</strong> or <strong>REJECTED</strong> depending of the result of the openMVG computes. Only <strong>NEW</strong> and <strong>PROCESSED</strong> pictures are taken for a reconstruction. During the reconstruction, they are in the state <strong>RECONSTRUCTION</strong>. Finally, pictures can be manually discarded to go in the state <strong>DISCARDED</strong>. It allows user to discard thumbnail he doesn&#8217;t want to import, or to discard photos that should not be used for the reconstruction, even if they are ready.
-Also, GPS coordinates of a picture are obtained from the EXIF data of a picture, using a python implementation of the tool <a class="reference external" href="http://www.sno.phy.queensu.ca/~phil/exiftool/">exiftool</a>.</p>
+<p>Thereby, a picture can have a status. The actual goal of this status
+is either to know which pictures to select for a reconstruction, or
+either to inform users about how the application is considering the
+picture. A picture can start in only two states : <strong>THUMBNAIL</strong> or
+<strong>NEW</strong>; <strong>THUMBNAIL</strong> after an import from a camera, and new after
+either an import from a computer, or a real import from thumbnail into
+HQ pictures. After a reconstruction, pictures can be in the state
+<strong>PROCESSED</strong> or <strong>REJECTED</strong> depending of the result of the openMVG
+computes. Only <strong>NEW</strong> and <strong>PROCESSED</strong> pictures are taken for a
+reconstruction. During the reconstruction, they are in the state
+<strong>RECONSTRUCTION</strong>. Finally, pictures can be manually discarded to go
+in the state <strong>DISCARDED</strong>. It allows user to discard thumbnail he
+doesn&#8217;t want to import, or to discard photos that should not be used
+for the reconstruction, even if they are ready.  Also, GPS coordinates
+of a picture are obtained from the EXIF data of a picture, using a
+python implementation of the tool <a class="reference external" href="http://www.sno.phy.queensu.ca/~phil/exiftool/">exiftool</a>.</p>
 </div>
 <div class="section" id="id1">
 <h2>3.3.2.3. Picture manager<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>It is really common that the model and the model manager are gathered into one single component. The model is a specific component that holds data and gives simple accessors on those data. A manager, is typically another component that supplies high-level methods to manipulate and retrieve data from the model. When models are quite simple, they may be fusionned with the manager. As a result, it is almost our case.</p>
-<p>In the application, we&#8217;ve define a manager as an upper layer, upon the model described previously. What we called manager is a <a class="reference external" href="http://doc.qt.io/qt-5/qsortfilterproxymodel.html">QSortFilterProxyModel</a>, and this is the component supplied to the different <a class="reference external" href="http://doc.qt.io/qt-5/qtqml-index.html">QML</a> views.
-This manager allow us to create proxy model, i.e. models that are subsets from our real model. The main purpose is to have an easy control on sorting and filtering element inside the model. As we defined several states for each pictures, they could be filtered using this state. Thus, instead of instanciating a new model each time a filter is required, we use a proxy model that re-use the real model and simplify a part of the work.
-Therefore, some accessors are directly defined on the manager to allow QML&#8217;s component to retrieve some information directly from the model, without emitting a slot.</p>
-<p>Also, we&#8217;ve experimented some issues using the proxy model. Indeed, re-instantiating a proxy model to replace an existing one in the QML&#8217;s side causes a core dumped. The reason is still unknown. In order to change the source model, you would rather use appropriate method of the proxy model.</p>
+<p>It is really common that the model and the model manager are gathered
+into one single component. The model is a specific component that
+holds data and gives simple accessors on those data. A manager, is
+typically another component that supplies high-level methods to
+manipulate and retrieve data from the model. When models are quite
+simple, they may be merged with the manager. As a result, it is almost
+our case.</p>
+<p>In the application, we&#8217;ve define a manager as an upper layer, upon the
+model described previously. What we called manager is a
+<a class="reference external" href="http://doc.qt.io/qt-5/qsortfilterproxymodel.html">QSortFilterProxyModel</a>, and this is the component supplied to the
+different <a class="reference external" href="http://doc.qt.io/qt-5/qtqml-index.html">QML</a> views.  This manager allow us to create proxy model,
+i.e. models that are subsets from our real model. The main purpose is
+to have an easy control on sorting and filtering element inside the
+model. As we defined several states for each pictures, they could be
+filtered using this state. Thus, instead of instantiating a new model
+each time a filter is required, we use a proxy model that re-use the
+real model and simplify a part of the work.  Therefore, some accessors
+are directly defined on the manager to allow QML&#8217;s component to
+retrieve some information directly from the model, without emitting a
+slot.</p>
+<p>Also, we&#8217;ve experimented some issues using the proxy model. Indeed,
+re-instantiating a proxy model to replace an existing one in the QML&#8217;s
+side causes a core dumped. The reason is still unknown. In order to
+change the source model, you would rather use appropriate method of
+the proxy model.</p>
 </div>
 </div>
 

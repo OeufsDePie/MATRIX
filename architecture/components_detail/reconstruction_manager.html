@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3.3.4. Recontruction Manager &mdash; MATRIX 0.1 documentation</title>
+  <title>3.3.4. Reconstruction Manager &mdash; MATRIX 0.1 documentation</title>
   
 
   
@@ -65,12 +65,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
@@ -125,7 +120,7 @@
       
           <li><a href="../components_detail.html">3.3. Components implementation</a> &raquo;</li>
       
-    <li>3.3.4. Recontruction Manager</li>
+    <li>3.3.4. Reconstruction Manager</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="../../_sources/architecture/components_detail/reconstruction_manager.txt" rel="nofollow"> View page source</a>
@@ -136,12 +131,12 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="recontruction-manager">
-<h1>3.3.4. Recontruction Manager<a class="headerlink" href="#recontruction-manager" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="reconstruction-manager">
+<h1>3.3.4. Reconstruction Manager<a class="headerlink" href="#reconstruction-manager" title="Permalink to this headline">¶</a></h1>
 <p>This section describes several things about the module used to launch
-the recontruction. This module is included in the project as a git
-submodule and has it&#8217;s own github repository (<a class="reference external" href="https://github.com/OeufsDePie/OpenMVGFeeder">OpenMVGFeeder</a>).  Right
-now, the reconstruciton manager has two versions (the older is the one
+the reconstruction. This module is included in the project as a git
+submodule and has it&#8217;s own GitHub repository (<a class="reference external" href="https://github.com/OeufsDePie/OpenMVGFeeder">OpenMVGFeeder</a>).  Right
+now, the reconstruction manager has two versions (the older is the one
 included in the final version of the application).</p>
 <div class="section" id="interface-with-the-openmvg-command-line">
 <h2>3.3.4.1. Interface with the openMVG command line<a class="headerlink" href="#interface-with-the-openmvg-command-line" title="Permalink to this headline">¶</a></h2>
@@ -154,20 +149,20 @@ have wanted to implement like detection of new point cloud
 file. That&#8217;s why there is another version, but we didn&#8217;t have the time
 to integrate it in our last version of the application.</p>
 </div>
-<div class="section" id="recontruction-manager-improvements">
-<h2>3.3.4.2. Recontruction Manager improvements<a class="headerlink" href="#recontruction-manager-improvements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reconstruction-manager-improvements">
+<h2>3.3.4.2. Reconstruction Manager improvements<a class="headerlink" href="#reconstruction-manager-improvements" title="Permalink to this headline">¶</a></h2>
 <p>In this improvement, we first added a function, <code class="docutils literal"><span class="pre">pointCloudDetected</span></code>
 able to emit a signal when a new point cloud is detected in a specific
 folder (given as a parameter).</p>
 <p>When the orchestrator creates a reconstruction manager, it creates a
-new object with default atttributes :</p>
+new object with default attributes :</p>
 <ul class="simple">
 <li>A list of <code class="docutils literal"><span class="pre">.ply</span></code> files it already has : initialize empty.</li>
 <li>A new signal called <cite>newPointCloud</cite></li>
 <li>A new <cite>QFileSystemWatcher_</cite> initially watching nothing and that we
 connect with the pointCloudDetected (described previously) slot.</li>
 </ul>
-<p>Then, when we launch a new recontruction, we call the
+<p>Then, when we launch a new reconstruction, we call the
 <code class="docutils literal"><span class="pre">launchReconstruction</span></code> function. This function is working like in
 the first version, except that every time it is called, we add the
 openMVG output directory to the list of folder watched by the file

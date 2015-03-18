@@ -65,12 +65,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#current-solution">1.2. Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../context.html">1. Context and Objectives</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../user.html">2. Use of the Application</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="workspaces.html">2.1. Managing workspaces and scenes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">2.2. Managing the photo selection</a></li>
@@ -136,23 +131,36 @@
             
   <div class="section" id="managing-the-photo-selection">
 <h1>2.2. Managing the photo selection<a class="headerlink" href="#managing-the-photo-selection" title="Permalink to this headline">¶</a></h1>
-<p>Once photos have been imported in your scene, you will be able to manipulate them. But first, you have to know the different states a photo can have. It can either be:</p>
+<p>Once photos have been imported in your scene, you will be able to
+manipulate them. But first, you have to know the different states a
+photo can have. It can either be:</p>
 <ul class="simple">
-<li>Discarded : you don&#8217;t the photo to be in the next reconstruction or the photo was in thumbnail state, but you don&#8217;t want to download the real picture from the camera</li>
-<li>New : the photo had just been imported or the photo was in discarded state, but you changed your mind and you actually want to download it.</li>
+<li>Discarded : you don&#8217;t the photo to be in the next reconstruction or
+the photo was in thumbnail state, but you don&#8217;t want to download the
+real picture from the camera</li>
+<li>New : the photo had just been imported or the photo was in discarded
+state, but you changed your mind and you actually want to download
+it.</li>
 <li>Processed : the photo has been processed by the reconstruction</li>
-<li>Rejected : the photo couldn&#8217;t be used by the reconstruction processed and was rejected by openMVG</li>
+<li>Rejected : the photo couldn&#8217;t be used by the reconstruction
+processed and was rejected by openMVG</li>
 <li>Thumbnails : the photo is not the actual photo but just a thumbnail</li>
-<li>Valid : the photo is either in the state <em>New</em> or <em>Processed</em> (all the files that will be used for the next reconstruction)</li>
+<li>Valid : the photo is either in the state <em>New</em> or <em>Processed</em> (all
+the files that will be used for the next reconstruction)</li>
 <li>Reconstruction : the photo is being used for the reconstruction</li>
 </ul>
-<p>Note that only photos in <em>New</em> and <em>Processed</em> state will be used for the next reconstruction.</p>
+<p>Note that only photos in <em>New</em> and <em>Processed</em> state will be used for
+the next reconstruction.</p>
 <p>Then, you can do a few things with them :</p>
 <ul class="simple">
 <li>You can manipulate them, sort them in any order you want.</li>
-<li>You can obviously select several photos by using <em>Ctrl</em> key or you can use the well known <em>Ctrl+Shift</em> key shortcut. Once a photo is selected, you can drag and drop it wherever you want.</li>
-<li>You can discard a photo, renew it (meaning it won&#8217;t be discarded anymore), or you can delete it from the list.</li>
-<li>You can filter the picture list to display only photos in a specific state.</li>
+<li>You can obviously select several photos by using <em>Ctrl</em> key or you
+can use the well known <em>Ctrl+Shift</em> key shortcut. Once a photo is
+selected, you can drag and drop it wherever you want.</li>
+<li>You can discard a photo, renew it (meaning it won&#8217;t be discarded
+anymore), or you can delete it from the list.</li>
+<li>You can filter the picture list to display only photos in a specific
+state.</li>
 </ul>
 </div>
 

@@ -33,7 +33,7 @@
     <link rel="top" title="MATRIX 0.1 documentation" href="../../index.html"/>
         <link rel="up" title="3.3. Components implementation" href="../components_detail.html"/>
         <link rel="next" title="4. Code Documentation" href="../../code.html"/>
-        <link rel="prev" title="3.3.4. Recontruction Manager" href="reconstruction_manager.html"/> 
+        <link rel="prev" title="3.3.4. Reconstruction Manager" href="reconstruction_manager.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -65,12 +65,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#on-set-special-effects">1.1. On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#current-solution">1.2. Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../context.html">1. Context and Objectives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../user.html">2. Use of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user/photos.html">2.2. Managing the photo selection</a></li>
@@ -154,14 +149,14 @@ are Qt object that we have to create before using them.</p>
 <p>The <code class="docutils literal"><span class="pre">.ply</span></code> reader can be found in an old commit made in the <a class="reference external" href="https://github.com/openMVG/openMVG/">openMVG
 repository</a>. This reader is the one initializing the position and
 color buffers of the renderer.</p>
-<p>When a point cloud has been read by the reader, we initialze a list of
-camera coordinates simply by reading the end of the position buffer
+<p>When a point cloud has been read by the reader, we initialize a list
+of camera coordinates simply by reading the end of the position buffer
 (because cameras are found at the end of the ply file). We then
 initialize the default camera to the first camera : that&#8217;s the default
 point of view used for the renderer. We can switch this point of view,
-in the camera list order, simply by calling the nextCam function.  The
-renderer is still pretty basic, but what is interesting here is the
-conversion between the C++ openGL implementation to a Qt
+in the camera list order, simply by calling the <code class="docutils literal"><span class="pre">nextCam</span></code> function.
+The renderer is still pretty basic, but what is interesting here is
+the conversion between the C++ openGL implementation to a Qt
 implementation. We then describe how to use this renderer as a QML
 plugin. The <code class="docutils literal"><span class="pre">pathply</span></code> attribute and the <code class="docutils literal"><span class="pre">nextCam</span></code> function are two
 good examples of interactions between QML and the plugin, and are two
@@ -176,8 +171,8 @@ plugin is in the <code class="docutils literal"><span class="pre">PointCloud.cpp
 display openGL under QML. As explained in the tutorial, we had to
 separate the PointCloud, which lives in the GUI thread, and the
 PointCloudRenderer, which lives in the rendering thread.  When the
-beforeRendering signal from the window is emitted , at the start of
-every frame before the window rendering, any OpenGL draw calls that
+<code class="docutils literal"><span class="pre">beforeRendering</span></code> signal from the window is emitted , at the start
+of every frame before the window rendering, any OpenGL draw calls that
 are made as a response to this signal will stack under the Qt Quick
 items. We then simply connect the <code class="docutils literal"><span class="pre">beforeRendering</span></code> signal to the
 renderer paint function to paint the PointCloud.</p>
@@ -215,7 +210,7 @@ openGL calls under the Qt Quick item.</p>
         <a href="../../code.html" class="btn btn-neutral float-right" title="4. Code Documentation">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="reconstruction_manager.html" class="btn btn-neutral" title="3.3.4. Recontruction Manager"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reconstruction_manager.html" class="btn btn-neutral" title="3.3.4. Reconstruction Manager"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -63,12 +63,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="context.html">1. Context and Objectives</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="context.html#on-set-special-effects">1.1. On-set special effects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="context.html#current-solution">1.2. Current solution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="context.html#objectives-of-the-application">1.3. Objectives of the application</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">1. Context and Objectives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user.html">2. Use of the Application</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="user/workspaces.html">2.1. Managing workspaces and scenes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user/photos.html">2.2. Managing the photo selection</a></li>
@@ -132,9 +127,8 @@
             
   <div class="section" id="building-that-documentation">
 <h1>5. Building that Documentation<a class="headerlink" href="#building-that-documentation" title="Permalink to this headline">¶</a></h1>
-<p>The objective is to have an easily maintainable and yet simple and powerful documentation.
-For all these reasons we chose <a class="reference external" href="http://sphinx-doc.org/index.html">Sphinx</a>.
-Sphinx has many benefits :</p>
+<p>The objective is to have an easily maintainable and yet simple and
+powerful documentation.  For all these reasons we chose <a class="reference external" href="http://sphinx-doc.org/index.html">Sphinx</a>.  Sphinx has many benefits :</p>
 <ul class="simple">
 <li>A simple syntax (<a class="reference external" href="http://fr.wikipedia.org/wiki/ReStructuredText">rST</a>)</li>
 <li>Provides a simple navigation</li>
@@ -144,12 +138,13 @@ Sphinx has many benefits :</p>
 <li>Manages mathematics</li>
 <li>Manages LaTeX compilation</li>
 </ul>
-<p>You will find an introduction to rST syntaxe here :
+<p>You will find an introduction to rST syntax here :
 <a class="reference external" href="http://sphinx-doc.org/rest.html">http://sphinx-doc.org/rest.html</a></p>
 <div class="section" id="sphinx-installation">
 <h2>5.1. Sphinx Installation<a class="headerlink" href="#sphinx-installation" title="Permalink to this headline">¶</a></h2>
-<p>You can find all the details here : <a class="reference external" href="http://sphinx-doc.org/install.html">http://sphinx-doc.org/install.html</a>.
-The simplest way is to use Python package manager (<a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>) :</p>
+<p>You can find all the details here :
+<a class="reference external" href="http://sphinx-doc.org/install.html">http://sphinx-doc.org/install.html</a>. The simplest way is to use Python
+package manager (<a class="reference external" href="https://pip.pypa.io/en/latest/">pip</a>) :</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo pip install sphinx
 </pre></div>
 </div>
@@ -168,29 +163,31 @@ Use the <code class="docutils literal"><span class="pre">sphinx-quickstart</span
 <span class="nv">$ </span>sphinx-quickstart
 </pre></div>
 </div>
-<p>The default configuration is almost ok but we need to change some answers :</p>
+<p>The default configuration is almost OK but we need to change some
+answers :</p>
 <div class="highlight-rst"><div class="highlight"><pre>&gt; Separate source and build directories (y/n) [n]: y
 &gt; autodoc: automatically insert docstrings from modules (y/n) [n]: y
 &gt; mathjax: include math, rendered in the browser by MathJax (y/n) [n]: y
 </pre></div>
 </div>
 <p>At the end of the script, Sphinx configuration has been initialized.
-It has setup 2 folders : <code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">source</span></code>.
-It also created a <code class="docutils literal"><span class="pre">Makefile</span></code> allowing to easily build the doc with commands such as :</p>
+It has setup 2 folders : <code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">source</span></code>.  It also created a
+<code class="docutils literal"><span class="pre">Makefile</span></code> allowing to easily build the doc with commands such as :</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>make html
 </pre></div>
 </div>
 </div>
 <div class="section" id="configuration-of-sphinx-documentation">
 <h2>5.3. Configuration of Sphinx documentation<a class="headerlink" href="#configuration-of-sphinx-documentation" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">sphinx-quickstart</span></code> script generated files allowing us to configure Sphinx.
-Here are some additional information to setup your documentation.</p>
+<p>The <code class="docutils literal"><span class="pre">sphinx-quickstart</span></code> script generated files allowing us to
+configure Sphinx.  Here are some additional information to setup your
+documentation.</p>
 <div class="section" id="host-your-documentation-on-github">
 <h3>5.3.1. Host your documentation on Github<a class="headerlink" href="#host-your-documentation-on-github" title="Permalink to this headline">¶</a></h3>
-<p>If you have a <a class="reference external" href="https://github.com/">Github</a> repository you can host your documentation
-on the Github pages of your repository.
-See <a class="reference external" href="https://help.github.com/articles/what-are-github-pages/">https://help.github.com/articles/what-are-github-pages/</a>
-for more explanations on it.</p>
+<p>If you have a <a class="reference external" href="https://github.com/">Github</a> repository you can host
+your documentation on the Github pages of your repository.  See
+<a class="reference external" href="https://help.github.com/articles/what-are-github-pages/">https://help.github.com/articles/what-are-github-pages/</a> for more
+explanations on it.</p>
 <p>To activate the Github pages of your repository you only have to
 create a new branch called <code class="docutils literal"><span class="pre">gh-pages</span></code> and to push it on origin.</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span>git checkout --orphan gh-pages
@@ -204,16 +201,14 @@ create a new branch called <code class="docutils literal"><span class="pre">gh-p
 </div>
 <div class="section" id="configure-html-build">
 <h3>5.3.2. Configure HTML build<a class="headerlink" href="#configure-html-build" title="Permalink to this headline">¶</a></h3>
-<p>In practice we need to build into the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.
-But it is not immediatly possible since we are not <code class="docutils literal"><span class="pre">gh-pages</span></code>
-branch when compiling.</p>
-<p>The easiest solution according to me is to have 2 folders.
-One with the standard repository,
-and the other one with only the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch
-(so it is lightweight) of the same repository.
-Then you only have to configure your Sphinx build so that
-it builds into the folder containing the repository
-on the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.</p>
+<p>In practice we need to build into the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.  But it is
+not immediately possible since we are not <code class="docutils literal"><span class="pre">gh-pages</span></code> branch when
+compiling.</p>
+<p>The easiest solution according to me is to have 2 folders.  One with
+the standard repository, and the other one with only the <code class="docutils literal"><span class="pre">gh-pages</span></code>
+branch (so it is lightweight) of the same repository.  Then you only
+have to configure your Sphinx build so that it builds into the folder
+containing the repository on the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.</p>
 <p>Example for creating the second folder :</p>
 <div class="highlight-guess"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">pwd</span>
 /home/......../MATRIX
@@ -243,12 +238,11 @@ on the <code class="docutils literal"><span class="pre">gh-pages</span></code> b
 <span class="n">html_theme_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">sphinx_rtd_theme</span><span class="o">.</span><span class="n">get_html_theme_path</span><span class="p">()]</span>
 </pre></div>
 </div>
-<p>Once it is installed, there is one last manipulation.
-You have to add an empty file entitled <code class="docutils literal"><span class="pre">.nojekyll</span></code>
-in the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.
-Otherwise Github will ignore folders starting with <cite>_</cite>.
-It would be a problem since the folder <code class="docutils literal"><span class="pre">_static</span></code> contains
-CSS styles and images needed for the theme.</p>
+<p>Once it is installed, there is one last manipulation.  You have to add
+an empty file entitled <code class="docutils literal"><span class="pre">.nojekyll</span></code> in the <code class="docutils literal"><span class="pre">gh-pages</span></code> branch.
+Otherwise Github will ignore folders starting with <cite>_</cite>.  It would be a
+problem since the folder <code class="docutils literal"><span class="pre">_static</span></code> contains CSS styles and images
+needed for the theme.</p>
 </div>
 </div>
 </div>

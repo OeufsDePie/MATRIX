@@ -13,7 +13,7 @@ For now the commands used are :
 
 .. note::
 
-   In order to understand google docstring format you have to use ``napoleon``
+   In order to understand Google docstring format you have to use ``napoleon``
    (see http://sphinx-doc.org/ext/napoleon.html#module-sphinx.ext.napoleon)
    This requires Sphinx 1.3.
 

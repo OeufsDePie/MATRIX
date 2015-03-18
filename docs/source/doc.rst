@@ -2,9 +2,9 @@
 Building that Documentation
 ###########################
 
-The objective is to have an easily maintainable and yet simple and powerful documentation.
-For all these reasons we chose `Sphinx <http://sphinx-doc.org/index.html>`_.
-Sphinx has many benefits :
+The objective is to have an easily maintainable and yet simple and
+powerful documentation.  For all these reasons we chose `Sphinx
+<http://sphinx-doc.org/index.html>`_.  Sphinx has many benefits :
 
 * A simple syntax (`rST <http://fr.wikipedia.org/wiki/ReStructuredText>`_)
 * Provides a simple navigation
@@ -14,15 +14,16 @@ Sphinx has many benefits :
 * Manages mathematics
 * Manages LaTeX compilation
 
-You will find an introduction to rST syntaxe here :
+You will find an introduction to rST syntax here :
 http://sphinx-doc.org/rest.html
 
 *******************
 Sphinx Installation
 *******************
 
-You can find all the details here : http://sphinx-doc.org/install.html.
-The simplest way is to use Python package manager (`pip <https://pip.pypa.io/en/latest/>`_) :
+You can find all the details here :
+http://sphinx-doc.org/install.html. The simplest way is to use Python
+package manager (`pip <https://pip.pypa.io/en/latest/>`_) :
 
 .. code-block:: bash
 
@@ -47,7 +48,8 @@ Use the ``sphinx-quickstart`` command to start the documentation :
    $ cd docs/
    $ sphinx-quickstart
 
-The default configuration is almost ok but we need to change some answers :
+The default configuration is almost OK but we need to change some
+answers :
 
 .. code-block:: rst
 
@@ -56,8 +58,8 @@ The default configuration is almost ok but we need to change some answers :
    > mathjax: include math, rendered in the browser by MathJax (y/n) [n]: y
 
 At the end of the script, Sphinx configuration has been initialized.
-It has setup 2 folders : ``build`` and ``source``.
-It also created a ``Makefile`` allowing to easily build the doc with commands such as :
+It has setup 2 folders : ``build`` and ``source``.  It also created a
+``Makefile`` allowing to easily build the doc with commands such as :
 
 .. code-block:: bash
    
@@ -67,16 +69,17 @@ It also created a ``Makefile`` allowing to easily build the doc with commands su
 Configuration of Sphinx documentation
 *************************************
 
-The ``sphinx-quickstart`` script generated files allowing us to configure Sphinx.
-Here are some additional information to setup your documentation.
+The ``sphinx-quickstart`` script generated files allowing us to
+configure Sphinx.  Here are some additional information to setup your
+documentation.
 
 Host your documentation on Github
 =================================
 
-If you have a `Github <https://github.com/>`_ repository you can host your documentation
-on the Github pages of your repository.
-See https://help.github.com/articles/what-are-github-pages/
-for more explanations on it.
+If you have a `Github <https://github.com/>`_ repository you can host
+your documentation on the Github pages of your repository.  See
+https://help.github.com/articles/what-are-github-pages/ for more
+explanations on it.
 
 To activate the Github pages of your repository you only have to
 create a new branch called ``gh-pages`` and to push it on origin.
@@ -93,17 +96,15 @@ create a new branch called ``gh-pages`` and to push it on origin.
 Configure HTML build
 ====================
 
-In practice we need to build into the ``gh-pages`` branch.
-But it is not immediatly possible since we are not ``gh-pages``
-branch when compiling.
+In practice we need to build into the ``gh-pages`` branch.  But it is
+not immediately possible since we are not ``gh-pages`` branch when
+compiling.
 
-The easiest solution according to me is to have 2 folders.
-One with the standard repository,
-and the other one with only the ``gh-pages`` branch
-(so it is lightweight) of the same repository.
-Then you only have to configure your Sphinx build so that
-it builds into the folder containing the repository
-on the ``gh-pages`` branch.
+The easiest solution according to me is to have 2 folders.  One with
+the standard repository, and the other one with only the ``gh-pages``
+branch (so it is lightweight) of the same repository.  Then you only
+have to configure your Sphinx build so that it builds into the folder
+containing the repository on the ``gh-pages`` branch.
 
 Example for creating the second folder :
 
@@ -142,9 +143,8 @@ Then in the file ``conf.py`` :
    html_theme = "sphinx_rtd_theme"
    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-Once it is installed, there is one last manipulation.
-You have to add an empty file entitled ``.nojekyll``
-in the ``gh-pages`` branch.
-Otherwise Github will ignore folders starting with `_`.
-It would be a problem since the folder ``_static`` contains
-CSS styles and images needed for the theme.
+Once it is installed, there is one last manipulation.  You have to add
+an empty file entitled ``.nojekyll`` in the ``gh-pages`` branch.
+Otherwise Github will ignore folders starting with `_`.  It would be a
+problem since the folder ``_static`` contains CSS styles and images
+needed for the theme.
